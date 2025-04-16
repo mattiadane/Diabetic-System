@@ -21,6 +21,3 @@ public class HelloApplication extends Application {
         launch();
     }
 }
-
-//ciao sono marco mazzucato
-//3° modifica
