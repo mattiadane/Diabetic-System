@@ -6,4 +6,6 @@ module com.dashapp.diabeticsystem {
 
     opens com.dashapp.diabeticsystem to javafx.fxml;
     exports com.dashapp.diabeticsystem;
+    exports com.dashapp.diabeticsystem.controllers;
+    opens com.dashapp.diabeticsystem.controllers to javafx.fxml;
 }
