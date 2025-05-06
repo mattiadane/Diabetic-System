@@ -1,0 +1,4 @@
+.loginButton {
+    -fx-text-fill: rgb(0, 191, 255);
+    padding: 2px 4px;
+}
