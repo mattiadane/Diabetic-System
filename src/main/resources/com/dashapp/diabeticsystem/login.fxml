@@ -13,9 +13,9 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label fx:id="usernameLabel" text="username"/>
+    <Label fx:id="usernameLabel" text="username" alignment="TOP_LEFT"/>
     <TextField fx:id="usernameField"/>
-    <Label fx:id="passwordLabel" text="password"/>
+    <Label fx:id="passwordLabel" text="password" alignment="TOP_LEFT"/>
     <PasswordField fx:id="passwordField"/>
-    <Button fx:id="confirmButton" text="login" onAction="#onHelloButtonClick" styleClass="loginButton"/>
+    <Button fx:id="confirmButton" text="Login" onAction="#onClickLogin" styleClass="loginButton"/>
 </VBox>

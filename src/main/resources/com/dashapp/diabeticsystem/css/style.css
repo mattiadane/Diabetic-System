@@ -1,4 +1,14 @@
 .loginButton {
-    -fx-text-fill: rgb(0, 191, 255);
-    padding: 2px 4px;
+    -fx-background-color: #1e88e5; /* Blu moderno e sobrio */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(30,136,229,0.4), 5, 0.5, 0, 2);
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.loginButton:hover {
+    -fx-background-color: #42a5f5; /* Blu un po' più chiaro per l'hover */
 }

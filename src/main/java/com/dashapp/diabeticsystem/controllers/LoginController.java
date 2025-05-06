@@ -26,7 +26,8 @@ public class LoginController {
 
 
     @FXML
-    protected void onHelloButtonClick() {
-        return ;
+    protected void onClickLogin() {
+        System.out.println("Login Button Clicked");
+        System.out.println("First Login Attempt...");
     }
 }
