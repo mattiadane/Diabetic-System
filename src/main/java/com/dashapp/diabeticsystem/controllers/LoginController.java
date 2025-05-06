@@ -8,14 +8,17 @@ import javafx.scene.control.TextField;
 
 public class LoginController {
     @FXML
-    private Label welcomeText;
+    private Label usernameLabel;
+
+    @FXML
+    private Label passwordLabel;
 
 
     @FXML
-    private TextField username;
+    private TextField usernameField;
 
     @FXML
-    private PasswordField password;
+    private PasswordField passwordField;
 
     @FXML
     private Button confirmButton;
@@ -24,8 +27,6 @@ public class LoginController {
 
     @FXML
     protected void onHelloButtonClick() {
-        if (username.getText().isEmpty()) {  welcomeText.setText(""); return; }
-
-        welcomeText.setText(username.getText());    
+        return ;
     }
 }

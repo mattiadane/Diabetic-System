@@ -8,14 +8,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.PasswordField?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.dashapp.diabeticsystem.controllers.LoginController" stylesheets="css/style.css">
+      fx:controller="com.dashapp.diabeticsystem.controllers.LoginController" >
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-
-    <TextField fx:id="username"/>
-    <PasswordField fx:id="password"/>
-    <Button fx:id="confirmButton" text="conferma!" onAction="#onHelloButtonClick" styleClass="loginButton"/>
-    <Label fx:id="welcomeText"/>
+    <Label fx:id="usernameLabel" text="username"/>
+    <TextField fx:id="usernameField"/>
+    <Label fx:id="passwordLabel" text="password"/>
+    <PasswordField fx:id="passwordField"/>
+    <Button fx:id="confirmButton" text="login" onAction="#onHelloButtonClick" styleClass="loginButton"/>
 </VBox>
