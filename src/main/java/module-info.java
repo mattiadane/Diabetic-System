@@ -3,6 +3,7 @@ module com.dashapp.diabeticsystem {
     requires javafx.fxml;
 
     requires org.kordamp.bootstrapfx.core;
+    requires java.sql;
 
     opens com.dashapp.diabeticsystem to javafx.fxml;
     exports com.dashapp.diabeticsystem;

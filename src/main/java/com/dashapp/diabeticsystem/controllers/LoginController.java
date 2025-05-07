@@ -1,17 +1,18 @@
 package com.dashapp.diabeticsystem.controllers;
 
+import com.dashapp.diabeticsystem.models.DbManager;
+import com.dashapp.diabeticsystem.models.Login;
+import com.dashapp.diabeticsystem.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class LoginController {
-    @FXML
-    private Label usernameLabel;
+import java.sql.SQLException;
 
-    @FXML
-    private Label passwordLabel;
+public class LoginController {
+    private static final Login log = new Login();
 
 
     @FXML
@@ -20,14 +21,14 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
-    @FXML
-    private Button confirmButton;
-
 
 
     @FXML
-    protected void onClickLogin() {
-        System.out.println("Login Button Clicked");
-        System.out.println("First Login Attempt...");
+    protected void onHelloButtonClick()  {
+        User u = log.getUser(usernameField.getText(), passwordField.getText());
+        System.out.println(u != null ? "benvenuto " + u : "password e username sbagliati");
+        usernameField.setText("");
+        passwordField.setText("");
+
     }
 }
