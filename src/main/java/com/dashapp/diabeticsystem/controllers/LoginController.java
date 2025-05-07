@@ -24,7 +24,7 @@ public class LoginController {
 
 
     @FXML
-    protected void onHelloButtonClick()  {
+    protected void onClickLogin()  {
         User u = log.getUser(usernameField.getText(), passwordField.getText());
         System.out.println(u != null ? "benvenuto " + u : "password e username sbagliati");
         usernameField.setText("");
