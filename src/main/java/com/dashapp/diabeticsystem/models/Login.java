@@ -2,7 +2,6 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
 
-import java.sql.ResultSet;
 
 public class Login {
 
