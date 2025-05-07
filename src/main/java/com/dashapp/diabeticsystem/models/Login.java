@@ -4,14 +4,23 @@ import com.dashapp.diabeticsystem.Main;
 
 
 public class Login {
+    private final String username;
+
+    public Login( String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return username;
+    }
 
 
-
-    public User getUser(String username, String password) {
+    public static Login autenticate(String username, String password) {
          return  Main.getDbManager().selectQuery("Select * FROM login WHERE username  = ? AND password_hash = ?",
                  rs -> {
                     if(rs.next()) {
-                        return new User(rs.getString("username"));
+                        return new Login(rs.getString("username"));
                     }
                      return null;
                  }
