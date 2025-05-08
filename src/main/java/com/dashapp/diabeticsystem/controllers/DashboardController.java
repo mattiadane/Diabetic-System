@@ -8,6 +8,8 @@ public class DashboardController {
     @FXML
     private Label ll;
 
+    @FXML SidebarController sidebar;
+
 
 
 

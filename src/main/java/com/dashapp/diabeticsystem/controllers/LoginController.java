@@ -5,7 +5,8 @@ import com.dashapp.diabeticsystem.models.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.SubScene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -13,14 +14,14 @@ import java.io.IOException;
 
 
 public class LoginController {
-    private Login user ;
+    @FXML public Label usernameLabel;
+    @FXML public Label passwordLabel;
+    @FXML public Button confirmButton;
+    @FXML private Login user ;
 
-
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField passwordField;
+    // TextFields
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
 
 
 

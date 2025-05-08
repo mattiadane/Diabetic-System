@@ -12,3 +12,26 @@
 .loginButton:hover {
     -fx-background-color: #42a5f5; /* Blu un po' più chiaro per l'hover */
 }
+
+.sidebar{
+    -fx-background-color: #2C3E50;
+    -fx-pref-width: 200px;
+    -fx-max-width: 150px;
+    -fx-pref-height: 100%;
+    -fx-padding: 10px;
+}
+
+.sideButtons {
+    -fx-background-color: transparent;  /* Nessuno sfondo */
+    -fx-border-color: transparent;      /* Nessun bordo */
+    -fx-text-fill: white;               /* Testo bianco */
+    -fx-cursor: hand;                   /* Cursore "mano" al passaggio */
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;         /* Allinea testo a sinistra */
+    -fx-padding: 5 10;                  /* Padding per area cliccabile */
+}
+
+.sideButtons:hover {
+    -fx-text-fill: #3498DB;             /* Testo blu al passaggio */
+    -fx-background-color: rgba(255,255,255,0.05);  /* Leggero sfondo al hover */
+}
