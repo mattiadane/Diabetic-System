@@ -35,15 +35,15 @@ public class LoginController {
             return;
         }
         Object controller ;
-        if(user.getId_paziente() != 0){
-            controller = Main.getStage(new Stage(),"fxml/dashboardPaziente.fxml",null,"Dashboard Paziente");
+        if(user.getId_paziente() != 0 && user.getId_diabetologo() == 0) {
+            controller = Main.getStage(new Stage(),"fxml/dashboardPaziente.fxml","css/style.css","Dashboard Paziente");
 
-        }else if (user.getId_diabetologo() != 0){
-            controller = Main.getStage(new Stage(),"fxml/dashboardDiabetologo.fxml",null,"Dashboard Diabetologo");
+        }else if (user.getId_diabetologo() != 0 && user.getId_paziente() == 0){
+            controller = Main.getStage(new Stage(),"fxml/dashboardDiabetologo.fxml","css/style.css","Dashboard Diabetologo");
 
         }
         else{
-            controller = Main.getStage(new Stage(),"fxml/dashboardAdmin.fxml",null,"Dashboard Admin");
+            controller = Main.getStage(new Stage(),"fxml/dashboardAdmin.fxml","css/style.css","Dashboard Admin");
 
         }
         ((DashboardController)controller).initData(user);

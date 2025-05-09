@@ -29,7 +29,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml));
 
 
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
         if(css != null) {
             URL cssUrl = Main.class.getResource(css);
 
@@ -40,6 +40,7 @@ public class Main extends Application {
 
         stage.setTitle(title);
         stage.setScene(scene);
+
         stage.show();
 
 

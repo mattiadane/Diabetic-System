@@ -8,12 +8,15 @@
             fx:controller="com.dashapp.diabeticsystem.controllers.DashboardController"
             prefHeight="400.0" prefWidth="600.0">
 
-    <!-- importo la sidebar -->
+
+    <!-- spazio per la sidebar -->
     <left>
-        <fx:include source="Sidebar.fxml"/>
+        <fx:include  source="../sidebars/sidebarAdmin.fxml" />
     </left>
+
 
     <center>
         <Label fx:id="ll"/>
     </center>
+
 </BorderPane>

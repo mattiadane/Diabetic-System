@@ -8,13 +8,17 @@ public class DashboardController {
     @FXML
     private Label ll;
 
-    @FXML SidebarController sidebar;
+    @FXML SidebarController sidebar ;
 
+
+    public DashboardController(){
+        this.sidebar = new SidebarController();
+    }
 
 
 
     public void initData(Login user) {
-        ll.setText("Benvenuto "  + user);
+        sidebar.setUserRole(user);
     }
 
 

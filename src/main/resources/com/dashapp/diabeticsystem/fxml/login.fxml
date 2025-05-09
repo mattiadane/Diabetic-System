@@ -10,7 +10,6 @@
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.dashapp.diabeticsystem.controllers.LoginController" >
 
-    <fx:include source="Sidebar.fxml"/>
 
     <Label fx:id="usernameLabel" text="username" alignment="TOP_LEFT"/>
     <TextField fx:id="usernameField"/>
