@@ -36,14 +36,14 @@ public class LoginController {
         }
         Object controller ;
         if(user.getId_paziente() != 0 && user.getId_diabetologo() == 0) {
-            controller = Main.getStage(new Stage(),"fxml/dashboardPaziente.fxml","css/style.css","Dashboard Paziente");
+            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardPaziente.fxml","css/style.css","Dashboard Paziente");
 
         }else if (user.getId_diabetologo() != 0 && user.getId_paziente() == 0){
-            controller = Main.getStage(new Stage(),"fxml/dashboardDiabetologo.fxml","css/style.css","Dashboard Diabetologo");
+            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardDiabetologo.fxml","css/style.css","Dashboard Diabetologo");
 
         }
         else{
-            controller = Main.getStage(new Stage(),"fxml/dashboardAdmin.fxml","css/style.css","Dashboard Admin");
+            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardAdmin.fxml","css/style.css","Dashboard Admin");
 
         }
         ((DashboardController)controller).initData(user);
