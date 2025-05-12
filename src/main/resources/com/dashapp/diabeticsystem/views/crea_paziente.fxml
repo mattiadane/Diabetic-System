@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.dashapp.diabeticsystem.controllers.CreaPaziente"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <!-- Label di presentazione -->
+    <Label text="Crea Paziente" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <!-- Form di inserimento dati -->
+    <Label text="Nome:" fx:id="labelNome"/>
+    <TextField fx:id="textNome" />
+
+    <Label text="Cognome:" fx:id="labelCognome"/>
+    <TextField fx:id="textCognome" />
+
+    <Label text="Email:" fx:id="labelEmail"/>
+    <TextField fx:id="textEmail" />
+
+    <Label text="Codice fiscale:" fx:id="labelCodiceFiscale"/>
+    <TextField fx:id="textCodiceFiscale" />
+
+    <Button text="Crea Paziente" onAction="#handleCreaPaziente" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+
+
+</VBox>
