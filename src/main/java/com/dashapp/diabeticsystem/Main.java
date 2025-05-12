@@ -14,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        getStage(stage,"fxml/login.fxml","css/style.css","Diabetic System");
+        getStage(stage,"fxml/login.fxml","Diabetic System");
     }
 
     public static void main(String[] args) {
@@ -25,16 +25,15 @@ public class Main extends Application {
         return dbManager;
     }
 
-    public static <T>T getStage(Stage stage,String fxml,String css,String title) throws IOException {
+    public static <T>T getStage(Stage stage,String fxml,String title) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml));
 
 
         Scene scene = new Scene(fxmlLoader.load(), 500, 500);
-        if(css != null) {
-            URL cssUrl = Main.class.getResource(css);
+        URL cssUrl = Main.class.getResource("css/style.css");
 
-            scene.getStylesheets().add(cssUrl.toExternalForm());
-        }
+        scene.getStylesheets().add(cssUrl.toExternalForm());
+
 
 
 

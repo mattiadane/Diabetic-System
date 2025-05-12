@@ -5,17 +5,19 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dashapp.diabeticsystem.controllers.DashboardDiabetologoController"
+            fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardDiabetologoController"
             prefHeight="400.0" prefWidth="600.0">
 
     <!-- importo la sidebar -->
     <left>
-        <Button text="Home" fx:id="homeButtonD" styleClass="sideButtons"/>
-        <Button text="Pazienti" fx:id="pazientiButtonD" styleClass="sideButtons" />
-        <Button text="Impostazioni" fx:id="settingsButtonD" styleClass="sideButtons"/>
-        <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons"/>
+        <VBox styleClass="sidebar">
+            <Button text="Home" fx:id="homeButtonD" styleClass="sideButtons"/>
+            <Button text="Pazienti" fx:id="pazientiButtonD" styleClass="sideButtons" />
+            <Button text="Impostazioni" fx:id="settingsButtonD" styleClass="sideButtons"/>
+            <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" onAction="#logout"/>
+        </VBox>
     </left>
     <center>
-        <Label fx:id="ll"/>
+
     </center>
 </BorderPane>

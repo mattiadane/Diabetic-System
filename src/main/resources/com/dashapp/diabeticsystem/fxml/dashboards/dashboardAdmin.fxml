@@ -5,13 +5,14 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dashapp.diabeticsystem.controllers.DashboardAdminController"
+            fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardAdminController"
+
             prefHeight="400.0" prefWidth="600.0">
 
     <left>
-        <VBox>
+        <VBox styleClass="sidebar">
             <Button text="Diabetologi" fx:id="diabetologiButton" styleClass="sideButtons"/>
-            <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons"/>
+            <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" onAction="#logout"/>
         </VBox>
     </left>
 </BorderPane>

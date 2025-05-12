@@ -8,8 +8,8 @@ module com.dashapp.diabeticsystem {
     opens com.dashapp.diabeticsystem to javafx.fxml;
     exports com.dashapp.diabeticsystem;
     exports com.dashapp.diabeticsystem.controllers;
-    exports com.dashapp.diabeticsystem.controllers.sidebars;
 
     opens com.dashapp.diabeticsystem.controllers to javafx.fxml;
-    opens com.dashapp.diabeticsystem.controllers.sidebars to javafx.fxml;
+    exports com.dashapp.diabeticsystem.controllers.dashboards;
+    opens com.dashapp.diabeticsystem.controllers.dashboards to javafx.fxml;
 }

@@ -1,6 +1,7 @@
 package com.dashapp.diabeticsystem.controllers;
 
 import com.dashapp.diabeticsystem.Main;
+import com.dashapp.diabeticsystem.controllers.dashboards.DashboardController;
 import com.dashapp.diabeticsystem.models.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,17 +42,17 @@ public class LoginController {
         }
         Object controller ;
         if(user.getId_paziente() != 0 && user.getId_diabetologo() == 0) {
-            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardPaziente.fxml","css/style.css","Dashboard Paziente");
+            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardPaziente.fxml","Dashboard Paziente");
 
         }else if (user.getId_diabetologo() != 0 && user.getId_paziente() == 0){
-            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardDiabetologo.fxml","css/style.css","Dashboard Diabetologo");
+            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardDiabetologo.fxml","Dashboard Diabetologo");
 
         }
         else{
-            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardAdmin.fxml","css/style.css","Dashboard Admin");
+            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardAdmin.fxml","Dashboard Admin");
 
         }
-        ((DashboardDiabetologoController)controller).initData(user);
+        ((DashboardController)controller).initData(user);
 
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
