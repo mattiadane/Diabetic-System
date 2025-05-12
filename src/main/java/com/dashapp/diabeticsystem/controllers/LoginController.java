@@ -24,7 +24,12 @@ public class LoginController {
     @FXML private PasswordField passwordField;
 
 
-
+    /**
+     * Funzione che permette di avviare il procedimento di Login in base ai dati inseriti
+     * dall'utente nel form.
+     * @param event evento di click sul bottone di login
+     * @throws IOException errore di input/output
+     */
     @FXML
     protected void onClickLogin(ActionEvent event) throws IOException {
         user = Login.autenticate(usernameField.getText(), passwordField.getText());
@@ -46,7 +51,7 @@ public class LoginController {
             controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardAdmin.fxml","css/style.css","Dashboard Admin");
 
         }
-        ((DashboardController)controller).initData(user);
+        ((DashboardDiabetologoController)controller).initData(user);
 
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
