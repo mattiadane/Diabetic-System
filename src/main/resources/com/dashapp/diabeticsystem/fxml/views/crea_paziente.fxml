@@ -23,7 +23,10 @@
     <Label text="Codice fiscale:" fx:id="labelCodiceFiscale"/>
     <TextField fx:id="textCodiceFiscale" />
 
-    <Button text="Crea Paziente" onAction="#handleNuovoPaziente" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+    <Label text="Data di nascita:"/>
+    <DatePicker fx:id="dataNascitaPicker"/>
+
+    <Button text="Crea Paziente" onAction="#handleNuovoPaziente" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-cursor: hand;"/>
 
 
 </VBox>

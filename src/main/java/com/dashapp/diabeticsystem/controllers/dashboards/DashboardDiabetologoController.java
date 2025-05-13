@@ -2,12 +2,10 @@ package com.dashapp.diabeticsystem.controllers.dashboards;
 
 
 import com.dashapp.diabeticsystem.Main;
-import com.dashapp.diabeticsystem.models.Session;
+import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,6 +15,8 @@ import java.util.regex.Pattern;
 
 public class DashboardDiabetologoController extends DashboardController {
 
+    private final Diabetologo diabetologo;
+
     // componenti effettivi della dashboard
     @FXML private Label labelDash;
 
@@ -25,8 +25,13 @@ public class DashboardDiabetologoController extends DashboardController {
     @FXML private TextField textCognome;
     @FXML private TextField textEmail;
     @FXML private TextField textCodiceFiscale;
+    @FXML private DatePicker dataNascitaPicker;
 
 
+
+    public DashboardDiabetologoController() {
+        this.diabetologo = new Diabetologo();
+    }
 
     /**
      * Funzione che permette di aprire una finestra per inserire nel database una nuova utenza per il paziente.
@@ -42,7 +47,7 @@ public class DashboardDiabetologoController extends DashboardController {
     public void handleNuovoPaziente(){
 
         // controllo della validità dei campi inseriti dal dottore
-        if(!isEmailValid() || !isCodiceFiscaleValid() || !checkCredeziali()){
+        if(!isEmailValid() || !isCodiceFiscaleValid() || !checkCredeziali() || !checkDate()){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Uno o più dati inseriti non sono validi", ButtonType.OK);
             errorAlert.setTitle("Errore nella creazione del nuovo paziente");
             errorAlert.showAndWait();
@@ -50,13 +55,13 @@ public class DashboardDiabetologoController extends DashboardController {
         }
 
         System.out.println(createUsername() + "\nEmail:" + textEmail.getText() + "\nCodice Fiscale: " + textCodiceFiscale.getText());
+        Paziente paziente = new Paziente(textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), this.dataNascitaPicker.getValue());
 
-        // creare record in tabella login
+        // TODO: creare record in tabella login
+        //diabetologo.inserisciPaziente(paziente);
 
 
-        // creare record in tabella pazienti, l'id del dottore lo prendo da quello loggato
-        System.out.println(Session.getCurrentUser());
-        int idDottore = Session.getCurrentUser().getId_diabetologo();
+        // TOOD: creare record in tabella pazienti, l'id del dottore lo prendo da quello loggato
     }
 
     /**
@@ -87,6 +92,10 @@ public class DashboardDiabetologoController extends DashboardController {
         Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
         Matcher matcher = pattern.matcher(textEmail.getText());
         return matcher.matches();
+    }
+
+    private boolean checkDate(){
+        return this.dataNascitaPicker.getValue() != null;
     }
 
 
