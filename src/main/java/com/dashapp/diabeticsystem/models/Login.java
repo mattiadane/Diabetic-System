@@ -11,9 +11,9 @@ public class Login {
 
 
 
-    public Login( String username , int id_login ,int id_paziente , int id_diabetologo ) {
-        this.username = username;
+    public Login( int id_login,String username ,int id_paziente , int id_diabetologo ) {
         this.id_login = id_login;
+        this.username = username;
         this.id_paziente = id_paziente;
         this.id_diabetologo = id_diabetologo;
     }
@@ -30,7 +30,7 @@ public class Login {
          return  Main.getDbManager().selectQuery("Select id_login, id_paziente,id_diabetologo, username FROM login WHERE username  = ? AND password_hash = ?",
                  rs -> {
                     if(rs.next()) {
-                        return new Login(rs.getString("username"),rs.getInt("id_login"),rs.getInt("id_paziente"),rs.getInt("id_diabetologo"));
+                        return new Login(rs.getInt("id_login"),rs.getString("username"),rs.getInt("id_paziente"),rs.getInt("id_diabetologo"));
                     }
                      return null;
                  }
@@ -47,12 +47,12 @@ public class Login {
     public final int getId_diabetologo() {
         return id_diabetologo;
     }
-    public int getId_login() {
+    public final int getId_login() {
         return id_login;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return username;
     }
 

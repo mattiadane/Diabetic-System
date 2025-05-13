@@ -17,4 +17,5 @@ public abstract class  DashboardController{
         ((Node)(event.getSource())).getScene().getWindow().hide();
 
     }
+
 }

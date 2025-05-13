@@ -6,8 +6,6 @@ import com.dashapp.diabeticsystem.models.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -15,9 +13,7 @@ import java.io.IOException;
 
 
 public class LoginController {
-    @FXML public Label usernameLabel;
-    @FXML public Label passwordLabel;
-    @FXML public Button confirmButton;
+
     @FXML private Login user ;
 
     // TextFields
@@ -33,6 +29,7 @@ public class LoginController {
      */
     @FXML
     protected void onClickLogin(ActionEvent event) throws IOException {
+        String path = "",title = "Dashboard ";
         user = Login.autenticate(usernameField.getText(), passwordField.getText());
         usernameField.setText("");
         passwordField.setText("");
@@ -40,19 +37,20 @@ public class LoginController {
             System.out.println("Username or password are incorrect");
             return;
         }
-        Object controller ;
+
         if(user.getId_paziente() != 0 && user.getId_diabetologo() == 0) {
-            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardPaziente.fxml","Dashboard Paziente");
-
+            path = "fxml/dashboards/dashboardPaziente.fxml";
+            title += "Paziente";
         }else if (user.getId_diabetologo() != 0 && user.getId_paziente() == 0){
-            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardDiabetologo.fxml","Dashboard Diabetologo");
-
+            path = "fxml/dashboards/dashboardDiabetologo.fxml";
+            title += "Diabetologo";
         }
         else{
-            controller = Main.getStage(new Stage(),"fxml/dashboards/dashboardAdmin.fxml","Dashboard Admin");
+            path = "fxml/dashboards/dashboardAdmin.fxml";
+            title += "Admin";
 
         }
-        ((DashboardController)controller).initData(user);
+        ((DashboardController) Main.getStage(new Stage(),path,title)).initData(user);
 
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
