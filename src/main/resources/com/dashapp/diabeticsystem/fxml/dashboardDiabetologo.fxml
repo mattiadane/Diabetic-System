@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardDiabetologoController"
@@ -19,9 +20,11 @@
     </left>
     <center>
         <VBox alignment="TOP_LEFT">
-            <Label fx:id="benvenuto" text="benvenuto" styleClass="ciao"/>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label fx:id="benvenuto" text="benvenuto" styleClass="title"/>
             <Button text="Crea Paziente" onAction="#handleCreaPaziente" fx:id="buttonCreaPaziente" />
         </VBox>
-
     </center>
 </BorderPane>

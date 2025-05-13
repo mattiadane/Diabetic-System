@@ -29,7 +29,7 @@ public class CreaPaziente {
     public void handleNuovoPaziente(ActionEvent event){
 
         // controllo della validità dei campi inseriti dal dottore
-        if(!isEmailValid() || !isCodiceFiscaleValid() || !checkCredeziali() || !checkDate()){
+        if(!isEmailValid() || !isCodiceFiscaleValid() || !checkCredenziali() || !checkDate()){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Uno o più dati inseriti non sono validi", ButtonType.OK);
             errorAlert.setTitle("Errore nella creazione del nuovo paziente");
             errorAlert.showAndWait();
@@ -68,9 +68,9 @@ public class CreaPaziente {
 
     /**
      * Funzione che permette di controllare la validità dei campi nome e congome del form per aggiungere un nuovo paziente
-     * @return
+     * @return un valore di tipo <code>boolean</code> per la validità dei campi nome e cognome
      */
-    private boolean checkCredeziali(){
+    private boolean checkCredenziali(){
         return !this.textNome.getText().isBlank() && !this.textCognome.getText().isBlank();
     }
     /**

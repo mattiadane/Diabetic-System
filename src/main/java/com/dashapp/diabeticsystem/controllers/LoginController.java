@@ -7,6 +7,7 @@ import com.dashapp.diabeticsystem.models.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -37,19 +38,22 @@ public class LoginController {
         usernameField.setText("");
         passwordField.setText("");
         if(user == null){
-            System.out.println("Username or password are incorrect");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText("Username o password errati.");
+            alert.showAndWait();
             return;
         }
 
         if(user.getId_paziente() != 0 && user.getId_diabetologo() == 0) {
-            path = "fxml/dashboards/dashboardPaziente.fxml";
+            path = "fxml/dashboardPaziente.fxml";
             title += "Paziente";
         }else if (user.getId_diabetologo() != 0 && user.getId_paziente() == 0){
-            path = "fxml/dashboards/dashboardDiabetologo.fxml";
+            path = "fxml/dashboardDiabetologo.fxml";
             title += "Diabetologo";
         }
         else{
-            path = "fxml/dashboards/dashboardAdmin.fxml";
+            path = "fxml/dashboardAdmin.fxml";
             title += "Admin";
 
         }

@@ -24,8 +24,7 @@ public class DashboardDiabetologoController extends DashboardController implemen
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println(diabetologo);
-        benvenuto.setText(diabetologo.toString());
-
+        benvenuto.setText("Bentornato: " + diabetologo.toString());
     }
 
 
@@ -33,7 +32,7 @@ public class DashboardDiabetologoController extends DashboardController implemen
      * Funzione che permette di aprire una finestra per inserire nel database una nuova utenza per il paziente.
      */
     public void handleCreaPaziente() throws IOException {
-        Main.getStage(new Stage(), "fxml/views/crea_paziente.fxml", "Crea Paziente");
+        Main.getStage(new Stage(), "fxml/crea_paziente.fxml", "Crea Paziente");
     }
 
 

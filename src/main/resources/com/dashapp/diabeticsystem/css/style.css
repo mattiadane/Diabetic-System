@@ -36,3 +36,8 @@
     -fx-background-color: rgba(255,255,255,0.05);  /* Leggero sfondo al hover */
 }
 
+.title{
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
