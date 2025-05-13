@@ -27,17 +27,17 @@ public class Login {
      * @return l'oggetto Login
      */
     public static Login autenticate(String username, String password) {
-         return  Main.getDbManager().selectQuery("Select id_login, id_paziente,id_diabetologo, username FROM login WHERE username  = ? AND password_hash = ?",
+         return  Main.getDbManager().selectQuery("SELECT id_login, id_paziente,id_diabetologo, username FROM login WHERE username  = ? AND password_hash = ?",
                  rs -> {
                     if(rs.next()) {
                         return new Login(rs.getInt("id_login"),rs.getString("username"),rs.getInt("id_paziente"),rs.getInt("id_diabetologo"));
                     }
                      return null;
                  }
+
                  ,username,password);
 
     }
-
 
 
 

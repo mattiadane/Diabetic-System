@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public abstract class  DashboardController{
 
-    public  abstract void initData(Login user) ;
+   
 
     public void logout(ActionEvent event) throws IOException {
         Main.getStage(new Stage(),"fxml/login.fxml","Diabetic System");

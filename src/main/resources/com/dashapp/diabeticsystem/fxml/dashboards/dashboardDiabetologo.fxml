@@ -18,6 +18,7 @@
         </VBox>
     </left>
     <center>
-
+        <Label text="" fx:id="labelDash" />
+        <Button text="Crea Paziente" onAction="#handleCreaPaziente" fx:id="buttonCreaPaziente" />
     </center>
 </BorderPane>

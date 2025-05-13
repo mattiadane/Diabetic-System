@@ -3,6 +3,7 @@ package com.dashapp.diabeticsystem.controllers;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.controllers.dashboards.DashboardController;
 import com.dashapp.diabeticsystem.models.Login;
+import com.dashapp.diabeticsystem.models.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -30,7 +31,9 @@ public class LoginController {
     @FXML
     protected void onClickLogin(ActionEvent event) throws IOException {
         String path = "",title = "Dashboard ";
-        user = Login.autenticate(usernameField.getText(), passwordField.getText());
+        Session.setCurrentUser(Login.autenticate(usernameField.getText(), passwordField.getText()));
+        user = Session.getCurrentUser();
+
         usernameField.setText("");
         passwordField.setText("");
         if(user == null){
@@ -50,7 +53,7 @@ public class LoginController {
             title += "Admin";
 
         }
-        ((DashboardController) Main.getStage(new Stage(),path,title)).initData(user);
+        Main.getStage(new Stage(),path,title);
 
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }

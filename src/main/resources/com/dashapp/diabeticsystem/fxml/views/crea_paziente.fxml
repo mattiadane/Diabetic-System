@@ -4,7 +4,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dashapp.diabeticsystem.controllers.CreaPaziente"
+            fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardDiabetologoController"
             prefHeight="400.0" prefWidth="600.0">
 
     <!-- Label di presentazione -->
@@ -23,7 +23,7 @@
     <Label text="Codice fiscale:" fx:id="labelCodiceFiscale"/>
     <TextField fx:id="textCodiceFiscale" />
 
-    <Button text="Crea Paziente" onAction="#handleCreaPaziente" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+    <Button text="Crea Paziente" onAction="#handleNuovoPaziente" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
 
 
 </VBox>
