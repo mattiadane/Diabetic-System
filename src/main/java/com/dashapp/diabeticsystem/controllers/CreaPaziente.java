@@ -2,8 +2,11 @@ package com.dashapp.diabeticsystem.controllers;
 
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +26,7 @@ public class CreaPaziente {
      * Funzione che permette di creare una nuova utenza per il paziente a partire dai
      * dati immessi dal dottore nell'apposito form per la creazione.
      */
-    public void handleNuovoPaziente(){
+    public void handleNuovoPaziente(ActionEvent event){
 
         // controllo della validità dei campi inseriti dal dottore
         if(!isEmailValid() || !isCodiceFiscaleValid() || !checkCredeziali() || !checkDate()){
@@ -33,12 +36,14 @@ public class CreaPaziente {
             return;
         }
 
+        // eseguo la query di inserimento del nuovo paziente a database
         boolean success = diabetologo.inserisciPaziente(
                 new Paziente(
                         textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText().toUpperCase().trim(), dataNascitaPicker.getValue()
                 )
         );
 
+        // controllo dell'esito dell'inserimento del nuovo paziente a database e mostro un Alert dedicato
         if(!success){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Errore nella creazione del paziente", ButtonType.OK);
             errorAlert.setTitle("Errore nella creazione del nuovo paziente");
@@ -47,6 +52,9 @@ public class CreaPaziente {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Paziente aggiunto ", ButtonType.OK);
             alert.setTitle("Nuovo paziente aggiunto");
             alert.showAndWait();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+
         }
 
         textNome.setText("");
@@ -54,7 +62,6 @@ public class CreaPaziente {
         textEmail.setText("");
         textCodiceFiscale.setText("");
         dataNascitaPicker.setValue(null);
-
     }
 
 

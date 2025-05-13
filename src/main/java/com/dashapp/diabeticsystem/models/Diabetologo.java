@@ -36,17 +36,20 @@ public class Diabetologo {
         if(paziente == null)
             return success;
 
+        // eseguo l'inserimento del nuovo paziente a database assegnandolo direttamente al diabetologo che ha assegnto il login
         int  last_id =  Main.getDbManager().insertAndGetGeneratedId(
                 "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo) VALUES (?,?,?,?,?,?)",
                 paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodiceFiscale(),paziente.getDataNascita(), id_diabetologo
                 );
 
+        // eseguo l'inserimento del nuovo utente, considerandolo come nuova utenza per il login
         if (last_id >  0){
             paziente.setId_paziente(last_id);
             pazientes.add(paziente);
             success =  Main.getDbManager().updateQuery(
                     "INSERT INTO login(id_paziente,id_diabetologo,username,password_hash) VALUES(?,?,?,?)",
-                    paziente.getId_paziente(),null,createUsername(paziente.getNome(),paziente.getCognome()),"ciao"
+                    paziente.getId_paziente(),null,createUsername(paziente.getNome(),paziente.getCognome()),
+                    new PasswordGenerator(paziente.getNome(), paziente.getCognome()).generatePassword()
             );
         }
 
@@ -54,11 +57,11 @@ public class Diabetologo {
     }
 
 
-
-
-
-
-    public HashSet<Paziente> getPazientes() {
+    /**
+     * Funzione che permette di restituire tutti i pazienti associati al diabetologo
+     * @return oggetto <code>HashSet</code> contenente tutti i paziente associati al diabetologo
+     */
+   public HashSet<Paziente> getPazientes() {
         return pazientes;
     }
 
@@ -72,9 +75,7 @@ public class Diabetologo {
      * @return un tipo <code>String</code> per lo username dell'utente
      */
     private String createUsername(String nome , String cognome){
-
         return (nome + "." + cognome).replaceAll("\\s+", "").toLowerCase();
     }
-
 
 }

@@ -66,7 +66,7 @@ public class Paziente {
 
     /**
      * Funzione per prendere l'id del paziente
-     * @return oggetto <code>int</code> per l'id  del paziente.
+     * @return oggetto <code>int</code> per l'id del paziente.
      */
     public int getId_paziente() {
         return id_paziente;
