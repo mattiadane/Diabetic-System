@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardAdminController"
@@ -11,8 +12,29 @@
 
     <left>
         <VBox styleClass="sidebar">
-            <Button text="Diabetologi" fx:id="diabetologiButton" styleClass="sideButtons"/>
             <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" onAction="#logout"/>
         </VBox>
     </left>
+
+    <center>
+        <VBox>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Benvenuto admin" styleClass="title"/>
+
+            <VBox>
+                <Label text="Nome del nuovo diabetologo:" />
+                <TextField fx:id="textNome" />
+
+                <Label text="Cognome del nuovo diabetologo:" />
+                <TextField fx:id="textCognome" />
+
+                <Label text="Email del nuovo diabetologo:" />
+                <TextField fx:id="textEmail" />
+
+                <Button text="Crea nuovo diabetologo" onAction="#createNewDiabetologo" styleClass="loginButton"/>
+            </VBox>
+        </VBox>
+    </center>
 </BorderPane>

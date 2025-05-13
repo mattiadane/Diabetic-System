@@ -1,11 +1,11 @@
 package com.dashapp.diabeticsystem.models;
 
-public class PasswordGenerator {
+public class CredentialsGenerator {
 
     private String first;
     private String last;
 
-    public PasswordGenerator(String first, String last){
+    public CredentialsGenerator(String first, String last){
         if(first == null || first.isEmpty() || last == null || last.isEmpty())
             throw new IllegalArgumentException("Il nome e il cognome non posso essere null oppure stringhe vuote");
 
@@ -20,6 +20,14 @@ public class PasswordGenerator {
      */
     public String generatePassword(){
         return this.first + this.last + System.currentTimeMillis();
+    }
+
+    /**
+     * Funzione che permette di generare automaticamente lo username dell'utente
+     * @return un tipo <code>String</code> per lo username dell'utente
+     */
+    public String createUsername(){
+        return (this.first + "." + this.last).replaceAll("\\s+", "").toLowerCase();
     }
 
 }

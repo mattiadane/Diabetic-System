@@ -6,9 +6,10 @@ import java.util.HashSet;
 
 public class Diabetologo {
 
-    private final int id_diabetologo = Session.getCurrentUser().getId_diabetologo();
-    private  String nome;
-    private  String cognome;
+    private int id_diabetologo = Session.getCurrentUser().getId_diabetologo();
+    private String nome;
+    private String cognome;
+    private String email;
 
     private static final HashSet<Paziente> pazientes = new HashSet<>();
 
@@ -24,6 +25,16 @@ public class Diabetologo {
                     return null;
         },id_diabetologo);
     }
+
+    public Diabetologo(String nome, String cognome, String email){
+        if(nome == null || nome.isEmpty() || cognome == null || cognome.isEmpty() || email == null || email.isEmpty())
+            throw new IllegalArgumentException("Il nome, il cognome e la email non posso essere null oppure stringhe vuote");
+
+        this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+    }
+
 
 
     /**
@@ -48,8 +59,8 @@ public class Diabetologo {
             pazientes.add(paziente);
             success =  Main.getDbManager().updateQuery(
                     "INSERT INTO login(id_paziente,id_diabetologo,username,password_hash) VALUES(?,?,?,?)",
-                    paziente.getId_paziente(),null,createUsername(paziente.getNome(),paziente.getCognome()),
-                    new PasswordGenerator(paziente.getNome(), paziente.getCognome()).generatePassword()
+                    paziente.getId_paziente(),null,new CredentialsGenerator(nome, cognome).createUsername(),
+                    new CredentialsGenerator(paziente.getNome(), paziente.getCognome()).generatePassword()
             );
         }
 
@@ -70,12 +81,29 @@ public class Diabetologo {
         return nome + " " + cognome;
     }
 
-    /**
-     * Funzione che permette di generare automaticamente lo username dell'utente
-     * @return un tipo <code>String</code> per lo username dell'utente
-     */
-    private String createUsername(String nome , String cognome){
-        return (nome + "." + cognome).replaceAll("\\s+", "").toLowerCase();
+    public String getNome(){
+       return this.nome;
     }
+
+    public String getCognome(){
+        return this.cognome;
+    }
+
+    public String getEmail(){
+        return this.email;
+    }
+
+    /**
+     * Funzione per settare l'id del paziente
+     * @param id_diabetologo di da assegnare al paziente
+     */
+    public void setId_diabetologo(int id_diabetologo) {
+        this.id_diabetologo = id_diabetologo;
+    }
+
+    public int getId_diabetologo() {
+        return id_diabetologo;
+    }
+
 
 }
