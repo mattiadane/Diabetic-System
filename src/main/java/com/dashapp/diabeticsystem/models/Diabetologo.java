@@ -10,15 +10,16 @@ public class Diabetologo {
     private static final HashSet<Paziente> pazientes = new HashSet<>();
 
     public Diabetologo() {
+        /*
         Main.getDbManager().selectQuery("SELECT nome,cognome,email,codice_fiscale,data_nascita",
                rs -> {
                     while (rs.next()) {
                         Paziente paziente = new Paziente(rs.getString("nome"),
-                                rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita"));
+                                rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"), rs.getDate("data_nascita").toLocalDate());
                         pazientes.add(paziente);
                     }
                    return null;
-               });
+               });*/
     }
 
 

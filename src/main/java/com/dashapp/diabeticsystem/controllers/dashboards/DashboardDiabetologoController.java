@@ -55,13 +55,12 @@ public class DashboardDiabetologoController extends DashboardController {
         }
 
         System.out.println(createUsername() + "\nEmail:" + textEmail.getText() + "\nCodice Fiscale: " + textCodiceFiscale.getText());
-        Paziente paziente = new Paziente(textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), this.dataNascitaPicker.getValue());
+        //Paziente paziente = new Paziente(textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), this.dataNascitaPicker.getValue());
 
         // TODO: creare record in tabella login
         //diabetologo.inserisciPaziente(paziente);
 
 
-        // TOOD: creare record in tabella pazienti, l'id del dottore lo prendo da quello loggato
     }
 
     /**
@@ -70,7 +69,7 @@ public class DashboardDiabetologoController extends DashboardController {
      */
     private String createUsername(){
 
-        return this.textNome.getText() + "." + this.textCognome.getText();
+        return (this.textNome.getText() + "." + this.textCognome.getText()).replaceAll("\\s+", "");
     }
 
 

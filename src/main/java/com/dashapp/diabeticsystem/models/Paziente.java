@@ -1,6 +1,5 @@
 package com.dashapp.diabeticsystem.models;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class Paziente {
@@ -60,7 +59,7 @@ public class Paziente {
      * Funzione per prendere la data di nascita del paziente
      * @return oggetto <code>Date</code> per la data di nascita del paziente.
      */
-    public Date getDataNascita() {
+    public LocalDate getDataNascita() {
         return dataNascita;
     }
 }
