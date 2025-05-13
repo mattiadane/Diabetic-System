@@ -3,6 +3,7 @@ package com.dashapp.diabeticsystem.models;
 import java.time.LocalDate;
 
 public class Paziente {
+    private int id_paziente ;
     private final String nome;
     private final String cognome;
     private final String email;
@@ -61,5 +62,21 @@ public class Paziente {
      */
     public LocalDate getDataNascita() {
         return dataNascita;
+    }
+
+    /**
+     * Funzione per prendere l'id del paziente
+     * @return oggetto <code>int</code> per l'id  del paziente.
+     */
+    public int getId_paziente() {
+        return id_paziente;
+    }
+
+    /**
+     * Funzione per settare l'id del paziente
+     * @param id_paziente di da assegnare al paziente
+     */
+    public void setId_paziente(int id_paziente) {
+        this.id_paziente = id_paziente;
     }
 }

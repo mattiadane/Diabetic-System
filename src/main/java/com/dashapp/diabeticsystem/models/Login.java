@@ -47,9 +47,6 @@ public class Login {
     public final int getId_diabetologo() {
         return id_diabetologo;
     }
-    public final int getId_login() {
-        return id_login;
-    }
 
     @Override
     public final String toString() {

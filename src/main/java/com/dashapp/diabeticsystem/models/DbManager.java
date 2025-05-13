@@ -20,6 +20,34 @@ public class DbManager {
         }
     }
 
+
+    /*
+        Method that after insert , give me the last id
+     */
+
+    public int insertAndGetGeneratedId(String sql, Object... params) {
+        int generatedId = -1;
+        try (Connection conn = getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
+            }
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        generatedId = generatedKeys.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log dell'errore
+        }
+        return generatedId;
+    }
+
+
     /*
     Method for execute query like insert, update,delete
      */

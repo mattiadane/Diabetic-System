@@ -12,16 +12,16 @@
     <!-- spazio per la sidebar -->
     <left>
         <VBox styleClass="sidebar">
-            <Button text="Home" fx:id="homeButtonP" styleClass="sideButtons"/>
-            <Button text="Terapie" fx:id="terapieButtonP" styleClass="sideButtons" />
-            <Button text="Impostazioni" fx:id="settingsButtonP" styleClass="sideButtons"/>
+            <Button text="Home" fx:id="homeButton" styleClass="sideButtons"/>
+            <Button text="Terapie" fx:id="terapieButton" styleClass="sideButtons" />
+            <Button text="Impostazioni" fx:id="settingsButton" styleClass="sideButtons"/>
             <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" onAction="#logout"/>
         </VBox>
     </left>
 
 
     <center>
-        <Label fx:id="ll"/>
+        <Label fx:id="benvenuto"/>
     </center>
 
 </BorderPane>

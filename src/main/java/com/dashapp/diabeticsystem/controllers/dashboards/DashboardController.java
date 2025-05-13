@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public abstract class  DashboardController{
+public abstract class  DashboardController  {
 
 
 

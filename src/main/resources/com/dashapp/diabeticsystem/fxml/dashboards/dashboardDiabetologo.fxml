@@ -18,7 +18,10 @@
         </VBox>
     </left>
     <center>
-        <Label text="" fx:id="labelDash" />
-        <Button text="Crea Paziente" onAction="#handleCreaPaziente" fx:id="buttonCreaPaziente" />
+        <VBox alignment="TOP_LEFT">
+            <Label fx:id="benvenuto" text="benvenuto" styleClass="ciao"/>
+            <Button text="Crea Paziente" onAction="#handleCreaPaziente" fx:id="buttonCreaPaziente" />
+        </VBox>
+
     </center>
 </BorderPane>

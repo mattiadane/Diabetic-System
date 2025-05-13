@@ -7,19 +7,22 @@ import java.util.HashSet;
 public class Diabetologo {
 
     private final int id_diabetologo = Session.getCurrentUser().getId_diabetologo();
+    private  String nome;
+    private  String cognome;
+
     private static final HashSet<Paziente> pazientes = new HashSet<>();
 
+
     public Diabetologo() {
-        /*
-        Main.getDbManager().selectQuery("SELECT nome,cognome,email,codice_fiscale,data_nascita",
-               rs -> {
-                    while (rs.next()) {
-                        Paziente paziente = new Paziente(rs.getString("nome"),
-                                rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"), rs.getDate("data_nascita").toLocalDate());
-                        pazientes.add(paziente);
+        Main.getDbManager().selectQuery("SELECT nome,cognome FROM diabetologo WHERE id_diabetologo = ?",
+                rs -> {
+                    if (rs.next()){
+                        nome = rs.getString("nome");
+                        cognome = rs.getString("cognome");
                     }
-                   return null;
-               });*/
+
+                    return null;
+        },id_diabetologo);
     }
 
 
@@ -29,26 +32,49 @@ public class Diabetologo {
      * @return valore di tipo <code>boolean</code> per controllare che l'inserimento è andato a buon fine.
      */
     public boolean inserisciPaziente(Paziente paziente){
+        boolean success = false;
         if(paziente == null)
-            return false;
+            return success;
 
-        boolean success =  Main.getDbManager().updateQuery("INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo) VALUES (?,?,?,?,?,?)",
+        int  last_id =  Main.getDbManager().insertAndGetGeneratedId(
+                "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo) VALUES (?,?,?,?,?,?)",
                 paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodiceFiscale(),paziente.getDataNascita(), id_diabetologo
                 );
 
-        if (success){
+        if (last_id >  0){
+            paziente.setId_paziente(last_id);
             pazientes.add(paziente);
+            success =  Main.getDbManager().updateQuery(
+                    "INSERT INTO login(id_paziente,id_diabetologo,username,password_hash) VALUES(?,?,?,?)",
+                    paziente.getId_paziente(),null,createUsername(paziente.getNome(),paziente.getCognome()),"ciao"
+            );
         }
 
         return success;
     }
 
 
-    public int getId_diabetologo(){
-        return id_diabetologo;
-    }
+
+
+
 
     public HashSet<Paziente> getPazientes() {
         return pazientes;
     }
+
+    @Override
+    public String toString() {
+        return nome + " " + cognome;
+    }
+
+    /**
+     * Funzione che permette di generare automaticamente lo username dell'utente
+     * @return un tipo <code>String</code> per lo username dell'utente
+     */
+    private String createUsername(String nome , String cognome){
+
+        return (nome + "." + cognome).replaceAll("\\s+", "").toLowerCase();
+    }
+
+
 }
