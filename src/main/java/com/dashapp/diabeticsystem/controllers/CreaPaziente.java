@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,11 +58,7 @@ public class CreaPaziente {
 
         }
 
-        textNome.setText("");
-        textCognome.setText("");
-        textEmail.setText("");
-        textCodiceFiscale.setText("");
-        dataNascitaPicker.setValue(null);
+
     }
 
 
@@ -87,7 +84,8 @@ public class CreaPaziente {
     }
 
     private boolean checkDate(){
-        return this.dataNascitaPicker.getValue() != null;
+
+        return this.dataNascitaPicker.getValue() != null && !dataNascitaPicker.getValue().isAfter(LocalDate.now());
     }
 
 
@@ -106,5 +104,8 @@ public class CreaPaziente {
 
         return m.matches();
     }
+
+
+
 
 }

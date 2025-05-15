@@ -42,7 +42,9 @@ public class DbManager {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Log dell'errore
+            System.err.println("Error executing query" + e.getMessage());
+
+
         }
         return generatedId;
     }
@@ -62,7 +64,7 @@ public class DbManager {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error executing query");
+            System.err.println("Error executing query" + e.getMessage());
             return false;
         }
     }

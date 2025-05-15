@@ -25,8 +25,8 @@ public class Admin {
             diabetologo.setId_diabetologo(last_id);
             success =  Main.getDbManager().updateQuery(
                     "INSERT INTO login(id_paziente,id_diabetologo,username,password_hash) VALUES(?,?,?,?)",
-                    null, diabetologo.getId_diabetologo(), new CredentialsGenerator(diabetologo.getNome(), diabetologo.getCognome()).createUsername(),
-                    new CredentialsGenerator(diabetologo.getNome(), diabetologo.getCognome()).generatePassword()
+                    null, diabetologo.getId_diabetologo(), new CredentialsGenerator(0, diabetologo.getId_diabetologo(), diabetologo.getNome(), diabetologo.getCognome()).createUsername(),
+                    new CredentialsGenerator(0,diabetologo.getId_diabetologo(),diabetologo.getNome(), diabetologo.getCognome()).generatePassword()
             );
         }
 

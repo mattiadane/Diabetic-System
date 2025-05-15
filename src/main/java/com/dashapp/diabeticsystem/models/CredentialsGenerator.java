@@ -4,13 +4,17 @@ public class CredentialsGenerator {
 
     private String first;
     private String last;
+    private int id_paziente;
+    private int id_diabetologo;
 
-    public CredentialsGenerator(String first, String last){
-        if(first == null || first.isEmpty() || last == null || last.isEmpty())
+    public CredentialsGenerator(int id_paziente, int id_diabetologo,String first, String last){
+        if( first == null || first.isEmpty() || last == null || last.isEmpty())
             throw new IllegalArgumentException("Il nome e il cognome non posso essere null oppure stringhe vuote");
 
         this.first = first;
         this.last = last;
+        this.id_paziente = id_paziente;
+        this.id_diabetologo = id_diabetologo;
     }
 
     /**
@@ -27,7 +31,9 @@ public class CredentialsGenerator {
      * @return un tipo <code>String</code> per lo username dell'utente
      */
     public String createUsername(){
-        return (this.first + "." + this.last).replaceAll("\\s+", "").toLowerCase();
+        String username = (id_diabetologo > 0 && id_paziente == 0) ? "med_" : "paz_";
+        username += (this.first + "." + this.last + Integer.toString((this.id_diabetologo+this.id_paziente)));
+        return username.replaceAll("\\s+", "").toLowerCase();
     }
 
 }

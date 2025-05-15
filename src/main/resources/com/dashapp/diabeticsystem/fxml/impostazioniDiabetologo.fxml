@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.control.TextField?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.dashapp.diabeticsystem.controllers.SettingsControllerDiabetologo"
+            prefHeight="400.0" prefWidth="600.0">
+
+
+    <!-- importo la sidebar -->
+    <left>
+        <VBox styleClass="sidebar">
+            <Button text="Home" fx:id="homeButton" styleClass="sideButtons"/>
+            <Button text="Pazienti" fx:id="pazientiButton" styleClass="sideButtons" />
+            <Button text="Impostazioni" fx:id="settingsButton" styleClass="sideButtons"/>
+            <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" onAction="#logout"/>
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="TOP_LEFT">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label fx:id="impostazioniLabel" text="Impostazioni" styleClass="title"/>
+
+            <Label text="Nome:" fx:id="labelNome" />
+            <TextField fx:id="textNome"/>
+
+            <Label text="Cognome: " />
+            <TextField fx:id="textCognome" />
+
+            <Label text="Email: " />
+            <TextField fx:id="textEmail" />
+
+            <Label text="Username: " />
+            <TextField fx:id="textUsername" />
+
+            <Label text="Nuova password: " />
+            <TextField fx:id="textNewPassword" />
+
+            <Label text="Conferma nuova password: "/>
+            <TextField fx:id="textConfirmPassword" />
+            <Button text="Aggiorna dati" onAction="#handleUpdateDataDiabetologo " fx:id="buttonUpdateData" />
+        </VBox>
+    </center>
+
+</BorderPane>

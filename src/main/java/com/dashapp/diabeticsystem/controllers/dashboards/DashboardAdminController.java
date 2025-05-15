@@ -34,18 +34,18 @@ public class DashboardAdminController  extends DashboardController{
                 )
         );
 
+        Alert alert;
         if(!success){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
             alert.setHeaderText("Non è stato possibile creare un nuovo diabetologo");
             alert.setContentText("Controlla i dati inseriti");
-            alert.showAndWait();
         }else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Nuovo diabetologo creato");
             alert.setHeaderText("Il nuovo diabetologo è stato creato con successo");
-            alert.showAndWait();
         }
+        alert.showAndWait();
 
         resetFields();
 
