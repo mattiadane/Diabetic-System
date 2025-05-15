@@ -3,6 +3,7 @@ package com.dashapp.diabeticsystem.controllers.dashboards;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -34,6 +35,11 @@ public class DashboardDiabetologoController extends DashboardController implemen
     public void handleCreaPaziente() throws IOException {
         Main.getStage(new Stage(), "fxml/crea_paziente.fxml", "Crea Paziente");
     }
+
+    public void showSettings(ActionEvent event) throws IOException {
+        Main.getStage(Main.getPrimaryStage(), "fxml/impostazioniDiabetologo.fxml", "Impostazioni diabetogolo");
+    }
+
 
 
 

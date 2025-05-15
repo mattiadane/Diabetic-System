@@ -3,6 +3,7 @@ package com.dashapp.diabeticsystem;
 import com.dashapp.diabeticsystem.models.DbManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -10,9 +11,11 @@ import java.net.URL;
 
 public class Main extends Application {
     private static final DbManager dbManager = new DbManager();
+    private static Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws IOException {
+        primaryStage = stage;
         getStage(stage,"fxml/login.fxml","Diabetic System");
     }
 
@@ -38,5 +41,9 @@ public class Main extends Application {
         stage.show();
 
         return fxmlLoader.getController();
+    }
+
+    public static Stage getPrimaryStage(){
+        return primaryStage;
     }
 }

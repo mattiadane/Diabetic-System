@@ -19,7 +19,7 @@
             <Button text="Home" fx:id="homeButton" styleClass="sideButtons"/>
             <Button text="Pazienti" fx:id="pazientiButton" styleClass="sideButtons" />
             <Button text="Impostazioni" fx:id="settingsButton" styleClass="sideButtons"/>
-            <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" onAction="#logout"/>
+            <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" />
         </VBox>
     </left>
     <center>
@@ -38,15 +38,12 @@
             <Label text="Email: " />
             <TextField fx:id="textEmail" />
 
-            <Label text="Username: " />
-            <TextField fx:id="textUsername" />
-
             <Label text="Nuova password: " />
             <TextField fx:id="textNewPassword" />
 
             <Label text="Conferma nuova password: "/>
             <TextField fx:id="textConfirmPassword" />
-            <Button text="Aggiorna dati" onAction="#handleUpdateDataDiabetologo " fx:id="buttonUpdateData" />
+            <Button text="Aggiorna dati" onAction="#handleUpdateDataDiabetologo" fx:id="buttonUpdateData" styleClass="loginButton"/>
         </VBox>
     </center>
 
