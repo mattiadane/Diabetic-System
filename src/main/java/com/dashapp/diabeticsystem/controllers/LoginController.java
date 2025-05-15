@@ -1,6 +1,6 @@
 package com.dashapp.diabeticsystem.controllers;
 
-import com.dashapp.diabeticsystem.View.Router;
+import com.dashapp.diabeticsystem.view.Router;
 import com.dashapp.diabeticsystem.models.Login;
 import com.dashapp.diabeticsystem.models.Session;
 import javafx.event.ActionEvent;

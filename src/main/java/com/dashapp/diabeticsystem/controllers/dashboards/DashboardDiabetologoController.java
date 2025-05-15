@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class DashboardDiabetologoController extends DashboardController implements Initializable {
+public class DashboardDiabetologoController {
 
     private final Diabetologo diabetologo = new Diabetologo();
 
@@ -23,8 +23,8 @@ public class DashboardDiabetologoController extends DashboardController implemen
 
 
 
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(diabetologo);
+    public void initialize() {
+
         benvenuto.setText("Bentornato: " + diabetologo.toString());
     }
 
@@ -32,14 +32,12 @@ public class DashboardDiabetologoController extends DashboardController implemen
     /**
      * Funzione che permette di aprire una finestra per inserire nel database una nuova utenza per il paziente.
      */
+
     /*
     public void handleCreaPaziente() throws IOException {
         Main.getStage(new Stage(), "fxml/crea_paziente.fxml", "Crea Paziente");
-    }
-
-    public void showSettings(ActionEvent event) throws IOException {
-        Main.getStage(Main.getPrimaryStage(), "fxml/impostazioniDiabetologo.fxml", "Impostazioni diabetogolo");
     }*/
+
 
 
 

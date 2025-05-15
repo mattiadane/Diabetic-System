@@ -9,7 +9,7 @@
             fx:id="mainContainer">
 
     <left>
-        <fx:include fx:id="sidebar" source="Components/sidebar.fxml" />
+        <fx:include fx:id="sidebar" source="components/sidebar.fxml" />
     </left>
 
 </BorderPane>

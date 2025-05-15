@@ -14,7 +14,6 @@ public class SettingsControllerDiabetologo {
     @FXML private TextField textNome;
     @FXML private TextField textCognome;
     @FXML private TextField textEmail;
-    @FXML private TextField textUsername;
     @FXML private TextField textNewPassword;
     @FXML private TextField textConfirmPassword;
 
@@ -46,7 +45,7 @@ public class SettingsControllerDiabetologo {
      * @return oggetto <code>boolean</code> per controllare la validità dei campi
      */
     private boolean checkNomeCognomeUsername(){
-        return !(this.textNome.getText().isEmpty()) && !(this.textCognome.getText().isEmpty()) && !(this.textUsername.getText().isEmpty());
+        return !(this.textNome.getText().isEmpty()) && !(this.textCognome.getText().isEmpty()) ;
     }
 
     /**

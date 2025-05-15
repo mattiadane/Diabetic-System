@@ -1,6 +1,7 @@
 package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
+import com.dashapp.diabeticsystem.enums.ROLE;
 
 
 public class Login {
@@ -40,15 +41,15 @@ public class Login {
     }
 
 
-    public String getRole() {
-        if(id_paziente != 0 ){
-            return "paziente";
+    /**
+     * Funzione che permette di ritornare un enum per il tipo di utente che si è loggato nel form di login.
+     * @return tipo <code>ROLE</code> per il ruolo dell'utente.
+     */
+    public ROLE getRole() {
+        if(id_paziente != 0 ) return ROLE.PAZIENTE;
+        else if(id_diabetologo != 0 ) return ROLE.DIABETOLOGO;
 
-        } else if(id_diabetologo != 0 ){
-            return "diabetologo";
-        } else {
-            return "admin";
-        }
+        return ROLE.ADMIN;
     }
     public final int getId_paziente() {
         return id_paziente;

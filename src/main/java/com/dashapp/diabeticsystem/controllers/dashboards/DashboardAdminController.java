@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
-public class DashboardAdminController  extends DashboardController{
+public class DashboardAdminController  {
 
     @FXML private TextField textNome;
     @FXML private TextField textCognome;

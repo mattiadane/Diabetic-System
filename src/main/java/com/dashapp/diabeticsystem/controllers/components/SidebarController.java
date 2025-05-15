@@ -1,11 +1,14 @@
 package com.dashapp.diabeticsystem.controllers.components;
 
-import com.dashapp.diabeticsystem.View.Router;
+import com.dashapp.diabeticsystem.enums.ROLE;
+import com.dashapp.diabeticsystem.view.Router;
 import com.dashapp.diabeticsystem.models.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+
+import javax.management.relation.Role;
 
 
 public class SidebarController {
@@ -15,6 +18,7 @@ public class SidebarController {
     @FXML private Button pazientiButton;
     @FXML private Button terapieButton;
     @FXML private Button settingsButton;
+    @FXML private Button insulinaButton;
     @FXML private Button logoutButton;
 
     private Login user;
@@ -36,6 +40,7 @@ public class SidebarController {
     }
 
     public void handleTerapie(ActionEvent event) {
+
     }
 
     public void handleSettings(ActionEvent event) {
@@ -46,6 +51,13 @@ public class SidebarController {
 
     }
 
+    public void handleInsulina(ActionEvent event) {
+    }
+
+    /**
+     * Funzione che permette di settare i bottoni (tutti nascosti inizialmente) della sidebar in modo che,
+     * una volta loggato l'utente, sia possibile mostrare solo quelli necessari
+     */
     private void initializeSidebar() {
         homeButton.setVisible(false);
         homeButton.setManaged(false); // setManaged(false) fa sì che l'elemento non occupi spazio nel layout
@@ -55,6 +67,8 @@ public class SidebarController {
         terapieButton.setManaged(false);
         settingsButton.setVisible(false);
         settingsButton.setManaged(false);
+        insulinaButton.setVisible(false);
+        insulinaButton.setManaged(false);
 
 
 
@@ -63,36 +77,37 @@ public class SidebarController {
         logoutButton.setManaged(user != null);
 
         if (user != null) {
-            String role = user.getRole();
+            ROLE role = user.getRole();
             System.out.println("Sidebar: Aggiornamento per ruolo: " + role);
 
             switch (role) {
-                case "admin":
+                case ADMIN:
                     // Se vuoi che l'admin abbia una dashboard, rendi visibile dashboardButton
                     homeButton.setVisible(true);
                     homeButton.setManaged(true);
                     break;
-                case "diabetologo":
+                case DIABETOLOGO:
                     // Il Diabetologo vede Home, Pazienti, Impostazioni, Logout
                     homeButton.setVisible(true);
                     homeButton.setManaged(true);
                     pazientiButton.setVisible(true);
                     pazientiButton.setManaged(true);
-                    settingsButton.setVisible(true);
-                    settingsButton.setManaged(true);
-                    break;
-                case "paziente":
-                    // Il Paziente vede Home, Terapie, Impostazioni, Logout
-                    homeButton.setVisible(true);
-                    homeButton.setManaged(true);
                     terapieButton.setVisible(true);
                     terapieButton.setManaged(true);
                     settingsButton.setVisible(true);
                     settingsButton.setManaged(true);
                     break;
+                case PAZIENTE:
+                    // Il Paziente vede Home, Terapie, Impostazioni, Logout
+                    homeButton.setVisible(true);
+                    homeButton.setManaged(true);
+                    insulinaButton.setVisible(true);
+                    insulinaButton.setManaged(true);
+                    settingsButton.setVisible(true);
+                    settingsButton.setManaged(true);
+                    break;
                 default:
                     System.err.println("Sidebar: Ruolo utente non riconosciuto: " + role);
-                    // Per ruoli non riconosciuti, tutti i pulsanti rimangono nascosti
                     break;
             }
         } else {

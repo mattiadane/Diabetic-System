@@ -1,7 +1,8 @@
-package com.dashapp.diabeticsystem.View;
+package com.dashapp.diabeticsystem.view;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.controllers.MainController;
+import com.dashapp.diabeticsystem.enums.ROLE;
 import com.dashapp.diabeticsystem.models.Login;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent; // Import Parent
@@ -27,10 +28,11 @@ public class Router {
     }
 
     /**
-     * Loads a view and sets it as the center content of the main application layout.
-     * This method is called *after* the main dashboard is loaded.
-     * @param fxml The name of the FXML file to load (e.g., dashboardAdmin.fxml)
+     * Carica una vista e la imposta come contenuto centrale del layout principale dell'applicazione.
+     * Questo metodo viene chiamato *dopo* che la dashboard principale è stata caricata.
+     * @param fxml Il nome del file FXML da caricare (es. dashboardAdmin.fxml)
      */
+
     public static void loadView(String fxml) {
         try {
             if (mainController == null) {
@@ -48,17 +50,14 @@ public class Router {
     }
 
     /**
-     * Navigates to the appropriate dashboard based on the authenticated user's role.
-     * This method is called from the LoginController after successful authentication.
-     * It will load the *main dashboard layout* (e.g., main.fxml) and then load the
-     * specific role-based dashboard content into it.
+     * Naviga alla dashboard appropriata in base al ruolo dell'utente autenticato.
+     * Questo metodo viene chiamato dal LoginController dopo un'autenticazione riuscita.
+     * Caricherà il *layout principale della dashboard* (es. main.fxml) e poi caricherà
+     * al suo interno il contenuto specifico in base al ruolo.
      */
+
     public static void changeScene () {
         try {
-            if (authenticatedUser == null) {
-                System.err.println("No authenticated user to navigate to dashboard.");
-                return;
-            }
 
             // Load the main application layout (e.g., main.fxml)
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/mainView.fxml"));
@@ -96,24 +95,23 @@ public class Router {
 
         } catch (IOException e) {
             System.err.println("Error navigating to dashboard: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
     public static void navigatetoDashboard(){
-        String role = authenticatedUser.getRole();
+        ROLE role = authenticatedUser.getRole();
         switch (role) {
-            case "admin" -> loadView("dashboardAdmin.fxml");
-            case "paziente" -> loadView("dashboardPaziente.fxml");
-            case "diabetologo" -> loadView("dashboardDiabetologo.fxml");
+            case ADMIN -> loadView("dashboardAdmin.fxml");
+            case PAZIENTE -> loadView("dashboardPaziente.fxml");
+            case DIABETOLOGO -> loadView("dashboardDiabetologo.fxml");
             default -> System.err.println("Unknown role: " + role);
         }
     }
     public static void navigateToSettings(){
-        String role = authenticatedUser.getRole();
+        ROLE role = authenticatedUser.getRole();
         switch (role) {
-            case "paziente" -> loadView("impostazioniPaziente.fxml");
-            case "diabetologo" -> loadView("impostazioniDiabetologo.fxml");
+            case PAZIENTE -> loadView("impostazioniPaziente.fxml");
+            case DIABETOLOGO -> loadView("impostazioniDiabetologo.fxml");
             default -> System.err.println("Unknown role: " + role);
         }
     }
