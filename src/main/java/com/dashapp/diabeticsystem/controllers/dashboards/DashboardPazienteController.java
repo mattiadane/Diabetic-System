@@ -4,7 +4,7 @@ import com.dashapp.diabeticsystem.models.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class DashboardPazienteController extends DashboardController   {
+public class DashboardPazienteController   {
 
     @FXML private Label benvenuto;
 

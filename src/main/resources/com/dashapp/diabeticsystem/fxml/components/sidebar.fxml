@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="sidebarRoot" alignment="TOP_LEFT" prefWidth="200" spacing="10"
+      style="-fx-background-color: #336699;" xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.diabeticsystem.controllers.components.SidebarController">
+    <padding>
+        <Insets bottom="20" left="10" right="10" top="20"/>
+    </padding>
+
+    <Button fx:id="homeButton" maxWidth="Infinity" onAction="#handleHome" styleClass="sideButtons" text="Home"/>
+    <Button fx:id="pazientiButton" maxWidth="Infinity" onAction="#handlePazienti" styleClass="sideButtons" text="Pazienti"/>
+    <Button fx:id="terapieButton" maxWidth="Infinity" onAction="#handleTerapie" styleClass="sideButtons" text="Terapie"/>
+    <Button fx:id="insulinaButton" maxWidth="Infinity" onAction="#handleInsulina" styleClass="sideButtons" text="Insulina"/>
+    <Button fx:id="settingsButton" maxWidth="Infinity" onAction="#handleSettings" styleClass="sideButtons" text="Impostazioni"/>
+
+    <Region VBox.vgrow="ALWAYS"/>
+    <Separator/>
+    <Button fx:id="logoutButton" maxWidth="Infinity" onAction="#handleLogout" styleClass="sideButtons" text="Logout"/>
+
+</VBox>

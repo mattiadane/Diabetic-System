@@ -13,15 +13,6 @@
             prefHeight="400.0" prefWidth="600.0">
 
 
-    <!-- importo la sidebar -->
-    <left>
-        <VBox styleClass="sidebar">
-            <Button text="Home" fx:id="homeButton" styleClass="sideButtons"/>
-            <Button text="Pazienti" fx:id="pazientiButton" styleClass="sideButtons" />
-            <Button text="Impostazioni" fx:id="settingsButton" styleClass="sideButtons"/>
-            <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" />
-        </VBox>
-    </left>
     <center>
         <VBox alignment="TOP_LEFT">
             <padding>
