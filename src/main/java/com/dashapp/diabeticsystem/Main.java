@@ -3,7 +3,6 @@ package com.dashapp.diabeticsystem;
 import com.dashapp.diabeticsystem.models.DbManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -18,7 +17,7 @@ public class Main extends Application {
         primaryStage = stage; // Store the primary stage reference
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 750); // Dimensions for your login scene
+        Scene scene = new Scene(fxmlLoader.load(), 500, 350); // Dimensions for your login scene
 
         URL cssUrl = Main.class.getResource("css/style.css");
 

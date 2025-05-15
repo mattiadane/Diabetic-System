@@ -116,5 +116,13 @@ public class Router {
         }
     }
 
+    /**
+     * Funzione che mostra la scena per aggiungere il livello di insulina.
+     */
+    public static void navigateToInsulina(){
+        loadView("aggiungiLivelloInsulina.fxml");
+    }
+
+
 
 }

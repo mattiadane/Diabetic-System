@@ -51,8 +51,7 @@ public class SidebarController {
 
     }
 
-    public void handleInsulina(ActionEvent event) {
-    }
+    public void handleInsulina(ActionEvent event) { Router.navigateToInsulina(); }
 
     /**
      * Funzione che permette di settare i bottoni (tutti nascosti inizialmente) della sidebar in modo che,
