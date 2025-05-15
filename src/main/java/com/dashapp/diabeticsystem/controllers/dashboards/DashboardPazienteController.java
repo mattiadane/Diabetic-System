@@ -8,10 +8,11 @@ public class DashboardPazienteController extends DashboardController   {
 
     @FXML private Label benvenuto;
 
-    public DashboardPazienteController() {
+
+
+    public void initialize() {
         this.benvenuto.setText("Bentornato: " + Session.getCurrentUser());
     }
-
 
 
 }
