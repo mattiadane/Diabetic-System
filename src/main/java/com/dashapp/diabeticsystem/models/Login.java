@@ -40,7 +40,16 @@ public class Login {
     }
 
 
+    public String getRole() {
+        if(id_paziente != 0 ){
+            return "paziente";
 
+        } else if(id_diabetologo != 0 ){
+            return "diabetologo";
+        } else {
+            return "admin";
+        }
+    }
     public final int getId_paziente() {
         return id_paziente;
     }

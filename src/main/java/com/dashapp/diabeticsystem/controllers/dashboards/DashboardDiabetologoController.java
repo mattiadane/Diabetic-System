@@ -32,13 +32,14 @@ public class DashboardDiabetologoController extends DashboardController implemen
     /**
      * Funzione che permette di aprire una finestra per inserire nel database una nuova utenza per il paziente.
      */
+    /*
     public void handleCreaPaziente() throws IOException {
         Main.getStage(new Stage(), "fxml/crea_paziente.fxml", "Crea Paziente");
     }
 
     public void showSettings(ActionEvent event) throws IOException {
         Main.getStage(Main.getPrimaryStage(), "fxml/impostazioniDiabetologo.fxml", "Impostazioni diabetogolo");
-    }
+    }*/
 
 
 

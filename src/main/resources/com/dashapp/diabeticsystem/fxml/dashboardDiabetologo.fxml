@@ -11,12 +11,7 @@
 
     <!-- importo la sidebar -->
     <left>
-        <VBox styleClass="sidebar">
-            <Button text="Home" fx:id="homeButton" styleClass="sideButtons"/>
-            <Button text="Pazienti" fx:id="pazientiButton" styleClass="sideButtons" />
-            <Button text="Impostazioni" fx:id="settingsButton" styleClass="sideButtons" onAction="#showSettings"/>
-            <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" onAction="#logout"/>
-        </VBox>
+
     </left>
     <center>
         <VBox alignment="TOP_LEFT">
@@ -24,7 +19,7 @@
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
             <Label fx:id="benvenuto" text="benvenuto" styleClass="title"/>
-            <Button text="Crea Paziente" onAction="#handleCreaPaziente" fx:id="buttonCreaPaziente" />
+            <Button text="Crea Paziente"  fx:id="buttonCreaPaziente" />
         </VBox>
     </center>
 </BorderPane>

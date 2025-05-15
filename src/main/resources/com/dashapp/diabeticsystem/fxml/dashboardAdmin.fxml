@@ -10,11 +10,6 @@
 
             prefHeight="400.0" prefWidth="600.0">
 
-    <left>
-        <VBox styleClass="sidebar">
-            <Button text="Logout" fx:id="logoutButton" styleClass="sideButtons" onAction="#logout"/>
-        </VBox>
-    </left>
 
     <center>
         <VBox>

@@ -10,10 +10,6 @@ public abstract class  DashboardController  {
 
 
 
-    public void logout(ActionEvent event) throws IOException {
-        Main.getStage(new Stage(),"fxml/login.fxml","Diabetic System");
-        ((Node)(event.getSource())).getScene().getWindow().hide();
 
-    }
 
 }

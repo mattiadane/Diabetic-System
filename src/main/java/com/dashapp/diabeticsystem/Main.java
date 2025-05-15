@@ -11,12 +11,24 @@ import java.net.URL;
 
 public class Main extends Application {
     private static final DbManager dbManager = new DbManager();
-    private static Stage primaryStage;
+    private static Stage primaryStage; // Keep a reference to the primary stage
 
     @Override
     public void start(Stage stage) throws IOException {
-        primaryStage = stage;
-        getStage(stage,"fxml/login.fxml","Diabetic System");
+        primaryStage = stage; // Store the primary stage reference
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 500, 750); // Dimensions for your login scene
+
+        URL cssUrl = Main.class.getResource("css/style.css");
+
+        scene.getStylesheets().add(cssUrl.toExternalForm());
+
+
+
+        stage.setTitle("Login diabetic system");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {
@@ -27,23 +39,11 @@ public class Main extends Application {
         return dbManager;
     }
 
-    public static <T>T getStage(Stage stage,String fxml,String title) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml));
-
-
-        Scene scene = new Scene(fxmlLoader.load(), 500, 750);
-        URL cssUrl = Main.class.getResource("css/style.css");
-
-        scene.getStylesheets().add(cssUrl.toExternalForm());
-
-        stage.setTitle(title);
-        stage.setScene(scene);
-        stage.show();
-
-        return fxmlLoader.getController();
-    }
-
-    public static Stage getPrimaryStage(){
+    /**
+     * Public method to get the primary stage.
+     * This is crucial for switching scenes after login.
+     */
+    public static Stage getPrimaryStage() {
         return primaryStage;
     }
 }
