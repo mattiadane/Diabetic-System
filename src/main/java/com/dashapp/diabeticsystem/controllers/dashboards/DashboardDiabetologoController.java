@@ -102,8 +102,12 @@ public class DashboardDiabetologoController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Paziente aggiunto ", ButtonType.OK);
             alert.setTitle("Nuovo paziente aggiunto");
             alert.showAndWait();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
+            textNome.setText("");
+            textCognome.setText("");
+            textEmail.setText("");
+            textCodiceFiscale.setText("");
+            dataNascitaPicker.setValue(null);
+
 
         }
     }
