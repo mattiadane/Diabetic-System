@@ -45,7 +45,9 @@ public class LoginController {
         Router.setAuthenticatedUser(user);
 
 
-        Router.changeScene();
+        Router.changeScene("mainView.fxml");
+
+        Router.navigatetoDashboard();
 
     }
 }

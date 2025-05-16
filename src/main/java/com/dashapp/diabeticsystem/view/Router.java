@@ -56,19 +56,22 @@ public class Router {
      * al suo interno il contenuto specifico in base al ruolo.
      */
 
-    public static void changeScene () {
+    public static void changeScene (String fxml) {
         try {
 
             // Load the main application layout (e.g., main.fxml)
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/mainView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/" + fxml));
             Parent root = fxmlLoader.load();
 
             // Get the controller for the main layout
-            MainController newMainController = fxmlLoader.getController();
+            Object newMainController = fxmlLoader.getController();
 
-            newMainController.setCurrentUser(authenticatedUser);
-            // Set the main controller in the Router (this will call initialize() on MainController)
-            Router.setMainController(newMainController);
+            if(fxml.equals("mainView.fxml")){
+                MainController mainController = (MainController) newMainController;
+                mainController.setCurrentUser(authenticatedUser);
+                Router.setMainController(mainController);
+            }
+
 
 
             // Switch the scene of the primary stage
@@ -88,9 +91,6 @@ public class Router {
             stage.setTitle("Diabetic System - Dashboard"); // Update title
             stage.show();
 
-
-            // Now, load the specific role-based dashboard content into the mainContainer
-            navigatetoDashboard();
 
 
         } catch (IOException e) {
@@ -117,11 +117,21 @@ public class Router {
     }
 
     /**
+     * Funzione che permette di eseguire il logout dall'account che ha eseguito l'ultimo login.
+     */
+    public static void logout() {
+        authenticatedUser = null;
+        changeScene("login.fxml");
+
+    }
+    /**
      * Funzione che mostra la scena per aggiungere il livello di insulina.
      */
     public static void navigateToInsulina(){
         loadView("aggiungiLivelloInsulina.fxml");
     }
+
+
 
 
 

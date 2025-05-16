@@ -9,17 +9,57 @@
             fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardDiabetologoController"
             prefHeight="400.0" prefWidth="600.0">
 
-    <!-- importo la sidebar -->
-    <left>
 
-    </left>
     <center>
-        <VBox alignment="TOP_LEFT">
+        <VBox>
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
             <Label fx:id="benvenuto" text="benvenuto" styleClass="title"/>
-            <Button text="Crea Paziente"  fx:id="buttonCreaPaziente" />
+
+            <VBox>
+                <Label text="Crea Paziente" style="-fx-font-size: 17px; -fx-font-weight: bold;"/>
+
+                <!-- Form di inserimento dati -->
+                <Label text="Nome:" fx:id="labelNome"/>
+                <TextField fx:id="textNome" />
+
+                <Label text="Cognome:" fx:id="labelCognome"/>
+                <TextField fx:id="textCognome" />
+
+                <Label text="Email:" fx:id="labelEmail"/>
+                <TextField fx:id="textEmail" />
+
+                <Label text="Codice fiscale:" fx:id="labelCodiceFiscale"/>
+                <TextField fx:id="textCodiceFiscale" />
+
+                <Label text="Data di nascita:"/>
+                <DatePicker fx:id="dataNascitaPicker"/>
+
+                <Button text="Crea Paziente" onAction="#handleNuovoPaziente" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-cursor: hand;"/>
+            </VBox>
         </VBox>
+
     </center>
+
+    <right>
+        <VBox prefHeight="700.0" prefWidth="450.0">
+                <padding>
+                    <Insets top="40" right="20" bottom="20" left="20"/>
+                </padding>
+            <children>
+                <TableView fx:id="tabellaPazienti" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                        <TableColumn fx:id="nomeColonna" prefWidth="75.0" resizable="false" text="Nome" />
+                        <TableColumn fx:id="cognomeColonna" prefWidth="75.0" resizable="false" text="Cognome" />
+                        <TableColumn fx:id="nascitaColonna" prefWidth="75.0" resizable="false" text="Data di nascita" />
+                        <TableColumn fx:id="cfColonna"    prefWidth="75.0" resizable="false" text="Codice fiscale" />
+                        <TableColumn fx:id="mailColonna"  prefWidth="75.0" resizable="false" text="email" />
+                    </columns>
+                </TableView>
+
+            </children>
+        </VBox>
+    </right>
 </BorderPane>
+

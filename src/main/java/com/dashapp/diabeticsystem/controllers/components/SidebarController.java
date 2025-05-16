@@ -48,7 +48,7 @@ public class SidebarController {
     }
 
     public void handleLogout(ActionEvent event) {
-
+        Router.logout();
     }
 
     public void handleInsulina(ActionEvent event) { Router.navigateToInsulina(); }

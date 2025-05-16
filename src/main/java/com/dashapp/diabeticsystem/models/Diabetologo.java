@@ -1,15 +1,19 @@
 package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
-
-import java.util.HashSet;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Diabetologo {
 
     private int id_diabetologo = Session.getCurrentUser().getId_diabetologo();
+
+    private final ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
+
     private String nome;
     private String cognome;
     private String email;
+
 
 
 
@@ -60,17 +64,42 @@ public class Diabetologo {
         // eseguo l'inserimento del nuovo utente, considerandolo come nuova utenza per il login
         if (last_id >  0){
             paziente.setId_paziente(last_id);
+            pazienti.add(paziente);
             success =  Main.getDbManager().updateQuery(
                     "INSERT INTO login(id_paziente,id_diabetologo,username,password_hash) VALUES(?,?,?,?)",
                     paziente.getId_paziente(),null,new CredentialsGenerator(last_id,0,paziente.getNome(),paziente.getCognome()).createUsername(),
                     new CredentialsGenerator(last_id,0,paziente.getNome(), paziente.getCognome()).generatePassword()
             );
 
+
+
         }
 
         return success;
     }
 
+    public ObservableList<Paziente> getAllPatients() {
+       if(pazienti.isEmpty()){
+           loadAllPatients();
+       }
+       return pazienti;
+    }
+
+    private ObservableList<Paziente> loadAllPatients() {
+        pazienti.clear();
+
+        Main.getDbManager().selectQuery("SELECT nome,cognome,codice_fiscale,data_nascita,email FROM paziente WHERE id_diabetologo = ?",
+               rs -> {
+                    while (rs.next()){
+                        pazienti.add(
+                                new Paziente(rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate())
+                        );
+                    }
+                    return null;
+               } ,id_diabetologo);
+        
+        return pazienti;
+    }
 
 
     @Override

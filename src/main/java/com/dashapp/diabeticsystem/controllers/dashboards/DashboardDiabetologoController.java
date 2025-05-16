@@ -1,17 +1,19 @@
 package com.dashapp.diabeticsystem.controllers.dashboards;
 
-
-import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.models.Utility;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class DashboardDiabetologoController {
@@ -20,23 +22,93 @@ public class DashboardDiabetologoController {
 
     // componenti effettivi della dashboard
     @FXML private Label benvenuto ;
+    @FXML private TableView<Paziente> tabellaPazienti ;
+    @FXML private TableColumn<Paziente,String> nomeColonna ;
+    @FXML private TableColumn<Paziente, String> cognomeColonna ;
+    @FXML private TableColumn<Paziente, LocalDate> nascitaColonna ;
+    @FXML private TableColumn<Paziente,String> cfColonna ;
+    @FXML private TableColumn<Paziente,String> mailColonna ;
+
+    // componenti per il form per aggiungere un paziente
+    @FXML private TextField textNome;
+    @FXML private TextField textCognome;
+    @FXML private TextField textEmail;
+    @FXML private TextField textCodiceFiscale;
+    @FXML private DatePicker dataNascitaPicker;
+
+
 
 
 
     public void initialize() {
+        benvenuto.setText("Bentornato: " + diabetologo);
+        tabellaPazienti.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        nomeColonna.setCellValueFactory(new PropertyValueFactory<>("nome")); // Usa "nome" per chiamare getNome()
+        cognomeColonna.setCellValueFactory(new PropertyValueFactory<>("cognome")); // Usa "cognome" per chiamare getCognome()
+        mailColonna.setCellValueFactory(new PropertyValueFactory<>("email")); // Usa "email" per chiamare getEmail()
+        cfColonna.setCellValueFactory(new PropertyValueFactory<>("codiceFiscale")); // Usa "codiceFiscale" per chiamare getCodiceFiscale()
 
-        benvenuto.setText("Bentornato: " + diabetologo.toString());
+        // Per la data di nascita, colleghiamo a getDataNascita().
+        nascitaColonna.setCellValueFactory(new PropertyValueFactory<>("dataNascita"));
+
+        nascitaColonna.setCellFactory(column -> {
+            return new TableCell<Paziente, LocalDate>() {
+                private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                @Override
+                protected void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty); // Chiama il metodo del genitore
+                    if (empty || item == null) {
+                        setText(null); // Se la cella è vuota o l'item è nullo, non mostrare testo
+                    } else {
+                        setText(formatter.format(item)); // Altrimenti, formatta la data e imposta il testo
+                    }
+                }
+            };
+        });
+
+        ObservableList<Paziente> data = diabetologo.getAllPatients();
+        tabellaPazienti.setItems(data);
+
+
+    }
+
+    /**
+     * Funzione per controllare l'evento della registrazione del nuovo paziente assegnato direttamente dal dottore.
+     * @param event evento generato dal bottone.
+     */
+    public void handleNuovoPaziente(ActionEvent event){
+        // controllo della validità dei campi inseriti dal dottore
+        if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscale.getText()) || !Utility.checkCredenziali(this.textNome.getText(), this.textCognome.getText()) || !Utility.checkDate(this.dataNascitaPicker.getValue())){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Uno o più dati inseriti non sono validi", ButtonType.OK);
+            errorAlert.setTitle("Errore nella creazione del nuovo paziente");
+            errorAlert.showAndWait();
+            return;
+        }
+
+        // eseguo la query di inserimento del nuovo paziente a database
+        boolean success = diabetologo.inserisciPaziente(
+                new Paziente(
+                        textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText().toUpperCase().trim(), dataNascitaPicker.getValue()
+                )
+        );
+
+        // controllo dell'esito dell'inserimento del nuovo paziente a database e mostro un Alert dedicato
+        if(!success){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Errore nella creazione del paziente", ButtonType.OK);
+            errorAlert.setTitle("Errore nella creazione del nuovo paziente");
+            errorAlert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Paziente aggiunto ", ButtonType.OK);
+            alert.setTitle("Nuovo paziente aggiunto");
+            alert.showAndWait();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+
+        }
     }
 
 
-    /**
-     * Funzione che permette di aprire una finestra per inserire nel database una nuova utenza per il paziente.
-     */
-
-    /*
-    public void handleCreaPaziente() throws IOException {
-        Main.getStage(new Stage(), "fxml/crea_paziente.fxml", "Crea Paziente");
-    }*/
 
 
 
