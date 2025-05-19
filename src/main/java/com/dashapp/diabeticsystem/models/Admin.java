@@ -2,6 +2,7 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
+import com.dashapp.diabeticsystem.utility.Utility;
 
 public class Admin {
 

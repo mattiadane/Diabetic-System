@@ -2,8 +2,12 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
+import com.dashapp.diabeticsystem.utility.Utility;
+import com.mysql.cj.util.Util;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.awt.desktop.SystemEventListener;
 
 public class Diabetologo {
 
@@ -19,11 +23,12 @@ public class Diabetologo {
 
 
     public Diabetologo() {
-        Main.getDbManager().selectQuery("SELECT nome,cognome FROM diabetologo WHERE id_diabetologo = ?",
+        Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM diabetologo WHERE id_diabetologo = ?",
                 rs -> {
                     if (rs.next()){
                         nome = rs.getString("nome");
                         cognome = rs.getString("cognome");
+                        email = rs.getString("email");
                     }
 
                     return null;
@@ -34,9 +39,9 @@ public class Diabetologo {
         if(nome == null || nome.isEmpty() || cognome == null || cognome.isEmpty() || email == null || email.isEmpty())
             throw new IllegalArgumentException("Il nome, il cognome e la email non posso essere null oppure stringhe vuote");
 
-        this.nome = nome;
-        this.cognome = cognome;
-        this.email = email;
+        this.nome = Utility.convertName(nome);
+        this.cognome = Utility.convertName(cognome);
+        this.email = email.toLowerCase();
     }
 
 
@@ -50,7 +55,6 @@ public class Diabetologo {
         boolean success = false;
         if(paziente == null)
             return false;
-
 
 
         // eseguo l'inserimento del nuovo paziente a database assegnandolo direttamente al diabetologo che ha assegnto il login
@@ -92,6 +96,7 @@ public class Diabetologo {
         Main.getDbManager().selectQuery("SELECT nome,cognome,codice_fiscale,data_nascita,email FROM paziente WHERE id_diabetologo = ?",
                rs -> {
                     while (rs.next()){
+                        System.out.println(rs.getString("nome"));
                         pazienti.add(
                                 new Paziente(rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate())
                         );
@@ -100,6 +105,20 @@ public class Diabetologo {
                } ,id_diabetologo);
         
         return pazienti;
+    }
+
+    public boolean updateCredentials(String nome, String cognome, String email,String password){
+
+        boolean success =  Main.getDbManager().updateQuery("UPDATE diabetologo SET nome = ? , cognome = ?, email = ? WHERE id_diabetologo = ?"
+                ,nome,cognome,email,id_diabetologo);
+        if(success){
+            this.nome = Utility.convertName(nome);
+            this.cognome = Utility.convertName(cognome);
+            this.email = email.toLowerCase();
+
+            success =  Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo = ?",password,id_diabetologo);
+        }
+        return success;
     }
 
 

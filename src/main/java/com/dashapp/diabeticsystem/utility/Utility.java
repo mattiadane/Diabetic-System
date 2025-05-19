@@ -58,6 +58,9 @@ public class Utility {
         return date != null && !date.isAfter(LocalDate.now());
     }
 
+    public static boolean checkPassword(String password){
+        return password != null && !password.isEmpty();
+    }
 
     public static boolean checkInsulina(String number){
 
@@ -84,6 +87,14 @@ public class Utility {
                 resetField((Pane) child);
             }
         }
+    }
+
+    public static String convertName(String name){
+        return name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+    }
+
+    public static String convertSurname(String surname){
+        return surname.substring(0,1).toUpperCase() + surname.substring(1).toLowerCase();
     }
 
 }

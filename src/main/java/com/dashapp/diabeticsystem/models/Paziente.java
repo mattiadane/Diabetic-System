@@ -1,5 +1,7 @@
 package com.dashapp.diabeticsystem.models;
 
+import com.dashapp.diabeticsystem.utility.Utility;
+
 import java.time.LocalDate;
 
 public class Paziente {
@@ -15,10 +17,10 @@ public class Paziente {
             throw new IllegalArgumentException("Errore nel passaggio dei parametri per creare il paziente.");
 
 
-        this.nome = nome;
-        this.cognome = cognome;
-        this.email = email;
-        this.codiceFiscale = codiceFiscale;
+        this.nome = Utility.convertName(nome);
+        this.cognome = Utility.convertName(cognome);
+        this.email = email.toLowerCase();
+        this.codiceFiscale = codiceFiscale.toUpperCase();
         this.dataNascita = dataNascita;
     }
 

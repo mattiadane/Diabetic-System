@@ -35,7 +35,7 @@ public class DashboardDiabetologoController {
     @FXML private DatePicker dataNascitaPicker;
 
     private static TableCell<Paziente, LocalDate> call(TableColumn<Paziente, LocalDate> column) {
-        return new TableCell<Paziente, LocalDate>() {
+        return new TableCell<>() {
             private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
             @Override
@@ -85,7 +85,7 @@ public class DashboardDiabetologoController {
         // eseguo la query di inserimento del nuovo paziente a database
         boolean success = diabetologo.inserisciPaziente(
                 new Paziente(
-                        textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText().toUpperCase().trim(), dataNascitaPicker.getValue()
+                        textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue()
                 )
         );
 
