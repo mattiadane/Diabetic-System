@@ -3,24 +3,24 @@ package com.dashapp.diabeticsystem.models;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
 import com.dashapp.diabeticsystem.utility.Utility;
-import com.mysql.cj.util.Util;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.awt.desktop.SystemEventListener;
-
 public class Diabetologo {
 
+    /**
+     * Id del diabetologo che ha effettuato il login
+     */
     private int id_diabetologo = Session.getCurrentUser().getId_diabetologo();
 
+    /**
+     * Lista di tipo <code>ObservableList</code> che contiene i pazienti associati al diabetologo
+     */
     private ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
 
     private String nome;
     private String cognome;
     private String email;
-
-
-
 
     public Diabetologo() {
         Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM diabetologo WHERE id_diabetologo = ?",
@@ -30,7 +30,6 @@ public class Diabetologo {
                         cognome = rs.getString("cognome");
                         email = rs.getString("email");
                     }
-
                     return null;
         },id_diabetologo);
     }
@@ -47,7 +46,7 @@ public class Diabetologo {
 
 
     /**
-     * Funzione che permette di inserire all'interno della tabella paziente il nuovo paziente che viene assegnato al dottore
+     * Funzione che permette di inserire all'interno della tabella 'paziente' il nuovo paziente che viene assegnato al dottore
      * @param paziente oggetto di tipo <code>Paziente</code> da inserire nella tabella
      * @return valore di tipo <code>boolean</code> per controllare che l'inserimento è andato a buon fine.
      */
@@ -63,9 +62,6 @@ public class Diabetologo {
                 paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodiceFiscale(),paziente.getDataNascita(), id_diabetologo
                 );
 
-
-
-
         // eseguo l'inserimento del nuovo utente, considerandolo come nuova utenza per il login
         if (last_id >  0){
             paziente.setId_paziente(last_id);
@@ -75,14 +71,15 @@ public class Diabetologo {
                     paziente.getId_paziente(),null,new CredentialsGenerator(last_id,0,paziente.getNome(),paziente.getCognome()).createUsername(),
                     new CredentialsGenerator(last_id,0,paziente.getNome(), paziente.getCognome()).generatePassword()
             );
-
-
-
         }
 
         return success;
     }
 
+    /**
+     * Funzione che permette di avere tutti i pazienti associati al diabetologo
+     * @return oggetto <code>ObservableList</code> con tutti i pazienti associati
+     */
     public ObservableList<Paziente> getAllPatients() {
        if(pazienti.isEmpty()){
            pazienti = loadAllPatients();
@@ -90,9 +87,12 @@ public class Diabetologo {
        return pazienti;
     }
 
+    /**
+     * Funzione che permette di caricare tutti i pazienti associati al diabetologo
+     * @return oggetto <code>ObservableList</code> con tutti i pazienti associati
+     */
     private ObservableList<Paziente> loadAllPatients() {
         pazienti.clear();
-
         Main.getDbManager().selectQuery("SELECT nome,cognome,codice_fiscale,data_nascita,email FROM paziente WHERE id_diabetologo = ?",
                rs -> {
                     while (rs.next()){
@@ -107,18 +107,27 @@ public class Diabetologo {
         return pazienti;
     }
 
+    /**
+     * Funzione che permette di eseguire un query a database per aggiornare i dati del diabetologo
+     * @param nome nuovo nome del diabetologo
+     * @param cognome nuovo cognome del diabetologo
+     * @param email nuova email del diabetologo
+     * @param password nuova password del diabetologo
+     * @return <code>true</code> se la query è andata a buon fine, <code>false</code> altrimenti
+     */
     public boolean updateCredentials(String nome, String cognome, String email,String password){
-
         boolean success =  Main.getDbManager().updateQuery("UPDATE diabetologo SET nome = ? , cognome = ?, email = ? WHERE id_diabetologo = ?"
                 ,nome,cognome,email,id_diabetologo);
-        if(success){
-            this.nome = Utility.convertName(nome);
-            this.cognome = Utility.convertName(cognome);
-            this.email = email.toLowerCase();
 
-            success =  Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo = ?",password,id_diabetologo);
-        }
-        return success;
+        // se la prima query non è andata a buon fine, ritorno subito valore false
+        if(!success) return false;
+
+        this.nome = Utility.convertName(nome);
+        this.cognome = Utility.convertName(cognome);
+        this.email = email.toLowerCase();
+
+        // ritorno il valore della query di aggiornamento per la password
+        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo = ?",password,id_diabetologo);
     }
 
 

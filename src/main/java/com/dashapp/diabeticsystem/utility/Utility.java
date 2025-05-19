@@ -75,6 +75,10 @@ public class Utility {
 
     }
 
+    /**
+     * Funzione che permette di resettare al valore di default un determinato componente
+     * @param parent componente passato come parametro da resettare
+     */
     public static void resetField(Pane parent){
         for(Node child : parent.getChildren()){
             if( child instanceof TextField){

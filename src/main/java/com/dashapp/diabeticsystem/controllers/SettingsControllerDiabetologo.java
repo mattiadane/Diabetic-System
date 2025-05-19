@@ -1,6 +1,5 @@
 package com.dashapp.diabeticsystem.controllers;
 
-import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
@@ -28,6 +27,9 @@ public class SettingsControllerDiabetologo {
         textEmail.setText(diabetologo.getEmail());
     }
 
+    /**
+     * Funzione che permette di controllare l'evento di aggiornamento dei dati del diabetologo.
+     */
     public void handleUpdateDataDiabetologo(){
         if(!Utility.checkPassword(this.textNewPassword.getText()) || !this.textNewPassword.getText().equals(this.textConfirmPassword.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -44,7 +46,6 @@ public class SettingsControllerDiabetologo {
             alert.setHeaderText("Dati inseriti non validi.");
             alert.showAndWait();
         }else{
-
             boolean success = diabetologo.updateCredentials(this.textNome.getText(), this.textCognome.getText(), this.textEmail.getText(),this.textNewPassword.getText());
             if(!success){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -58,9 +59,8 @@ public class SettingsControllerDiabetologo {
             alert.setHeaderText("Dati aggiornati correttamente");
             alert.showAndWait();
 
+            // reset dei campi di testo
             Utility.resetField(borderPane);
-
-
         }
 
     }
