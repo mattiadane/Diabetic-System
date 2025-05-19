@@ -4,7 +4,6 @@ package com.dashapp.diabeticsystem.controllers.dashboards;
 import com.dashapp.diabeticsystem.models.Admin;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.utility.Utility;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -20,9 +19,9 @@ public class DashboardAdminController  {
 
     /**
      * Funzione che permette di creare un nuovo diabetologo dai dati forniti dal form dell'Admin
-     * @param event evento di click sul bottone
+     * 
      */
-    public void createNewDiabetologo(ActionEvent event){
+    public void createNewDiabetologo(){
         if(!Utility.checkCredenziali(textNome.getText(),textCognome.getText()) || !Utility.isEmailValid(textEmail.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");

@@ -45,7 +45,7 @@ public class Router {
             mainController.setContent(view);
         } catch (IOException e) {
             System.err.println("Error loading content view: " + fxml + " - " + e.getMessage());
-            e.printStackTrace();
+
         }
     }
 

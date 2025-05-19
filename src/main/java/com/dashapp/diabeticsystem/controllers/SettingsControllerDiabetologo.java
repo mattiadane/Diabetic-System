@@ -1,7 +1,6 @@
 package com.dashapp.diabeticsystem.controllers;
 
 import com.dashapp.diabeticsystem.utility.Utility;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -19,7 +18,7 @@ public class SettingsControllerDiabetologo {
     @FXML private PasswordField textConfirmPassword;
 
 
-    public void handleUpdateDataDiabetologo(ActionEvent event){
+    public void handleUpdateDataDiabetologo(){
         if(!(this.textNewPassword.getText().equals(this.textConfirmPassword.getText()))){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");

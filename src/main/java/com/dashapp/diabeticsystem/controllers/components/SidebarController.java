@@ -3,17 +3,12 @@ package com.dashapp.diabeticsystem.controllers.components;
 import com.dashapp.diabeticsystem.enums.ROLE;
 import com.dashapp.diabeticsystem.view.Router;
 import com.dashapp.diabeticsystem.models.Login;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-
-import javax.management.relation.Role;
-
 
 public class SidebarController {
-    @FXML
-    private VBox sidebarRoot;
+
+
     @FXML private Button homeButton;
     @FXML private Button pazientiButton;
     @FXML private Button terapieButton;
@@ -30,28 +25,28 @@ public class SidebarController {
 
     }
 
-    public void handleHome(ActionEvent event) {
+    public void handleHome() {
         Router.navigatetoDashboard();
     }
 
 
-    public void handlePazienti(ActionEvent event) {
+    public void handlePazienti() {
 
     }
 
-    public void handleTerapie(ActionEvent event) {
+    public void handleTerapie() {
 
     }
 
-    public void handleSettings(ActionEvent event) {
+    public void handleSettings() {
         Router.navigateToSettings();
     }
 
-    public void handleLogout(ActionEvent event) {
+    public void handleLogout() {
         Router.logout();
     }
 
-    public void handleInsulina(ActionEvent event) { Router.navigateToInsulina(); }
+    public void handleInsulina() { Router.navigateToInsulina(); }
 
     /**
      * Funzione che permette di settare i bottoni (tutti nascosti inizialmente) della sidebar in modo che,

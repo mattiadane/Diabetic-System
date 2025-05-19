@@ -9,7 +9,7 @@ public class Diabetologo {
 
     private int id_diabetologo = Session.getCurrentUser().getId_diabetologo();
 
-    private final ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
+    private ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
 
     private String nome;
     private String cognome;
@@ -49,7 +49,7 @@ public class Diabetologo {
     public boolean inserisciPaziente(Paziente paziente){
         boolean success = false;
         if(paziente == null)
-            return success;
+            return false;
 
 
 
@@ -81,7 +81,7 @@ public class Diabetologo {
 
     public ObservableList<Paziente> getAllPatients() {
        if(pazienti.isEmpty()){
-           loadAllPatients();
+           pazienti = loadAllPatients();
        }
        return pazienti;
     }

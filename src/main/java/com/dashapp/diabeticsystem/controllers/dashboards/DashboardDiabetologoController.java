@@ -3,7 +3,6 @@ package com.dashapp.diabeticsystem.controllers.dashboards;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.utility.Utility;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -35,8 +34,21 @@ public class DashboardDiabetologoController {
     @FXML private TextField textCodiceFiscale;
     @FXML private DatePicker dataNascitaPicker;
 
+    private static TableCell<Paziente, LocalDate> call(TableColumn<Paziente, LocalDate> column) {
+        return new TableCell<Paziente, LocalDate>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty); // Chiama il metodo del genitore
+                if (empty || item == null) {
+                    setText(null); // Se la cella è vuota o l'item è nullo, non mostrare testo
+                } else {
+                    setText(formatter.format(item)); // Altrimenti, formatta la data e imposta il testo
+                }
+            }
+        };
+    }
 
 
     public void initialize() {
@@ -50,21 +62,7 @@ public class DashboardDiabetologoController {
         // Per la data di nascita, colleghiamo a getDataNascita().
         nascitaColonna.setCellValueFactory(new PropertyValueFactory<>("dataNascita"));
 
-        nascitaColonna.setCellFactory(column -> {
-            return new TableCell<Paziente, LocalDate>() {
-                private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-                @Override
-                protected void updateItem(LocalDate item, boolean empty) {
-                    super.updateItem(item, empty); // Chiama il metodo del genitore
-                    if (empty || item == null) {
-                        setText(null); // Se la cella è vuota o l'item è nullo, non mostrare testo
-                    } else {
-                        setText(formatter.format(item)); // Altrimenti, formatta la data e imposta il testo
-                    }
-                }
-            };
-        });
+        nascitaColonna.setCellFactory(DashboardDiabetologoController::call);
 
         tabellaPazienti.setItems(diabetologo.getAllPatients());
 
@@ -73,9 +71,9 @@ public class DashboardDiabetologoController {
 
     /**
      * Funzione per controllare l'evento della registrazione del nuovo paziente assegnato direttamente dal dottore.
-     * @param event evento generato dal bottone.
+     * 
      */
-    public void handleNuovoPaziente(ActionEvent event){
+    public void handleNuovoPaziente(){
         // controllo della validità dei campi inseriti dal dottore
         if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscale.getText()) || !Utility.checkCredenziali(this.textNome.getText(), this.textCognome.getText()) || !Utility.checkDate(this.dataNascitaPicker.getValue())){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Uno o più dati inseriti non sono validi", ButtonType.OK);

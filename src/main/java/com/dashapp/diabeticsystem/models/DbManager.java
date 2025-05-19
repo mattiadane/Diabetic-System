@@ -10,7 +10,7 @@ public class DbManager {
 
 
     public DbManager()  {
-        try(Connection con = getConnection()){
+        try(Connection ignored = getConnection()){
 
             System.out.println("Connessione avvenuta con successo");
 

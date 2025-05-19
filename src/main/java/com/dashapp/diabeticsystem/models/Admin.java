@@ -13,7 +13,7 @@ public class Admin {
     public boolean inserisciDiabetologo(Diabetologo diabetologo){
         boolean success = false;
         if(diabetologo == null)
-            return success;
+            return false;
 
         // eseguo l'inserimento del nuovo diabetologo a database assegnandolo direttamente al diabetologo che ha assegnto il login
         int  last_id =  Main.getDbManager().insertAndGetGeneratedId(

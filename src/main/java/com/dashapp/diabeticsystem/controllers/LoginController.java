@@ -3,7 +3,6 @@ package com.dashapp.diabeticsystem.controllers;
 import com.dashapp.diabeticsystem.view.Router;
 import com.dashapp.diabeticsystem.models.Login;
 import com.dashapp.diabeticsystem.models.Session;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -20,11 +19,11 @@ public class LoginController {
     /**
      * Funzione che permette di avviare il procedimento di Login in base ai dati inseriti
      * dall'utente nel form.
-     * @param event evento di click sul bottone di login
+     *
      *
      */
     @FXML
-    protected void onClickLogin(ActionEvent event)  {
+    protected void onClickLogin()  {
         Login user = Login.autenticate(usernameField.getText(), passwordField.getText());
         Session.setCurrentUser(user);
 

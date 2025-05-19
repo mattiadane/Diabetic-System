@@ -2,10 +2,10 @@ package com.dashapp.diabeticsystem.utility;
 
 public class CredentialsGenerator {
 
-    private String first;
-    private String last;
-    private int id_paziente;
-    private int id_diabetologo;
+    private final String first;
+    private final String last;
+    private final int id_paziente;
+    private final int id_diabetologo;
 
     public CredentialsGenerator(int id_paziente, int id_diabetologo,String first, String last){
         if( first == null || first.isEmpty() || last == null || last.isEmpty())
@@ -32,7 +32,7 @@ public class CredentialsGenerator {
      */
     public String createUsername(){
         String username = (id_diabetologo > 0 && id_paziente == 0) ? "med_" : "paz_";
-        username += (this.first + "." + this.last + Integer.toString((this.id_diabetologo+this.id_paziente)));
+        username += (this.first + "." + this.last + (this.id_diabetologo + this.id_paziente));
         return username.replaceAll("\\s+", "").toLowerCase();
     }
 
