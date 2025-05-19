@@ -1,23 +1,23 @@
 package com.dashapp.diabeticsystem.controllers;
 
+import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SettingsControllerDiabetologo {
 
+    @FXML private BorderPane borderPane;
     @FXML private TextField textNome;
     @FXML private TextField textCognome;
     @FXML private TextField textEmail;
-    @FXML private TextField textNewPassword;
-    @FXML private TextField textConfirmPassword;
+    @FXML private PasswordField textNewPassword;
+    @FXML private PasswordField textConfirmPassword;
 
-    @FXML private Button buttonUpdateData;
 
     public void handleUpdateDataDiabetologo(ActionEvent event){
         if(!(this.textNewPassword.getText().equals(this.textConfirmPassword.getText()))){
@@ -29,38 +29,17 @@ public class SettingsControllerDiabetologo {
         }
 
         // logica quando le password coincidono
-        if(!(checkNomeCognomeUsername() && checkEmail())){
+        if(!Utility.checkCredenziali(this.textNome.getText(), this.textCognome.getText()) || !Utility.isEmailValid(this.textEmail.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
             alert.setHeaderText("Dati inseriti non validi.");
             alert.showAndWait();
         }else{
+            Utility.resetField(borderPane);
             System.out.println("Nuovi dati validi.");
         }
 
     }
-
-    /**
-     * Funzione per controllare la validità del nome, cognome e username
-     * @return oggetto <code>boolean</code> per controllare la validità dei campi
-     */
-    private boolean checkNomeCognomeUsername(){
-        return !(this.textNome.getText().isEmpty()) && !(this.textCognome.getText().isEmpty()) ;
-    }
-
-    /**
-     * Funzione che permette di validare l'email
-     * @return oggetto <code>boolean</code> per controllare la validità dei campi
-     */
-    private boolean checkEmail(){
-        if(textEmail.getText().isEmpty() || textEmail.getText() == null){
-            return false;
-        }
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
-        Matcher matcher = pattern.matcher(textEmail.getText());
-        return matcher.matches();
-    }
-
 
 
 

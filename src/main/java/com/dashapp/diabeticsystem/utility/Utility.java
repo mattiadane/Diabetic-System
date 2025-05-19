@@ -1,4 +1,11 @@
-package com.dashapp.diabeticsystem.models;
+package com.dashapp.diabeticsystem.utility;
+
+import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -17,7 +24,7 @@ public class Utility {
      * @return un valore di tipo <code>boolean</code> per la validità della email.
      */
     public static boolean isEmailValid(String email) {
-        if(email.isEmpty() || email == null){
+        if(email.isEmpty()){
             return false;
         }
         Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
@@ -50,6 +57,34 @@ public class Utility {
 
     public static boolean checkDate(LocalDate date){
         return date != null && !date.isAfter(LocalDate.now());
+    }
+
+
+    public static boolean checkInsulina(String number){
+
+        if(number == null || number.isEmpty()  ) return false;
+        try{
+            int n = Integer.parseInt(number);
+            return n >= 0 && n <= 150;
+        }catch(NumberFormatException e){
+            return false;
+        }
+
+
+    }
+
+    public static void resetField(Pane parent){
+        for(Node child : parent.getChildren()){
+            if( child instanceof TextField){
+                ((TextField) child).setText("");
+            } else if (child instanceof DatePicker){
+                ((DatePicker) child).setValue(null);
+            } else if (child instanceof ComboBox<?>){
+                ((ComboBox<?>) child).setValue(null);
+            } else if (child instanceof Pane) {
+                resetField((Pane) child);
+            }
+        }
     }
 
 }

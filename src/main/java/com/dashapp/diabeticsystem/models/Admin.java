@@ -1,6 +1,7 @@
 package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
+import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
 
 public class Admin {
 

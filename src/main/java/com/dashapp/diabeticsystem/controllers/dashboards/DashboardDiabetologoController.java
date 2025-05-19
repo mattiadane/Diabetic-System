@@ -2,15 +2,12 @@ package com.dashapp.diabeticsystem.controllers.dashboards;
 
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
-import com.dashapp.diabeticsystem.models.Utility;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,7 +17,9 @@ public class DashboardDiabetologoController {
 
     private final Diabetologo diabetologo = new Diabetologo();
 
+
     // componenti effettivi della dashboard
+    @FXML private Pane borderPane;
     @FXML private Label benvenuto ;
     @FXML private TableView<Paziente> tabellaPazienti ;
     @FXML private TableColumn<Paziente,String> nomeColonna ;
@@ -67,8 +66,7 @@ public class DashboardDiabetologoController {
             };
         });
 
-        ObservableList<Paziente> data = diabetologo.getAllPatients();
-        tabellaPazienti.setItems(data);
+        tabellaPazienti.setItems(diabetologo.getAllPatients());
 
 
     }
@@ -102,12 +100,8 @@ public class DashboardDiabetologoController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Paziente aggiunto ", ButtonType.OK);
             alert.setTitle("Nuovo paziente aggiunto");
             alert.showAndWait();
-            textNome.setText("");
-            textCognome.setText("");
-            textEmail.setText("");
-            textCodiceFiscale.setText("");
-            dataNascitaPicker.setValue(null);
 
+            Utility.resetField(borderPane);
 
         }
     }

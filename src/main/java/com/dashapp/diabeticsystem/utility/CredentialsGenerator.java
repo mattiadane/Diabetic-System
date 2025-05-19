@@ -1,4 +1,4 @@
-package com.dashapp.diabeticsystem.models;
+package com.dashapp.diabeticsystem.utility;
 
 public class CredentialsGenerator {
 

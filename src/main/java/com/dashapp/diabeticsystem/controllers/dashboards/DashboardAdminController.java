@@ -3,12 +3,16 @@ package com.dashapp.diabeticsystem.controllers.dashboards;
 
 import com.dashapp.diabeticsystem.models.Admin;
 import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 
 public class DashboardAdminController  {
+
+    @FXML BorderPane borderpane;
 
     @FXML private TextField textNome;
     @FXML private TextField textCognome;
@@ -19,7 +23,7 @@ public class DashboardAdminController  {
      * @param event evento di click sul bottone
      */
     public void createNewDiabetologo(ActionEvent event){
-        if(!checkValues()){
+        if(!Utility.checkCredenziali(textNome.getText(),textCognome.getText()) || !Utility.isEmailValid(textEmail.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
             alert.setHeaderText("I dati inseriti non sono validi per il nuovo diabetologo");
@@ -47,24 +51,8 @@ public class DashboardAdminController  {
         }
         alert.showAndWait();
 
-        resetFields();
+        Utility.resetField(borderpane);
 
     }
-
-    /**
-     * Funzione che permette di controllare la validità dei valori inseriti nel campo di testo
-     * @return oggetto <code>boolean</code> che indica se i valori sono validi o meno
-     */
-    private boolean checkValues(){
-        return !textNome.getText().isEmpty() && !textCognome.getText().isEmpty() && !textEmail.getText().isEmpty();
-    }
-
-    private void resetFields(){
-        textNome.setText("");
-        textCognome.setText("");
-        textEmail.setText("");
-    }
-
-
 
 }

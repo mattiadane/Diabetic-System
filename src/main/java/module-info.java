@@ -20,5 +20,7 @@ module com.dashapp.diabeticsystem {
     exports com.dashapp.diabeticsystem.controllers;
     exports com.dashapp.diabeticsystem.view;
     exports com.dashapp.diabeticsystem.models;
+    exports com.dashapp.diabeticsystem.utility;
+    opens com.dashapp.diabeticsystem.utility to javafx.fxml;
 
 }

@@ -9,11 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-
-
 public class LoginController {
 
-    @FXML private Login user ;
 
     // TextFields
     @FXML private TextField usernameField;
@@ -28,7 +25,7 @@ public class LoginController {
      */
     @FXML
     protected void onClickLogin(ActionEvent event)  {
-        user = Login.autenticate(usernameField.getText(), passwordField.getText());
+        Login user = Login.autenticate(usernameField.getText(), passwordField.getText());
         Session.setCurrentUser(user);
 
         if(user == null){
@@ -39,8 +36,6 @@ public class LoginController {
             return;
         }
 
-        usernameField.setText("");
-        passwordField.setText("");
 
         Router.setAuthenticatedUser(user);
 

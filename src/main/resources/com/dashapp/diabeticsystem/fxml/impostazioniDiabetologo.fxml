@@ -7,10 +7,13 @@
 <?import javafx.geometry.Insets?>
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.SettingsControllerDiabetologo"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" prefWidth="600.0"
+            fx:id="borderPane"
+>
 
 
     <center>
@@ -30,10 +33,10 @@
             <TextField fx:id="textEmail" />
 
             <Label text="Nuova password: " />
-            <TextField fx:id="textNewPassword" />
+            <PasswordField fx:id="textNewPassword" />
 
             <Label text="Conferma nuova password: "/>
-            <TextField fx:id="textConfirmPassword" />
+            <PasswordField fx:id="textConfirmPassword" />
             <Button text="Aggiorna dati" onAction="#handleUpdateDataDiabetologo" fx:id="buttonUpdateData" styleClass="loginButton"/>
         </VBox>
     </center>
