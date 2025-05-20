@@ -1,5 +1,6 @@
 package com.dashapp.diabeticsystem.controllers.dashboards;
 
+import com.dashapp.diabeticsystem.controllers.SettingsController;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.utility.Utility;
@@ -52,6 +53,7 @@ public class DashboardDiabetologoController {
 
 
     public void initialize() {
+        SettingsController.setPersona(diabetologo);
         benvenuto.setText("Bentornato: " + diabetologo);
         tabellaPazienti.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         nomeColonna.setCellValueFactory(new PropertyValueFactory<>("nome")); // Usa "nome" per chiamare getNome()

@@ -1,16 +1,46 @@
 package com.dashapp.diabeticsystem.models;
 
 
+import com.dashapp.diabeticsystem.Main;
 import java.time.LocalDate;
 
-public class Paziente extends Persona{
-    private int id_paziente ;
-    private final LocalDate dataNascita;
+public class Paziente extends Persona implements UpdatePersona{
+    private int id_paziente = Session.getCurrentUser().getId_paziente() ;
+    private LocalDate dataNascita;
 
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita) {
         super(nome,cognome,email,codiceFiscale);
 
         this.dataNascita = dataNascita;
+    }
+    public Paziente(){
+
+        Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM paziente WHERE id_paziente = ?",
+                rs -> {
+                    if (rs.next()){
+
+                        setNome(rs.getString("nome"));
+                        setCognome(rs.getString("cognome"));
+                        setEmail(rs.getString("email"));
+                    }
+                    return null;
+                },id_paziente);
+
+    }
+
+    @Override
+    public boolean updatePersona(Persona p, String password) {
+        if(!(p instanceof Paziente)) return false;
+
+        boolean success =  Main.getDbManager().updateQuery("UPDATE paziente SET nome = ? , cognome = ?, email = ? WHERE id_paziente = ?"
+                ,p.getNome(),p.getCognome(),p.getEmail(),id_paziente);
+
+        // se la prima query non è andata a buon fine, ritorno subito valore false
+        if(!success) return false;
+
+        // ritorno il valore della query di aggiornamento per la password
+        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_paziente = ?",password,id_paziente);
+
     }
 
     /**
@@ -36,4 +66,6 @@ public class Paziente extends Persona{
     public void setId_paziente(int id_paziente) {
         this.id_paziente = id_paziente;
     }
+
+
 }

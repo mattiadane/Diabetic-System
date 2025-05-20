@@ -107,11 +107,19 @@ public class Utility {
     }
 
     public static String convertName(String name){
-        return name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+
+        String[] words = name.trim().split(" "); // Suddivide la stringa in parole basandosi sugli spazi
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.trim().isEmpty()) { // Ignora spazi multipli che potrebbero creare parole vuote
+                result.append(word.substring(0, 1).toUpperCase()) // Prima lettera maiuscola
+                        .append(word.substring(1).toLowerCase())    // Resto della parola minuscolo
+                        .append(" "); // Aggiunge uno spazio dopo ogni parola
+            }
+        }
+        return result.toString().trim(); // Rimuove lo spazio finale in eccesso
     }
 
-    public static String convertSurname(String surname){
-        return surname.substring(0,1).toUpperCase() + surname.substring(1).toLowerCase();
-    }
 
 }

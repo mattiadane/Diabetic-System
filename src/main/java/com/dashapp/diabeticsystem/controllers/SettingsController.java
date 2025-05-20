@@ -1,6 +1,6 @@
 package com.dashapp.diabeticsystem.controllers;
 
-import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.models.Persona;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 
-public class SettingsControllerDiabetologo {
+public class SettingsController {
 
     @FXML private BorderPane borderPane;
     @FXML private TextField textNome;
@@ -17,20 +17,24 @@ public class SettingsControllerDiabetologo {
     @FXML private TextField textEmail;
     @FXML private PasswordField textNewPassword;
     @FXML private PasswordField textConfirmPassword;
-    private Diabetologo diabetologo;
+    private static Persona persona;
 
+
+    public static void setPersona(Persona p) {
+        persona = p;
+    }
 
     public void initialize() {
-        diabetologo = new Diabetologo();
-        textNome.setText(diabetologo.getNome());
-        textCognome.setText(diabetologo.getCognome());
-        textEmail.setText(diabetologo.getEmail());
+
+        textNome.setText(persona.getNome());
+        textCognome.setText(persona.getCognome());
+        textEmail.setText(persona.getEmail());
     }
 
     /**
      * Funzione che permette di controllare l'evento di aggiornamento dei dati del diabetologo.
      */
-    public void handleUpdateDataDiabetologo(){
+    public void handleUpdateData(){
         if(!Utility.checkPassword(this.textNewPassword.getText()) || !this.textNewPassword.getText().equals(this.textConfirmPassword.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
@@ -46,7 +50,10 @@ public class SettingsControllerDiabetologo {
             alert.setHeaderText("Dati inseriti non validi.");
             alert.showAndWait();
         }else{
-            boolean success = diabetologo.updateCredentials(this.textNome.getText(), this.textCognome.getText(), this.textEmail.getText(),this.textNewPassword.getText());
+            persona.setNome(textNome.getText());
+            persona.setCognome(textCognome.getText());
+            persona.setEmail(textEmail.getText());
+            boolean success = persona.updatePersona(persona,this.textNewPassword.getText());
             if(!success){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Errore nell'aggiornamento dei dati");
@@ -63,7 +70,6 @@ public class SettingsControllerDiabetologo {
             Utility.resetField(borderPane);
             initialize();
         }
-
     }
 
 

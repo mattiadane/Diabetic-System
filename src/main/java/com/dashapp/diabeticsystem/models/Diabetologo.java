@@ -5,7 +5,7 @@ import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Diabetologo extends Persona {
+public class Diabetologo extends Persona implements UpdatePersona {
 
     /**
      * Id del diabetologo che ha effettuato il login
@@ -35,6 +35,21 @@ public class Diabetologo extends Persona {
         super(nome,cognome,email,codice_fiscale);
     }
 
+    @Override
+    public boolean updatePersona(Persona p, String password) {
+        if(!(p instanceof Diabetologo)) return false;
+
+        boolean success =  Main.getDbManager().updateQuery("UPDATE diabetologo SET nome = ? , cognome = ?, email = ? WHERE id_diabetologo = ?",
+                p.getNome(),p.getCognome(),p.getEmail(),id_diabetologo);
+
+        // se la prima query non è andata a buon fine, ritorno subito valore false
+        if(!success) return false;
+
+
+        // ritorno il valore della query di aggiornamento per la password
+        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo = ?",password,id_diabetologo);
+
+    }
 
 
     /**
@@ -98,31 +113,6 @@ public class Diabetologo extends Persona {
         
         return pazienti;
     }
-
-    /**
-     * Funzione che permette di eseguire un query a database per aggiornare i dati del diabetologo
-     * @param nome nuovo nome del diabetologo
-     * @param cognome nuovo cognome del diabetologo
-     * @param email nuova email del diabetologo
-     * @param password nuova password del diabetologo
-     * @return <code>true</code> se la query è andata a buon fine, <code>false</code> altrimenti
-     */
-    public boolean updateCredentials(String nome, String cognome, String email,String password){
-        boolean success =  Main.getDbManager().updateQuery("UPDATE diabetologo SET nome = ? , cognome = ?, email = ? WHERE id_diabetologo = ?"
-                ,nome,cognome,email,id_diabetologo);
-
-        // se la prima query non è andata a buon fine, ritorno subito valore false
-        if(!success) return false;
-
-        setNome(nome);
-        setCognome(cognome);
-        setEmail(email);
-
-        // ritorno il valore della query di aggiornamento per la password
-        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo = ?",password,id_diabetologo);
-    }
-
-
 
 
     /**

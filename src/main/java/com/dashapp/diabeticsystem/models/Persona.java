@@ -2,7 +2,8 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.utility.Utility;
 
-public class Persona {
+
+public abstract class Persona implements UpdatePersona {
     private String nome;
     private String cognome;
     private String email;
@@ -17,8 +18,8 @@ public class Persona {
         if(nome == null || nome.isEmpty() || cognome == null || cognome.isEmpty() || email == null || email.isEmpty() || codice_fiscale==null || codice_fiscale.isEmpty())
             throw new IllegalArgumentException("Il nome, il cognome e la email non posso essere null oppure stringhe vuote");
 
-        this.nome = Utility.convertName(nome).trim();
-        this.cognome = Utility.convertName(cognome).trim();
+        this.nome = Utility.convertName(nome);
+        this.cognome = Utility.convertName(cognome);
         this.email = email.trim().toLowerCase();
         this.codice_fiscale = codice_fiscale.trim().toUpperCase();
     }
@@ -66,18 +67,17 @@ public class Persona {
     }
 
     public void setNome(String nome) {
-        this.nome = Utility.convertName(nome).trim();
+        this.nome = Utility.convertName(nome);
     }
 
     public void setCognome(String cognome) {
-        this.cognome = Utility.convertName(cognome).trim();
+        this.cognome = Utility.convertName(cognome);
     }
 
     public void setEmail(String email) {
         this.email = email.toLowerCase().trim();
     }
 
-    public void setCodice_fiscale(String codice_fiscale) {
-        this.codice_fiscale = codice_fiscale.toUpperCase().trim();
-    }
+    public abstract boolean updatePersona(Persona p,String password);
+
 }

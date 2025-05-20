@@ -10,7 +10,7 @@
 <?import javafx.scene.control.PasswordField?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dashapp.diabeticsystem.controllers.SettingsControllerDiabetologo"
+            fx:controller="com.dashapp.diabeticsystem.controllers.SettingsController"
             prefHeight="400.0" prefWidth="600.0"
             fx:id="borderPane"
 >
@@ -37,7 +37,7 @@
 
             <Label text="Conferma nuova password: "/>
             <PasswordField fx:id="textConfirmPassword" />
-            <Button text="Aggiorna dati" onAction="#handleUpdateDataDiabetologo" fx:id="buttonUpdateData" styleClass="loginButton"/>
+            <Button text="Aggiorna dati" onAction="#handleUpdateData" fx:id="buttonUpdateData" styleClass="loginButton"/>
         </VBox>
     </center>
 

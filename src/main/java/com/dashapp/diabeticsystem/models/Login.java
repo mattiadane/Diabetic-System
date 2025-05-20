@@ -53,6 +53,10 @@ public class Login {
         return id_diabetologo;
     }
 
+    public int getId_paziente() {
+        return id_paziente;
+    }
+
     @Override
     public final String toString() {
         return username;

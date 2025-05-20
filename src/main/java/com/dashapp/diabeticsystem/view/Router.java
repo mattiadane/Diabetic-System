@@ -108,13 +108,9 @@ public class Router {
         }
     }
     public static void navigateToSettings(){
-        ROLE role = authenticatedUser.getRole();
-        switch (role) {
-            case PAZIENTE -> loadView("impostazioniPaziente.fxml");
-            case DIABETOLOGO -> loadView("impostazioniDiabetologo.fxml");
-            default -> System.err.println("Unknown role: " + role);
-        }
+        loadView("impostazioni.fxml");
     }
+
 
     /**
      * Funzione che permette di eseguire il logout dall'account che ha eseguito l'ultimo login.
