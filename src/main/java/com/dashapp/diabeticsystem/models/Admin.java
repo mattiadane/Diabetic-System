@@ -18,8 +18,8 @@ public class Admin {
 
         // eseguo l'inserimento del nuovo diabetologo a database assegnandolo direttamente al diabetologo che ha assegnto il login
         int  last_id =  Main.getDbManager().insertAndGetGeneratedId(
-                "INSERT INTO diabetologo(nome,cognome,email) VALUES (?,?,?)",
-                diabetologo.getNome(),diabetologo.getCognome(),diabetologo.getEmail()
+                "INSERT INTO diabetologo(nome,cognome,codice_fiscale,email) VALUES (?,?,?,?)",
+                diabetologo.getNome(),diabetologo.getCognome(),diabetologo.getCodice_fiscale(),diabetologo.getEmail()
         );
 
         // eseguo l'inserimento del nuovo utente, considerandolo come nuova utenza per il login

@@ -17,6 +17,8 @@ import java.util.regex.Pattern;
  */
 public class Utility {
 
+    private static final Pattern TIME_PATTERN = Pattern.compile("^([01]\\d|2[0-3]):[0-5]\\d$");
+
 
     /**
      * Funzione che permette di controllare la validità della email inserita nel form del nuovo utente.
@@ -73,6 +75,17 @@ public class Utility {
         }
 
 
+    }
+
+    /**
+     * Funzione che permette di controllare la validità dell'orario inserito all'interno di un campo
+     * di testo.
+     * @param time <code>String</code> con l'orario inserito
+     * @return <code>true</code> se l'orario segue il pattern, <code>false</code> altrimenti.
+     */
+    public static boolean checkTime(String time){
+        if(time == null || time.isEmpty()) return false;
+        return TIME_PATTERN.matcher(time).matches();
     }
 
     /**

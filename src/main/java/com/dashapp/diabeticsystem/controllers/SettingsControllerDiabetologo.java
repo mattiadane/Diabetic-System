@@ -61,6 +61,7 @@ public class SettingsControllerDiabetologo {
 
             // reset dei campi di testo
             Utility.resetField(borderPane);
+            initialize();
         }
 
     }

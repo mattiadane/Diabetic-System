@@ -2,11 +2,10 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
-import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Diabetologo {
+public class Diabetologo extends Persona {
 
     /**
      * Id del diabetologo che ha effettuato il login
@@ -18,29 +17,22 @@ public class Diabetologo {
      */
     private ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
 
-    private String nome;
-    private String cognome;
-    private String email;
 
     public Diabetologo() {
         Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM diabetologo WHERE id_diabetologo = ?",
                 rs -> {
                     if (rs.next()){
-                        nome = rs.getString("nome");
-                        cognome = rs.getString("cognome");
-                        email = rs.getString("email");
+
+                        setNome(rs.getString("nome"));
+                        setCognome(rs.getString("cognome"));
+                        setEmail(rs.getString("email"));
                     }
                     return null;
         },id_diabetologo);
     }
 
-    public Diabetologo(String nome, String cognome, String email){
-        if(nome == null || nome.isEmpty() || cognome == null || cognome.isEmpty() || email == null || email.isEmpty())
-            throw new IllegalArgumentException("Il nome, il cognome e la email non posso essere null oppure stringhe vuote");
-
-        this.nome = Utility.convertName(nome);
-        this.cognome = Utility.convertName(cognome);
-        this.email = email.toLowerCase();
+    public Diabetologo(String nome, String cognome, String email,String codice_fiscale){
+        super(nome,cognome,email,codice_fiscale);
     }
 
 
@@ -59,7 +51,7 @@ public class Diabetologo {
         // eseguo l'inserimento del nuovo paziente a database assegnandolo direttamente al diabetologo che ha assegnto il login
         int  last_id =  Main.getDbManager().insertAndGetGeneratedId(
                 "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo) VALUES (?,?,?,?,?,?)",
-                paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodiceFiscale(),paziente.getDataNascita(), id_diabetologo
+                paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodice_fiscale(),paziente.getDataNascita(), id_diabetologo
                 );
 
         // eseguo l'inserimento del nuovo utente, considerandolo come nuova utenza per il login
@@ -122,31 +114,16 @@ public class Diabetologo {
         // se la prima query non è andata a buon fine, ritorno subito valore false
         if(!success) return false;
 
-        this.nome = Utility.convertName(nome);
-        this.cognome = Utility.convertName(cognome);
-        this.email = email.toLowerCase();
+        setNome(nome);
+        setCognome(cognome);
+        setEmail(email);
 
         // ritorno il valore della query di aggiornamento per la password
         return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo = ?",password,id_diabetologo);
     }
 
 
-    @Override
-    public String toString() {
-        return nome + " " + cognome;
-    }
 
-    public String getNome(){
-       return this.nome;
-    }
-
-    public String getCognome(){
-        return this.cognome;
-    }
-
-    public String getEmail(){
-        return this.email;
-    }
 
     /**
      * Funzione per settare l'id del paziente

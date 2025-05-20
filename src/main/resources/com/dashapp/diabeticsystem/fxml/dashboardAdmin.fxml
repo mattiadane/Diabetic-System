@@ -25,6 +25,9 @@
                 <Label text="Cognome del nuovo diabetologo:" />
                 <TextField fx:id="textCognome" />
 
+                <Label text="Codice fiscale  del nuovo diabetologo:" />
+                <TextField fx:id="textCf" />
+
                 <Label text="Email del nuovo diabetologo:" />
                 <TextField fx:id="textEmail" />
 

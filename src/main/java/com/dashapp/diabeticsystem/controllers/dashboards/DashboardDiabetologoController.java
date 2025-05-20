@@ -57,7 +57,7 @@ public class DashboardDiabetologoController {
         nomeColonna.setCellValueFactory(new PropertyValueFactory<>("nome")); // Usa "nome" per chiamare getNome()
         cognomeColonna.setCellValueFactory(new PropertyValueFactory<>("cognome")); // Usa "cognome" per chiamare getCognome()
         mailColonna.setCellValueFactory(new PropertyValueFactory<>("email")); // Usa "email" per chiamare getEmail()
-        cfColonna.setCellValueFactory(new PropertyValueFactory<>("codiceFiscale")); // Usa "codiceFiscale" per chiamare getCodiceFiscale()
+        cfColonna.setCellValueFactory(new PropertyValueFactory<>("codice_fiscale")); // Usa "codiceFiscale" per chiamare getCodiceFiscale()
 
         // Per la data di nascita, colleghiamo a getDataNascita().
         nascitaColonna.setCellValueFactory(new PropertyValueFactory<>("dataNascita"));

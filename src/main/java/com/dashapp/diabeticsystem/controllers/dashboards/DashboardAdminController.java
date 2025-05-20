@@ -15,6 +15,8 @@ public class DashboardAdminController  {
 
     @FXML private TextField textNome;
     @FXML private TextField textCognome;
+    @FXML private TextField textCf;
+
     @FXML private TextField textEmail;
 
     /**
@@ -33,7 +35,7 @@ public class DashboardAdminController  {
 
         boolean success = new Admin().inserisciDiabetologo(
                 new Diabetologo(
-                        textNome.getText(), textCognome.getText(), textEmail.getText()
+                        textNome.getText(), textCognome.getText(),textEmail.getText(),textCf.getText()
                 )
         );
 
