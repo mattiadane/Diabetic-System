@@ -40,7 +40,7 @@
                 </items>
             </ComboBox>
 
-            <Label text="Data e ora:"/>
+            <Label text="Data:"/>
             <DatePicker prefWidth="200.0" fx:id="datePicker"/>
 
             <Label text="Ora (HH:mm):" />
