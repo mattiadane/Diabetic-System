@@ -68,4 +68,8 @@ public class Paziente extends Persona implements UpdatePersona{
     }
 
 
+    public boolean aggiungiLivelloInsulina(Insulina insulina) {
+        return Main.getDbManager().updateQuery("INSERT INTO insulina(id_paziente,valore_glicemia,orario,periodo) VALUES(?,?,?,?)",
+                id_paziente,insulina.getLivello_insulina(),insulina.getOrario(),insulina.getPeriodo().toString());
+    }
 }

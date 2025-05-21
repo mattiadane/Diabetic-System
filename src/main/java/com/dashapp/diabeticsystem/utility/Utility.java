@@ -1,5 +1,6 @@
 package com.dashapp.diabeticsystem.utility;
 
+import com.dashapp.diabeticsystem.enums.PERIODO;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -58,6 +59,10 @@ public class Utility {
 
     public static boolean checkDate(LocalDate date){
         return date != null && !date.isAfter(LocalDate.now());
+    }
+
+    public static boolean checkPeriodo(PERIODO periodo){
+        return periodo != null && !periodo.toString().isEmpty();
     }
 
     public static boolean checkPassword(String password){

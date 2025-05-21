@@ -2,7 +2,6 @@ package com.dashapp.diabeticsystem.controllers.dashboards;
 
 import com.dashapp.diabeticsystem.controllers.SettingsController;
 import com.dashapp.diabeticsystem.models.Paziente;
-import com.dashapp.diabeticsystem.models.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -14,7 +13,7 @@ public class DashboardPazienteController   {
 
 
     public void initialize() {
-        this.benvenuto.setText("Bentornato: " + Session.getCurrentUser());
+        this.benvenuto.setText("Bentornato: " + paziente);
         SettingsController.setPersona(paziente);
     }
 
