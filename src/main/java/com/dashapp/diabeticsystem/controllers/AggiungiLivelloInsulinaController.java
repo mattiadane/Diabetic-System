@@ -33,11 +33,9 @@ public class AggiungiLivelloInsulinaController {
      *
      */
     public void handleAggiungiLivello(){
-        if(!Utility.checkInsulina(textLivello.getText()) || !Utility.checkTime(this.timeText.getText()) || !Utility.checkPeriodo( comboBoxMomento.getValue()) || !Utility.checkDate(datePicker.getValue())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Input non valido");
-            alert.showAndWait();
+        if(!Utility.checkInsulina(textLivello.getText()) || !Utility.checkTime(this.timeText.getText()) || !Utility.checkObj( comboBoxMomento.getValue()) || !Utility.checkDateNascita(datePicker.getValue())
+        ) {
+            Utility.createAlert(Alert.AlertType.ERROR, "Input non valido");
             return;
         }
 
@@ -45,21 +43,11 @@ public class AggiungiLivelloInsulinaController {
         boolean success = paziente.aggiungiLivelloInsulina(new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime));
 
         if(!success){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Errore nell'inserimento dell'indice glicemico");
-            alert.showAndWait();
+            Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'inserimento dell'indice glicemico");
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Informazione");
-        alert.setHeaderText("Livello glicemico inserito correttamente");
-        alert.showAndWait();
-
-
+        Utility.createAlert(Alert.AlertType.INFORMATION, "Livello glicemico inserito correttamente");
         Utility.resetField(borderpane);
     }
-
-
 }

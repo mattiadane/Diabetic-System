@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextArea?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.dashapp.diabeticsystem.controllers.TerapieController"
+            prefHeight="400.0" prefWidth="600.0"
+            fx:id="borderPane"
+>
+
+    <center>
+        <VBox>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Crea terapia" styleClass="title"/>
+
+            <Label text="Seleziona Mediciale"/>
+            <ComboBox fx:id="medicinale">
+            </ComboBox>
+
+            <Label text="Codice fiscale del paziente" />
+            <TextField fx:id="codice_fiscale"/>
+
+            <Label text="Dosaggio quantità / unità" />
+            <TextField fx:id="quantita"/>
+            <Label text="/"/>
+            <TextField fx:id="unita"/>
+
+            <Label text="Assunzione"/>
+            <TextField fx:id="quanto"/>
+            <Label text="al/alla"/>
+            <ComboBox fx:id="periodicita">
+
+            </ComboBox>
+
+
+            <Label text="Data inizio" />
+            <DatePicker fx:id="data_inizio"/>
+
+            <Label text="Data fine" />
+            <DatePicker fx:id="data_fine"/>
+
+            <Label text="Descrizione aggiuntive " />
+           <TextArea fx:id="descrizione"/>
+
+            <Button onAction="#aggiungiTerapia" text="Aggiungi terapia" styleClass="loginButton"/>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -16,7 +16,10 @@ public class Diabetologo extends Persona implements UpdatePersona {
      * Lista di tipo <code>ObservableList</code> che contiene i pazienti associati al diabetologo
      */
     private ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
-
+    /**
+     * Lista di tipo <code>ObservableList</code> che contiene le terapie prescritte dal diabetologo
+     */
+    private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
 
     public Diabetologo() {
         Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM diabetologo WHERE id_diabetologo = ?",
@@ -94,6 +97,8 @@ public class Diabetologo extends Persona implements UpdatePersona {
        return pazienti;
     }
 
+
+
     /**
      * Funzione che permette di caricare tutti i pazienti associati al diabetologo
      * @return oggetto <code>ObservableList</code> con tutti i pazienti associati
@@ -113,6 +118,34 @@ public class Diabetologo extends Persona implements UpdatePersona {
         
         return pazienti;
     }
+    public Paziente getPazienteByCf(String codice_fiscale){
+
+        for(Paziente paziente : pazienti){
+            if(paziente.getCodice_fiscale().equals(codice_fiscale)){
+                return paziente;
+            }
+        }
+        return null;
+    }
+
+    public boolean insersciTerapia(Terapia terapia,String codice_fiscale,String nome_farmaco){
+
+        if(terapia == null) return false;
+
+        Paziente p = getPazienteByCf(codice_fiscale);
+        Farmaco f = terapia.getFarmacoByName(nome_farmaco);
+
+        if(p == null || f == null) return false;
+
+
+
+
+        boolean success = Main.getDbManager().updateQuery("INSERT INTO terapia(id_paziente,id_diabetologo,id_farmaco,sintomi,dosaggio_quantità" +
+                ",dosaggio_unità,quanto,periodicità,data_inizio_terapia,data_fine_terapia,descrizione) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+
+        return success;
+    }
+
 
 
     /**

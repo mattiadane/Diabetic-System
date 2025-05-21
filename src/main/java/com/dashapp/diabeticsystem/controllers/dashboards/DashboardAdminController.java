@@ -16,7 +16,6 @@ public class DashboardAdminController  {
     @FXML private TextField textNome;
     @FXML private TextField textCognome;
     @FXML private TextField textCf;
-
     @FXML private TextField textEmail;
 
     /**
@@ -24,12 +23,10 @@ public class DashboardAdminController  {
      * 
      */
     public void createNewDiabetologo(){
-        if(!Utility.checkCredenziali(textNome.getText(),textCognome.getText()) || !Utility.isEmailValid(textEmail.getText())){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("I dati inseriti non sono validi per il nuovo diabetologo");
-            alert.setContentText("Controlla i dati inseriti");
-            alert.showAndWait();
+        if( !Utility.isEmailValid(textEmail.getText())
+            || !Utility.checkOnlyLetters(textNome.getText()) || !Utility.checkOnlyLetters(textCognome.getText()) || !Utility.isCodiceFiscaleValid(textCf.getText())
+        ){
+            Utility.createAlert(Alert.AlertType.ERROR, "Controlla i dati inseriti");
             return;
         }
 
@@ -39,18 +36,11 @@ public class DashboardAdminController  {
                 )
         );
 
-        Alert alert;
-        if(!success){
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Non è stato possibile creare un nuovo diabetologo");
-            alert.setContentText("Controlla i dati inseriti");
-        }else{
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Nuovo diabetologo creato");
-            alert.setHeaderText("Il nuovo diabetologo è stato creato con successo");
+        if(!success) {
+            Utility.createAlert(Alert.AlertType.ERROR, "Non è stato possibile creare un nuovo diabetologo");
+            return;
         }
-        alert.showAndWait();
+        Utility.createAlert(Alert.AlertType.INFORMATION, "Nuovo diabetologo creato\nIl nuovo diabetologo è stato creato con successo");
 
         Utility.resetField(borderpane);
 

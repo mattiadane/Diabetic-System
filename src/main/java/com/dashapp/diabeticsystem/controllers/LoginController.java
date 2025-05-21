@@ -1,5 +1,6 @@
 package com.dashapp.diabeticsystem.controllers;
 
+import com.dashapp.diabeticsystem.utility.Utility;
 import com.dashapp.diabeticsystem.view.Router;
 import com.dashapp.diabeticsystem.models.Login;
 import com.dashapp.diabeticsystem.models.Session;
@@ -24,14 +25,12 @@ public class LoginController {
      */
     @FXML
     protected void onClickLogin()  {
+
         Login user = Login.autenticate(usernameField.getText(), passwordField.getText());
         Session.setCurrentUser(user);
 
         if(user == null){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Username o password errati.");
-            alert.showAndWait();
+            Utility.createAlert(Alert.AlertType.ERROR, "Username o password errati.");
             return;
         }
 

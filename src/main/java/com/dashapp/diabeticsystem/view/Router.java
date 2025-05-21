@@ -57,6 +57,8 @@ public class Router {
      */
 
     public static void changeScene (String fxml) {
+        int x , y;
+
         try {
 
             // Load the main application layout (e.g., main.fxml)
@@ -70,6 +72,12 @@ public class Router {
                 MainController mainController = (MainController) newMainController;
                 mainController.setCurrentUser(authenticatedUser);
                 Router.setMainController(mainController);
+                x = 1000;
+                y = 700;
+
+            } else {
+                x = 500;
+                y = 350;
             }
 
 
@@ -81,10 +89,12 @@ public class Router {
                 return;
             }
 
-            Scene newScene = new Scene(root, 1000, 700); // Adjust size as needed for your main layout
+            Scene newScene = new Scene(root, x, y); // Adjust size as needed for your main layout
             URL cssUrl = Main.class.getResource("css/style.css");
 
-            newScene.getStylesheets().add(cssUrl.toExternalForm());
+
+            if(cssUrl != null)
+                newScene.getStylesheets().add(cssUrl.toExternalForm());
 
 
             stage.setScene(newScene);
@@ -127,6 +137,9 @@ public class Router {
         loadView("aggiungiLivelloInsulina.fxml");
     }
 
+    public static void navigateToTerapia(){
+        loadView("terapie.fxml");
+    }
 
 
 

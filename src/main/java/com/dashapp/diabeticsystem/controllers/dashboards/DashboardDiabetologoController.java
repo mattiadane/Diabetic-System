@@ -77,10 +77,11 @@ public class DashboardDiabetologoController {
      */
     public void handleNuovoPaziente(){
         // controllo della validità dei campi inseriti dal dottore
-        if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscale.getText()) || !Utility.checkCredenziali(this.textNome.getText(), this.textCognome.getText()) || !Utility.checkDate(this.dataNascitaPicker.getValue())){
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Uno o più dati inseriti non sono validi", ButtonType.OK);
-            errorAlert.setTitle("Errore nella creazione del nuovo paziente");
-            errorAlert.showAndWait();
+        if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscale.getText())
+            || !Utility.checkDateNascita(this.dataNascitaPicker.getValue())
+            || !Utility.checkOnlyLetters(this.textNome.getText()) || !Utility.checkOnlyLetters(this.textCognome.getText())
+        ){
+            Utility.createAlert(Alert.AlertType.ERROR, "Uno o più dati inseriti non sono validi");
             return;
         }
 
@@ -93,23 +94,11 @@ public class DashboardDiabetologoController {
 
         // controllo dell'esito dell'inserimento del nuovo paziente a database e mostro un Alert dedicato
         if(!success){
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Errore nella creazione del paziente", ButtonType.OK);
-            errorAlert.setTitle("Errore nella creazione del nuovo paziente");
-            errorAlert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Paziente aggiunto ", ButtonType.OK);
-            alert.setTitle("Nuovo paziente aggiunto");
-            alert.showAndWait();
-
-            Utility.resetField(borderPane);
-
+            Utility.createAlert(Alert.AlertType.ERROR, "Errore nella creazione del paziente");
+            return;
         }
+
+        Utility.createAlert(Alert.AlertType.INFORMATION, "Nuovo paziente aggiunto ");
+        Utility.resetField(borderPane);
     }
-
-
-
-
-
-
-
 }

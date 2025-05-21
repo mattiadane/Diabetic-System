@@ -35,7 +35,7 @@ public class SidebarController {
     }
 
     public void handleTerapie() {
-
+        Router.navigateToTerapia();
     }
 
     public void handleSettings() {

@@ -35,36 +35,28 @@ public class SettingsController {
      * Funzione che permette di controllare l'evento di aggiornamento dei dati del diabetologo.
      */
     public void handleUpdateData(){
-        if(!Utility.checkPassword(this.textNewPassword.getText()) || !this.textNewPassword.getText().equals(this.textConfirmPassword.getText())){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Le password inserite non coincidono.");
-            alert.showAndWait();
+        if(!Utility.checkObj(this.textNewPassword.getText()) || !this.textNewPassword.getText().equals(this.textConfirmPassword.getText())
+
+        ){
+            Utility.createAlert(Alert.AlertType.ERROR, "Le password inserite non coincidono.");
             return;
         }
 
         // logica quando le password coincidono
-        if(!Utility.checkCredenziali(this.textNome.getText(), this.textCognome.getText()) || !Utility.isEmailValid(this.textEmail.getText())){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Dati inseriti non validi.");
-            alert.showAndWait();
+        if( !Utility.isEmailValid(this.textEmail.getText())
+                || !Utility.checkOnlyLetters(textNome.getText()) || !Utility.checkOnlyLetters(textCognome.getText())
+        ){
+            Utility.createAlert(Alert.AlertType.ERROR, "Dati inseriti non validi.");
         }else{
             persona.setNome(textNome.getText());
             persona.setCognome(textCognome.getText());
             persona.setEmail(textEmail.getText());
             boolean success = persona.updatePersona(persona,this.textNewPassword.getText());
             if(!success){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Errore nell'aggiornamento dei dati");
-                alert.setHeaderText("Errore nell'aggiornamento dei dati");
-                alert.showAndWait();
+                Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'aggiornamento dei dati");
                 return;
             }
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Dati aggiornati correttamente");
-            alert.setHeaderText("Dati aggiornati correttamente");
-            alert.showAndWait();
+            Utility.createAlert(Alert.AlertType.INFORMATION, "Dati aggiornati correttamente");
 
             // reset dei campi di testo
             Utility.resetField(borderPane);
