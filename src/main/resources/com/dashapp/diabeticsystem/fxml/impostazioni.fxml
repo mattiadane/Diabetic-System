@@ -21,9 +21,9 @@
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
-            <Label fx:id="impostazioniLabel" text="Impostazioni" styleClass="title"/>
+            <Label  text="Impostazioni" styleClass="title"/>
 
-            <Label text="Nome:" fx:id="labelNome" />
+            <Label text="Nome:" />
             <TextField fx:id="textNome"/>
 
             <Label text="Cognome: " />
@@ -37,7 +37,7 @@
 
             <Label text="Conferma nuova password: "/>
             <PasswordField fx:id="textConfirmPassword" />
-            <Button text="Aggiorna dati" onAction="#handleUpdateData" fx:id="buttonUpdateData" styleClass="loginButton"/>
+            <Button text="Aggiorna dati" onAction="#handleUpdateData" styleClass="loginButton"/>
         </VBox>
     </center>
 

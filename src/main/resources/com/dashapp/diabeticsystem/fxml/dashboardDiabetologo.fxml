@@ -23,16 +23,16 @@
                 <Label text="Crea Paziente" style="-fx-font-size: 17px; -fx-font-weight: bold;"/>
 
                 <!-- Form di inserimento dati -->
-                <Label text="Nome:" fx:id="labelNome"/>
+                <Label text="Nome:"/>
                 <TextField fx:id="textNome" />
 
-                <Label text="Cognome:" fx:id="labelCognome"/>
+                <Label text="Cognome:"/>
                 <TextField fx:id="textCognome" />
 
-                <Label text="Email:" fx:id="labelEmail"/>
+                <Label text="Email:" />
                 <TextField fx:id="textEmail" />
 
-                <Label text="Codice fiscale:" fx:id="labelCodiceFiscale"/>
+                <Label text="Codice fiscale:" />
                 <TextField fx:id="textCodiceFiscale" />
 
                 <Label text="Data di nascita:"/>

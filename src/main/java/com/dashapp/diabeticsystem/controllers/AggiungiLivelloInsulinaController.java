@@ -33,7 +33,7 @@ public class AggiungiLivelloInsulinaController {
      *
      */
     public void handleAggiungiLivello(){
-        if(!Utility.checkInsulina(textLivello.getText()) || !Utility.checkTime(this.timeText.getText()) || !Utility.checkPeriodo((PERIODO) comboBoxMomento.getValue()) || !Utility.checkDate(datePicker.getValue())) {
+        if(!Utility.checkInsulina(textLivello.getText()) || !Utility.checkTime(this.timeText.getText()) || !Utility.checkPeriodo( comboBoxMomento.getValue()) || !Utility.checkDate(datePicker.getValue())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
             alert.setHeaderText("Input non valido");

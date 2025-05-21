@@ -6,14 +6,11 @@ import com.dashapp.diabeticsystem.models.Login;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-
 
 public class MainController {
 
 
     @FXML private SidebarController sidebarController; // Questo si collegherà automaticamente all'fx:controller della tua sidebar inclusa
-    @FXML private VBox sidebar; // Il tipo deve essere VBox, non SidebarController
     @FXML private BorderPane mainContainer;
 
 

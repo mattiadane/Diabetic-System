@@ -21,7 +21,8 @@ public class Main extends Application {
 
         URL cssUrl = Main.class.getResource("css/style.css");
 
-        scene.getStylesheets().add(cssUrl.toExternalForm());
+        if(cssUrl != null)
+            scene.getStylesheets().add(cssUrl.toExternalForm());
 
 
 

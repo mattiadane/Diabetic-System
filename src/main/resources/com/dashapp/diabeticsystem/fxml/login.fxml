@@ -7,14 +7,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.PasswordField?>
 <VBox alignment="CENTER" spacing="20.0"
-      fx:id="pane"
+
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.dashapp.diabeticsystem.controllers.LoginController" >
 
 
-    <Label fx:id="usernameLabel" text="username" alignment="TOP_LEFT"/>
+    <Label text="username" alignment="TOP_LEFT"/>
     <TextField fx:id="usernameField"/>
-    <Label fx:id="passwordLabel" text="password" alignment="TOP_LEFT"/>
+    <Label  text="password" alignment="TOP_LEFT"/>
     <PasswordField fx:id="passwordField"/>
-    <Button fx:id="confirmButton" text="Login" onAction="#onClickLogin" styleClass="loginButton"/>
+    <Button  text="Login" onAction="#onClickLogin" styleClass="loginButton"/>
 </VBox>

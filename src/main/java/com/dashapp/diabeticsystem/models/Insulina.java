@@ -2,10 +2,9 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.enums.PERIODO;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Insulina {
+public class  Insulina {
     private final int livello_insulina;
     private final PERIODO periodo;
     private final LocalDateTime orario;

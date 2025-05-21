@@ -8,5 +8,5 @@ public interface UpdatePersona {
      * @param password nuova password della persona
      * @return <code>true</code> se la query è andata a buon fine, <code>false</code> altrimenti
      */
-    public boolean updatePersona(Persona p,String password);
+    boolean updatePersona(Persona p,String password);
 }
