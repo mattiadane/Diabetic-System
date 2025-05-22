@@ -76,9 +76,8 @@ public class ListaPazientiController {
 
             Parent root = loader.load();
 
-            DettagliPazienteController schedaController = loader.getController();
-            schedaController.setPaziente(paziente);
-
+            DettagliPazienteController dettagliPazienteController = loader.getController();
+            dettagliPazienteController.loadTerapie(paziente);
 
 
             Stage schedaStage = new Stage();

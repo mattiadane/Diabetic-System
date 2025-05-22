@@ -18,14 +18,14 @@ public class DettagliPazienteController {
     @FXML private TableColumn<Terapia, String> col_assunzioni;
     @FXML private TableColumn<Terapia, Void> modifica;
     @FXML private TableColumn<Terapia, Void> elimina;
-    private  Paziente paziente;
+    private   Paziente paziente;
 
-
-    public void setPaziente(Paziente paziente) {
+    public void loadTerapie(Paziente paziente) {
         this.paziente = paziente;
         tabella_terapie.setItems(paziente.loadAllTerapie());
 
     }
+
 
     public void initialize(){
 
