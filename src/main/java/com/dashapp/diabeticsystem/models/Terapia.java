@@ -19,7 +19,7 @@ public class Terapia {
     private String descrizione;
     private Farmaco farmaco;
 
-    private static final ObservableList<Farmaco> farmaci = FXCollections.observableArrayList();
+    private static ObservableList<Farmaco> farmaci = FXCollections.observableArrayList();
 
 
 
@@ -36,6 +36,7 @@ public class Terapia {
         this.periodicita = periodicita;
         this.dosaggio_quantita = dosaggio_quantita;
         this.dosaggio_unita = dosaggio_unita;
+        farmaci = getAllDrug();
     }
 
     public static ObservableList<Farmaco> getAllDrug() {
@@ -52,6 +53,7 @@ public class Terapia {
     }
 
     public Farmaco getFarmacoByName(String name) {
+
         for (Farmaco farmaco : farmaci) {
             if(farmaco.toString().equals(name)){
                 return farmaco;

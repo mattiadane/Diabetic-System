@@ -1,14 +1,12 @@
 package com.dashapp.diabeticsystem.controllers;
 
-import com.dashapp.diabeticsystem.models.Diabetologo;
-import com.dashapp.diabeticsystem.models.Farmaco;
+
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 
 public class DettagliPazienteController {
 
@@ -20,18 +18,31 @@ public class DettagliPazienteController {
     @FXML private TableColumn<Terapia, String> col_assunzioni;
     @FXML private TableColumn<Terapia, Void> modifica;
     @FXML private TableColumn<Terapia, Void> elimina;
+    private  Paziente paziente;
 
 
+    public void setPaziente(Paziente paziente) {
+        this.paziente = paziente;
+        tabella_terapie.setItems(paziente.loadAllTerapie());
+
+    }
 
     public void initialize(){
+
         this.col_nome.setCellValueFactory(cellData -> {
-            // Get the Terapia object for the current row
             Terapia terapia = cellData.getValue();
-            // Return an ObservableValue of the string representation of the Farmaco
-            return new SimpleStringProperty(terapia.getFarmaco().toString());
+
+            return new SimpleStringProperty(terapia.getFarmaco().getNome());
+
         });
-        col_dosaggio.setCellValueFactory(new PropertyValueFactory<>("dosaggio"));
-        col_assunzioni.setCellValueFactory(new PropertyValueFactory<>("assunzioni"));
+
+        this.col_dosaggio.setCellValueFactory(new PropertyValueFactory<>("dosaggio"));
+        this.col_assunzioni.setCellValueFactory(new PropertyValueFactory<>("assunzioni"));
+
+
+
+
+
 
 /*
         Callback<TableColumn<Terapia, Void>, TableCell<Terapia, Void>> cellFactory = new Callback<>() {
@@ -67,10 +78,10 @@ public class DettagliPazienteController {
     }
 
 
-    public void loadPaziente(Paziente paziente) {
-        main_label.setText("Paziente: " + paziente);
-        System.out.println("Paziente: " + paziente);
 
-        tabella_terapie.setItems(paziente.loadAllTerapie());
-    }
+
+
+
+
+
 }

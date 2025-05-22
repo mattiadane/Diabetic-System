@@ -41,7 +41,6 @@ public class Paziente extends Persona implements UpdatePersona{
                     return null;
                 },id_paziente);
 
-
     }
 
     @Override
@@ -78,7 +77,6 @@ public class Paziente extends Persona implements UpdatePersona{
                     }
                     ,id_paziente);
 
-            //System.out.println(terapie.get(0).getFarmaco().toString());
         }
         return terapie;
     }

@@ -72,20 +72,30 @@ public class ListaPazientiController {
     private void apriSchedaPaziente(Paziente paziente) {
         try{
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/dettagliPaziente.fxml"));
+
+
             Parent root = loader.load();
+
             DettagliPazienteController schedaController = loader.getController();
-            schedaController.loadPaziente(paziente);
+            schedaController.setPaziente(paziente);
+
+
+
             Stage schedaStage = new Stage();
-            Scene newScene = new Scene(root,1000,700);
+            Scene newScene = new Scene(root, 1000, 700);
+
             URL cssUrl = Main.class.getResource("css/style.css");
-            if(cssUrl != null)
+            if (cssUrl != null) {
                 newScene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+
             schedaStage.setTitle("Scheda Paziente: " + paziente.getNome() + " " + paziente.getCognome());
             schedaStage.setScene(newScene);
             schedaStage.initModality(Modality.NONE);
-            schedaStage.initOwner(tabellaPazienti.getScene().getWindow()); // Set the owner window
-            // Show the new stage
+            schedaStage.initOwner(tabellaPazienti.getScene().getWindow());
+
             schedaStage.show();
+
         } catch (IOException e) {
                 e.printStackTrace();
         }
