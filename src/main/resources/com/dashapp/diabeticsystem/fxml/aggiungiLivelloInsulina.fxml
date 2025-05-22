@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.CheckBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.AggiungiLivelloInsulinaController"
@@ -27,12 +28,9 @@
             <TextField fx:id="textLivello" prefWidth="200"/>
 
             <Label text="Momento del giorno: " />
-            <ComboBox fx:id="comboBoxMomento" layoutX="50" layoutY="50" prefWidth="200">
+            <ComboBox fx:id="comboBoxMomento" layoutX="50" layoutY="50" prefWidth="200" />
 
-            </ComboBox>
-
-            <Label text="Data:"/>
-            <DatePicker prefWidth="200.0" fx:id="datePicker"/>
+            <CheckBox text="Ho assunto correttamente la medicina." fx:id="checkAssunzione"/>
 
             <Label text="Ora (HH:mm):" />
             <TextField fx:id="timeText" promptText="ex: 14:30, 15:50, 09:32, ..."/>

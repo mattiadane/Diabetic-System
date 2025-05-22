@@ -5,11 +5,10 @@ import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -18,8 +17,8 @@ public class AggiungiLivelloInsulinaController {
     @FXML BorderPane borderpane;
     @FXML private ComboBox<PERIODO> comboBoxMomento;
     @FXML private TextField textLivello;
-    @FXML private DatePicker datePicker;
     @FXML private TextField timeText;
+    @FXML private CheckBox checkAssunzione;
     private Paziente paziente;
 
 
@@ -33,14 +32,14 @@ public class AggiungiLivelloInsulinaController {
      *
      */
     public void handleAggiungiLivello(){
-        if(!Utility.checkInsulina(textLivello.getText()) || !Utility.checkTime(this.timeText.getText()) || !Utility.checkObj( comboBoxMomento.getValue()) || !Utility.checkDateNascita(datePicker.getValue())
+        if(!Utility.checkInsulina(textLivello.getText()) || !Utility.checkTime(this.timeText.getText()) || !Utility.checkObj( comboBoxMomento.getValue())
         ) {
             Utility.createAlert(Alert.AlertType.ERROR, "Input non valido");
             return;
         }
 
-        LocalDateTime localDateTime = LocalDateTime.of(datePicker.getValue(),LocalTime.parse(timeText.getText()));
-        boolean success = paziente.aggiungiLivelloInsulina(new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime));
+        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(),LocalTime.parse(timeText.getText()));
+        boolean success = paziente.aggiungiLivelloInsulina(new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime, this.checkAssunzione.isSelected()));
 
         if(!success){
             Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'inserimento dell'indice glicemico");

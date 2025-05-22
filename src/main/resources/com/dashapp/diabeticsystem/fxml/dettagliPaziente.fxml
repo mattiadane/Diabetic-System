@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.dashapp.diabeticsystem.controllers.DettagliPazienteController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <center>
+
+        <Label text="" fx:id="main_label"/>
+
+       <!-- spazio per i dati del paziente (livelli di insulina) -->
+        <VBox>
+
+        </VBox>
+
+        <!-- spazio per le terapie associate -->
+        <Label text="Terapie associate:" />
+
+        <VBox>
+            <TableView fx:id="tabella_terapie">
+                <columns>
+                    <TableColumn text="Farmaco" />
+                    <TableColumn text="Dosaggio" />
+                    <TableColumn text="# Assunzioni" />
+                    <TableColumn text="Modifica" />
+                    <TableColumn text="Elimina" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.dashapp.diabeticsystem.controllers.ListaPazientiController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <center>
+
+        <Label text="Lista Pazienti" styleClass="title"/>
+
+        <TableView fx:id="tabellaPazienti" prefHeight="200.0" prefWidth="200.0">
+            <columns>
+                <TableColumn fx:id="nomePaziente" prefWidth="75.0" resizable="false" text="Nome" />
+                <TableColumn fx:id="cognomePaziente" prefWidth="75.0" resizable="false" text="Cognome" />
+                <TableColumn fx:id="cfPaziente" prefWidth="75.0" text="Codice fiscale" />
+                <TableColumn fx:id="azioniColonna" prefWidth="100.0" resizable="false" text="Azioni" />
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

@@ -59,7 +59,6 @@
                         <TableColumn fx:id="mailColonna"  prefWidth="75.0" resizable="false" text="email" />
                     </columns>
                 </TableView>
-
             </children>
         </VBox>
     </right>
