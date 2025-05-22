@@ -60,6 +60,7 @@ public class Paziente extends Persona implements UpdatePersona{
 
     public ObservableList<Terapia> loadAllTerapie() {
         if(terapie.isEmpty()){
+
             Main.getDbManager().selectQuery("SELECT f.nome,t.id_terapia,t.dosaggio_quantità,t.dosaggio_unità,t.quanto,t.periodicità FROM terapia t\n" +
                     "INNER JOIN farmaco f ON t.id_farmaco = f.id_farmaco WHERE id_paziente = ?; ",
                     rs -> {
@@ -80,6 +81,16 @@ public class Paziente extends Persona implements UpdatePersona{
         }
         return terapie;
     }
+
+    public void inserisciTerapia(Terapia t){
+        terapie.add(t);
+    }
+
+    public void rimuoviTerapie(Terapia t) {
+
+        terapie.remove(t);
+    }
+
     /**
      * Funzione per prendere la data di nascita del paziente
      * @return oggetto <code>Date</code> per la data di nascita del paziente.

@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -136,25 +137,48 @@ public class Utility {
 
     /**
      * Funzione che permette di creare un Alert personalizzato.
-     * @param type tipo dell'alert.
+     *
+     * @param type    tipo dell'alert.
      * @param message messaggio da mostrare all'utente.
+     * @return Option<ButtonType> nel caso in cui l'alert sia una conferma restituisce il bottone premuto altirmenti null
      */
-    public static void createAlert(Alert.AlertType type, String message){
+    public static Optional<ButtonType> createAlert(Alert.AlertType type, String message) {
         Alert alert = new Alert(type);
 
-        switch (type){
+        switch (type) {
             case INFORMATION:
                 alert.setTitle("Informazione");
+                alert.setHeaderText(null); // Di solito per questi non serve un header
                 break;
             case WARNING:
                 alert.setTitle("Attenzione!");
+                alert.setHeaderText(null);
                 break;
             case ERROR:
                 alert.setTitle("Errore");
+                alert.setHeaderText(null);
+                break;
+            case CONFIRMATION:
+                alert.setTitle("Conferma");
+                // Personalizza i bottoni per la conferma
+                ButtonType buttonSi = new ButtonType("Si");
+                ButtonType buttonNo = new ButtonType("No");
+                alert.getButtonTypes().setAll(buttonSi, buttonNo);
+                break;
+            default: // Per qualsiasi altro tipo non gestito esplicitamente
+                alert.setTitle("Avviso");
+                alert.setHeaderText(null);
                 break;
         }
+
         alert.setContentText(message);
-        alert.showAndWait();
+
+        if (type == Alert.AlertType.CONFIRMATION) {
+            return alert.showAndWait(); // Restituisce il risultato solo per la conferma
+        } else {
+            alert.showAndWait(); // Mostra l'alert e continua per gli altri tipi
+            return Optional.empty(); // Non c'è un risultato significativo da restituire
+        }
     }
 
     /**

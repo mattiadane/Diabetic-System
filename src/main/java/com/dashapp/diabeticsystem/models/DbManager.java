@@ -40,6 +40,7 @@ public class DbManager {
                         generatedId = generatedKeys.getInt(1);
                     }
                 }
+
             }
         } catch (SQLException e) {
             System.err.println("Error executing query" + e.getMessage());
@@ -62,6 +63,7 @@ public class DbManager {
             }
 
             ps.executeUpdate();
+
             return true;
         } catch (SQLException e) {
             System.err.println("Error executing query" + e.getMessage());

@@ -1,12 +1,17 @@
 package com.dashapp.diabeticsystem.controllers;
 
 
+import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
+import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
+
+import java.util.Optional;
 
 public class DettagliPazienteController {
 
@@ -18,7 +23,8 @@ public class DettagliPazienteController {
     @FXML private TableColumn<Terapia, String> col_assunzioni;
     @FXML private TableColumn<Terapia, Void> modifica;
     @FXML private TableColumn<Terapia, Void> elimina;
-    private   Paziente paziente;
+    private  Paziente paziente;
+    private Diabetologo diabetologo;
 
     public void loadTerapie(Paziente paziente) {
         this.paziente = paziente;
@@ -28,13 +34,9 @@ public class DettagliPazienteController {
 
 
     public void initialize(){
-
-        this.col_nome.setCellValueFactory(cellData -> {
-            Terapia terapia = cellData.getValue();
-
-            return new SimpleStringProperty(terapia.getFarmaco().getNome());
-
-        });
+        this.diabetologo = new Diabetologo();
+        this.col_nome.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getFarmaco().getNome()));
 
         this.col_dosaggio.setCellValueFactory(new PropertyValueFactory<>("dosaggio"));
         this.col_assunzioni.setCellValueFactory(new PropertyValueFactory<>("assunzioni"));
@@ -42,9 +44,6 @@ public class DettagliPazienteController {
 
 
 
-
-
-/*
         Callback<TableColumn<Terapia, Void>, TableCell<Terapia, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Terapia, Void> call(final TableColumn<Terapia, Void> param) {
@@ -52,9 +51,17 @@ public class DettagliPazienteController {
 
                     private final Button btn = new Button("Elimina");
                     {
-                        btn.getStyleClass().add("btn-apri");
+                        btn.getStyleClass().add("btn-elimina");
                         btn.setOnAction(event -> {
+                            Optional<ButtonType> result = Utility.createAlert(Alert.AlertType.CONFIRMATION,"Sei sicuro di voler rimuovere la terapia?");
+                            if(result.get().getText().equals("Si")){
+                                boolean success = diabetologo.rimuoviTerapia(getTableView().getItems().get(getIndex()));
+                                if(!success){
+                                    return;
+                                }
+                                paziente.rimuoviTerapie(getTableView().getItems().get(getIndex()));
 
+                            }
 
                         });
                     }
@@ -73,7 +80,7 @@ public class DettagliPazienteController {
             }
 
         };
-        elimina.setCellFactory(cellFactory);*/
+        elimina.setCellFactory(cellFactory);
 
     }
 

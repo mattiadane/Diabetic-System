@@ -161,3 +161,7 @@
     -fx-background-color: #2a5d9f;
     -fx-effect: none;
 }
+
+.btn-elimina {
+    -fx-background-color: #CC0000;
+}

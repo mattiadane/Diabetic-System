@@ -140,6 +140,7 @@ public class Diabetologo extends Persona implements UpdatePersona {
     public boolean rimuoviTerapia(Terapia t){
         if(t == null) return false;
 
+
         return Main.getDbManager().updateQuery("DELETE FROM terapia WHERE id_terapia = ?",t.getId_terapia());
     }
 

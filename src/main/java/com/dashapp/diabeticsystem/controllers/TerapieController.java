@@ -50,6 +50,7 @@ public class TerapieController {
         Farmaco farmaco = terapia.getFarmacoByName(medicinale.getValue().toString());
         Paziente paziente = diabetologo.getPazienteByCf(codice_fiscale.getText().toUpperCase().trim());
 
+
         boolean success = diabetologo.insersciTerapia(terapia, paziente, farmaco);
 
         if(!success){
@@ -57,6 +58,7 @@ public class TerapieController {
             return;
         }
 
+        paziente.inserisciTerapia(terapia);
         Utility.createAlert(Alert.AlertType.INFORMATION, "Terapia aggiunta correttamente");
         Utility.resetField(borderPane);
 
