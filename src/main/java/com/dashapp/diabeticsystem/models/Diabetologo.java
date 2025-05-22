@@ -16,10 +16,6 @@ public class Diabetologo extends Persona implements UpdatePersona {
      * Lista di tipo <code>ObservableList</code> che contiene i pazienti associati al diabetologo
      */
     private ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
-    /**
-     * Lista di tipo <code>ObservableList</code> che contiene le terapie prescritte dal diabetologo
-     */
-    private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
 
     public Diabetologo() {
         Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM diabetologo WHERE id_diabetologo = ?",
@@ -32,6 +28,7 @@ public class Diabetologo extends Persona implements UpdatePersona {
                     }
                     return null;
         },id_diabetologo);
+        pazienti = loadAllPatients();
     }
 
     public Diabetologo(String nome, String cognome, String email,String codice_fiscale){
@@ -105,12 +102,12 @@ public class Diabetologo extends Persona implements UpdatePersona {
      */
     private ObservableList<Paziente> loadAllPatients() {
         pazienti.clear();
-        Main.getDbManager().selectQuery("SELECT nome,cognome,codice_fiscale,data_nascita,email FROM paziente WHERE id_diabetologo = ?",
+        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email FROM paziente WHERE id_diabetologo = ?",
                rs -> {
                     while (rs.next()){
-                        System.out.println(rs.getString("nome"));
+
                         pazienti.add(
-                                new Paziente(rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate())
+                                new Paziente(rs.getInt("id_paziente"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate())
                         );
                     }
                     return null;
@@ -128,22 +125,19 @@ public class Diabetologo extends Persona implements UpdatePersona {
         return null;
     }
 
-    public boolean insersciTerapia(Terapia terapia,String codice_fiscale,String nome_farmaco){
+    public boolean insersciTerapia(Terapia terapia,Paziente p,Farmaco f){
 
-        if(terapia == null) return false;
-
-        Paziente p = getPazienteByCf(codice_fiscale);
-        Farmaco f = terapia.getFarmacoByName(nome_farmaco);
-
-        if(p == null || f == null) return false;
+        if(terapia == null || p == null || f == null) return false;
 
 
+        return Main.getDbManager().updateQuery("INSERT INTO terapia(id_paziente,id_diabetologo,id_farmaco,dosaggio_quantità" +
+                ",dosaggio_unità,quanto,periodicità,data_inizio_terapia,data_fine_terapia,descrizione) VALUES (?,?,?,?,?,?,?,?,?,?)",
+                p.getId_paziente(),id_diabetologo,f.getId_farmaco(),terapia.getDosaggio_quantita(),terapia.getDosaggio_unita(),
+                terapia.getQuanto(),terapia.getPeriodicita().toString(),terapia.getData_inizio(),terapia.getData_fine(),terapia.getDescrizione()
+                );
 
 
-        boolean success = Main.getDbManager().updateQuery("INSERT INTO terapia(id_paziente,id_diabetologo,id_farmaco,sintomi,dosaggio_quantità" +
-                ",dosaggio_unità,quanto,periodicità,data_inizio_terapia,data_fine_terapia,descrizione) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
-        return success;
     }
 
 

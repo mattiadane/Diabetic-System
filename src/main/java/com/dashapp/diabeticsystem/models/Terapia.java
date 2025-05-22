@@ -55,7 +55,30 @@ public class Terapia {
         return null;
     }
 
+    public double getDosaggio_quantita() {
+        return dosaggio_quantita;
+    }
 
+    public String getDosaggio_unita() {
+        return dosaggio_unita;
+    }
 
+    public int getQuanto() {
+        return quanto;
+    }
 
+    public LocalDate getData_fine() {
+        return data_fine;
+    }
+
+    public LocalDate getData_inizio() {
+        return data_inizio;
+    }
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public PERIODICITA getPeriodicita() {
+        return periodicita;
+    }
 }

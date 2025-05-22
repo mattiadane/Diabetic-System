@@ -4,13 +4,12 @@ package com.dashapp.diabeticsystem.controllers;
 import com.dashapp.diabeticsystem.enums.PERIODICITA;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Farmaco;
+import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-
-import javax.swing.*;
 
 
 public class TerapieController {
@@ -44,14 +43,17 @@ public class TerapieController {
             Utility.createAlert(Alert.AlertType.ERROR,"Errore nel inserimento dei dati");
             return;
         }
+        Terapia terapia = new Terapia(
+                Integer.parseInt(quanto.getText()), periodicita.getValue(), Double.parseDouble(quantita.getText()), unita.getText(),
+                data_inizio.getValue(), data_fine.getValue(), descrizione.getText()
+        );
+        Farmaco farmaco = terapia.getFarmacoByName(medicinale.getValue().toString());
+        Paziente paziente = diabetologo.getPazienteByCf(codice_fiscale.getText().toUpperCase().trim());
 
-        boolean success = diabetologo.insersciTerapia(new Terapia(
-                Integer.parseInt(quanto.getText()),periodicita.getValue(),Double.parseDouble(quantita.getText()),unita.getText(),
-                data_inizio.getValue(),data_fine.getValue(),descrizione.getText()
-        ),codice_fiscale.getText().toUpperCase().trim(),medicinale.getValue().toString());
+        boolean success = diabetologo.insersciTerapia(terapia, paziente, farmaco);
 
         if(!success){
-            System.out.println("errore database");
+            Utility.createAlert(Alert.AlertType.ERROR,"Errore");
             return;
         }
 

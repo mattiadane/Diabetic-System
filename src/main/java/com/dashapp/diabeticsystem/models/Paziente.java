@@ -13,6 +13,14 @@ public class Paziente extends Persona implements UpdatePersona{
 
         this.dataNascita = dataNascita;
     }
+
+    public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita) {
+        this(nome, cognome, email, codiceFiscale, dataNascita);
+        this.id_paziente = id_paziente;
+
+    }
+
+
     public Paziente(){
 
         Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM paziente WHERE id_paziente = ?",
