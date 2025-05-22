@@ -141,6 +141,11 @@ public class Router {
         loadView("terapie.fxml");
     }
 
+    public static void navigateToPazienti(){
+        loadView("listaPazienti.fxml");
+    }
+
+
 
 
 

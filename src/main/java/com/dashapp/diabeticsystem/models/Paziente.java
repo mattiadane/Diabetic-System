@@ -2,11 +2,19 @@ package com.dashapp.diabeticsystem.models;
 
 
 import com.dashapp.diabeticsystem.Main;
+import com.dashapp.diabeticsystem.enums.PERIODICITA;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.time.LocalDate;
 
 public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
     private LocalDate dataNascita;
+
+
+    private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
+
 
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita) {
         super(nome,cognome,email,codiceFiscale);
@@ -22,7 +30,6 @@ public class Paziente extends Persona implements UpdatePersona{
 
 
     public Paziente(){
-
         Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM paziente WHERE id_paziente = ?",
                 rs -> {
                     if (rs.next()){
@@ -33,6 +40,7 @@ public class Paziente extends Persona implements UpdatePersona{
                     }
                     return null;
                 },id_paziente);
+
 
     }
 
@@ -51,6 +59,29 @@ public class Paziente extends Persona implements UpdatePersona{
 
     }
 
+    public ObservableList<Terapia> loadAllTerapie() {
+        if(terapie.isEmpty()){
+            Main.getDbManager().selectQuery("SELECT f.nome,t.id_terapia,t.dosaggio_quantità,t.dosaggio_unità,t.quanto,t.periodicità FROM terapia t\n" +
+                    "INNER JOIN farmaco f ON t.id_farmaco = f.id_farmaco WHERE id_paziente = ?; ",
+                    rs -> {
+                        while(rs.next()){
+                            Terapia t = new Terapia(
+
+                                    rs.getInt("t.quanto"),PERIODICITA.valueOf(rs.getString("t.periodicità").toUpperCase()),
+                                    rs.getDouble("t.dosaggio_quantità"),rs.getString("t.dosaggio_unità")
+                            );
+                            t.setId_terapia(rs.getInt("t.id_terapia"));
+                            t.setFarmaco(t.getFarmacoByName(rs.getString("f.nome")));
+                            terapie.add(t);
+                        }
+                        return null;
+                    }
+                    ,id_paziente);
+
+            //System.out.println(terapie.get(0).getFarmaco().toString());
+        }
+        return terapie;
+    }
     /**
      * Funzione per prendere la data di nascita del paziente
      * @return oggetto <code>Date</code> per la data di nascita del paziente.

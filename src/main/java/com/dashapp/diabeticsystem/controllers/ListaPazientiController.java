@@ -1,10 +1,24 @@
 package com.dashapp.diabeticsystem.controllers;
 
+import com.dashapp.diabeticsystem.Main;
+import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+
+import java.io.IOException;
+import java.io.SyncFailedException;
+import java.net.URL;
 
 public class ListaPazientiController {
 
@@ -15,10 +29,65 @@ public class ListaPazientiController {
     @FXML private TableColumn<Paziente, Void> azioniColonna;
 
     public void initialize(){
+
         this.nomePaziente.setCellValueFactory(new PropertyValueFactory<>("nome"));
         this.cognomePaziente.setCellValueFactory(new PropertyValueFactory<>("cognome"));
-        this.cfPaziente.setCellValueFactory(new PropertyValueFactory<>("cf"));
+        this.cfPaziente.setCellValueFactory(new PropertyValueFactory<>("codice_fiscale"));
 
-        // TODO: implementazione per settare i bottoni per aprire la scheda del paziente
+        // Implementazione per settare i bottoni per aprire la scheda del paziente
+        Callback<TableColumn<Paziente, Void>, TableCell<Paziente, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<Paziente, Void> call(final TableColumn<Paziente, Void> param) {
+                return new TableCell<>() {
+
+                    private final Button btn = new Button("Apri Scheda");
+                    {
+                        btn.getStyleClass().add("btn-apri-scheda");
+                        btn.setOnAction(event -> {
+
+                            apriSchedaPaziente(getTableView().getItems().get(getIndex()));
+
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+
+                };
+            }
+        };
+
+        azioniColonna.setCellFactory(cellFactory);
+
+        tabellaPazienti.setItems(new Diabetologo().getAllPatients());
+    }
+
+    private void apriSchedaPaziente(Paziente paziente) {
+        try{
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/dettagliPaziente.fxml"));
+            Parent root = loader.load();
+            DettagliPazienteController schedaController = loader.getController();
+            schedaController.loadPaziente(paziente);
+            Stage schedaStage = new Stage();
+            Scene newScene = new Scene(root,1000,700);
+            URL cssUrl = Main.class.getResource("css/style.css");
+            if(cssUrl != null)
+                newScene.getStylesheets().add(cssUrl.toExternalForm());
+            schedaStage.setTitle("Scheda Paziente: " + paziente.getNome() + " " + paziente.getCognome());
+            schedaStage.setScene(newScene);
+            schedaStage.initModality(Modality.NONE);
+            schedaStage.initOwner(tabellaPazienti.getScene().getWindow()); // Set the owner window
+            // Show the new stage
+            schedaStage.show();
+        } catch (IOException e) {
+                e.printStackTrace();
+        }
     }
 }

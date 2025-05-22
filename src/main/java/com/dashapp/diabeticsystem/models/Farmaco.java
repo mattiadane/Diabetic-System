@@ -15,6 +15,9 @@ public class Farmaco {
         return id_farmaco;
     }
 
+    public String getNome() {
+        return nome;
+    }
 
     public String toString() {
         return nome;

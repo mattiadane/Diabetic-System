@@ -39,8 +39,64 @@
 .title{
     -fx-font-size: 24px;
     -fx-font-weight: bold;
+    -fx-padding: 0 0 20px 0;
 }
 
+.btn-apri-scheda {
+    -fx-background-color: #007bff;  /* blu iniziale */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.btn-apri-scheda:hover {
+    -fx-background-color: #0056b3;  /* blu più scuro al passaggio del mouse */
+}
+
+/* stile per le tabelle */
+.table-view {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+}
+
+.table-view .column-header {
+    -fx-background-color: #343a40;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #e2e6ea;
+}
+
+.table-view .table-row-cell:focused {
+    -fx-background-color: #d6d8db;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+}
+
+.table-view .table-cell {
+    -fx-padding: 10px;
+    -fx-border-color: transparent;
+}
 
 
 

@@ -17,24 +17,31 @@
 
     <center>
 
-        <Label text="" fx:id="main_label"/>
+
 
        <!-- spazio per i dati del paziente (livelli di insulina) -->
         <VBox>
-
+            <Label text="" fx:id="main_label" styleClass="title"/>
         </VBox>
 
         <!-- spazio per le terapie associate -->
-        <Label text="Terapie associate:" />
+        <VBox>
+            <Label text="Andamento dei livelli di glicemia" styleClass="title"/>
+        </VBox>
+
 
         <VBox>
-            <TableView fx:id="tabella_terapie">
+            <Label text="Terapie associate:" styleClass="title"/>
+            <TableView fx:id="tabella_terapie" styleClass="table-view">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
-                    <TableColumn text="Farmaco" />
-                    <TableColumn text="Dosaggio" />
-                    <TableColumn text="# Assunzioni" />
-                    <TableColumn text="Modifica" />
-                    <TableColumn text="Elimina" />
+                    <TableColumn text="Farmaco"  fx:id="col_nome"/>
+                    <TableColumn text="Dosaggio"  fx:id="col_dosaggio"/>
+                    <TableColumn text="# Assunzioni" fx:id="col_assunzioni" />
+                    <TableColumn text="Modifica" fx:id="modifica" />
+                    <TableColumn text="Elimina"  fx:id="elimina" />
                 </columns>
             </TableView>
         </VBox>

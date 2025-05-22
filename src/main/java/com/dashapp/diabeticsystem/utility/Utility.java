@@ -1,10 +1,7 @@
 package com.dashapp.diabeticsystem.utility;
 
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -109,7 +106,10 @@ public class Utility {
                 ((DatePicker) child).setValue(null);
             } else if (child instanceof ComboBox<?>){
                 ((ComboBox<?>) child).setValue(null);
-            } else if (child instanceof Pane) {
+            } else if(child instanceof TextArea){
+                ((TextArea) child).setText("");
+            }
+            else if (child instanceof Pane) {
                 resetField((Pane) child);
             }
         }

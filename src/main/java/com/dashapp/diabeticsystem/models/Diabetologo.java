@@ -135,10 +135,14 @@ public class Diabetologo extends Persona implements UpdatePersona {
                 p.getId_paziente(),id_diabetologo,f.getId_farmaco(),terapia.getDosaggio_quantita(),terapia.getDosaggio_unita(),
                 terapia.getQuanto(),terapia.getPeriodicita().toString(),terapia.getData_inizio(),terapia.getData_fine(),terapia.getDescrizione()
                 );
-
-
-
     }
+
+    public boolean rimuoviTerapia(Terapia t){
+        if(t == null) return false;
+
+        return Main.getDbManager().updateQuery("DELETE FROM terapia WHERE id_terapia = ?",t.getId_terapia());
+    }
+
 
 
 

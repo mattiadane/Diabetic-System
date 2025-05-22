@@ -31,7 +31,7 @@ public class SidebarController {
 
 
     public void handlePazienti() {
-
+        Router.navigateToPazienti();
     }
 
     public void handleTerapie() {
