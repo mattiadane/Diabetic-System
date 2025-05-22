@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class Utility {
 
     private static final Pattern TIME_PATTERN = Pattern.compile("^([01]\\d|2[0-3]):[0-5]\\d$");
-    private static final Pattern ONLY_LETTERS = Pattern.compile("[a-zA-Z]+");
+    private static final Pattern ONLY_LETTERS = Pattern.compile("[a-zA-Z ]+");
     private static final Pattern ONLY_NUMBER_INT = Pattern.compile("\\d+");
     private static final Pattern ONLY_NUMBER_DOUBLE = Pattern.compile("\\d+\\.\\d+");
 

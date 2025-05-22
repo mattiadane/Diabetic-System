@@ -17,7 +17,7 @@
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
-            <Label fx:id="benvenuto" text="benvenuto" styleClass="title"/>
+            <Label fx:id="benvenuto" text="benvenuto/a" styleClass="title"/>
 
             <VBox>
                 <Label text="Crea Paziente" style="-fx-font-size: 17px; -fx-font-weight: bold;"/>

@@ -21,6 +21,12 @@
 
             <Label fx:id="benvenuto" styleClass="title"/>
         </VBox>
+
+        <Label text="La mia terapia" />
+
+
+
+
     </center>
 
 </BorderPane>
