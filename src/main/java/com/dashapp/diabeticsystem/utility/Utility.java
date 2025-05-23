@@ -119,7 +119,7 @@ public class Utility {
     /**
      *
      * @param name
-     * @return
+     * @return String
      */
     public static String convertName(String name){
         String[] words = name.trim().split(" "); // Suddivide la stringa in parole basandosi sugli spazi

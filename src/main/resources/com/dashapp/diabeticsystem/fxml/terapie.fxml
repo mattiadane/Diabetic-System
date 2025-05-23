@@ -31,25 +31,33 @@
             <TextField fx:id="codice_fiscale"/>
 
             <Label text="Dosaggio quantità / unità" />
-            <TextField fx:id="quantita"/>
-            <Label text="/"/>
-            <TextField fx:id="unita"/>
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <TextField promptText="Quantità" HBox.hgrow="ALWAYS"/>
+                <Label text="/"/>
+                <TextField promptText="unità" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
 
             <Label text="Assunzione"/>
-            <TextField fx:id="quanto"/>
-            <Label text="al/alla"/>
-            <ComboBox fx:id="periodicita">
-            </ComboBox>
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <TextField fx:id="quanto" HBox.hgrow="ALWAYS"/>
+                <Label text="al/alla"/>
+                <ComboBox fx:id="periodicita" HBox.hgrow="ALWAYS">
+                </ComboBox>
+            </HBox>
 
 
-            <Label text="Data inizio" />
-            <DatePicker fx:id="data_inizio"/>
 
-            <Label text="Data fine" />
-            <DatePicker fx:id="data_fine"/>
+            <Label text="Data inizio / Data fine " />
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <DatePicker  promptText="inizio"  fx:id="data_inizio" HBox.hgrow="ALWAYS"/>
+                <DatePicker  promptText="fine" fx:id="data_fine" HBox.hgrow="ALWAYS"/>
+
+            </HBox>
+
 
             <Label text="Descrizione aggiuntive " />
-           <TextArea fx:id="descrizione"/>
+            <TextArea fx:id="descrizione"/>
 
             <Button onAction="#aggiungiTerapia" text="Aggiungi terapia" styleClass="loginButton"/>
         </VBox>

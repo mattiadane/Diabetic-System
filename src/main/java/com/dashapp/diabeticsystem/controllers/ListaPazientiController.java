@@ -3,15 +3,14 @@ package com.dashapp.diabeticsystem.controllers;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -20,14 +19,16 @@ import java.net.URL;
 
 public class ListaPazientiController {
 
+    @FXML private TextField codice_fiscale ;
     @FXML private TableView<Paziente> tabellaPazienti ;
     @FXML private TableColumn<Paziente, String> nomePaziente;
     @FXML private TableColumn<Paziente, String> cognomePaziente;
     @FXML private TableColumn<Paziente, String> cfPaziente;
     @FXML private TableColumn<Paziente, Void> azioniColonna;
+    private Diabetologo diabetologo;
 
     public void initialize(){
-
+        this.diabetologo = new Diabetologo();
         this.nomePaziente.setCellValueFactory(new PropertyValueFactory<>("nome"));
         this.cognomePaziente.setCellValueFactory(new PropertyValueFactory<>("cognome"));
         this.cfPaziente.setCellValueFactory(new PropertyValueFactory<>("codice_fiscale"));
@@ -61,8 +62,9 @@ public class ListaPazientiController {
         };
 
         azioniColonna.setCellFactory(cellFactory);
+        tabellaPazienti.setItems(diabetologo.getAllPatients());
 
-        tabellaPazienti.setItems(new Diabetologo().getAllPatients());
+
     }
 
     private void apriSchedaPaziente(Paziente paziente) {
@@ -94,5 +96,10 @@ public class ListaPazientiController {
         } catch (IOException e) {
                 System.out.println("Errore: " + e.getMessage());
         }
+    }
+
+    public void searchInput() {
+        tabellaPazienti.setItems(diabetologo.getPazientiResearch(codice_fiscale.getText()));
+
     }
 }

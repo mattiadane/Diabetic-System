@@ -54,7 +54,7 @@ public class DashboardDiabetologoController {
 
     public void initialize() {
         SettingsController.setPersona(diabetologo);
-        benvenuto.setText("Bentornato: " + diabetologo);
+        benvenuto.setText("Bentornato/a " + diabetologo);
         tabellaPazienti.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         nomeColonna.setCellValueFactory(new PropertyValueFactory<>("nome")); // Usa "nome" per chiamare getNome()
         cognomeColonna.setCellValueFactory(new PropertyValueFactory<>("cognome")); // Usa "cognome" per chiamare getCognome()

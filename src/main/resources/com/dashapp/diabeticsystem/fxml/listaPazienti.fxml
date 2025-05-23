@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.ListaPazientiController"
@@ -21,7 +22,11 @@
                 <Insets top="20" right="20" bottom="20" left="20" />
             </padding>
             <Label text="Lista Pazienti" styleClass="title"/>
-            <Label text="Qui sotto puoi trovare la lista di tutti i suoi pazienti" styleClass="subtitle"/>
+
+            <Label text="Ricerca tramite codice fiscale" styleClass="subtitle"/>
+
+            <TextField fx:id="codice_fiscale" promptText="Digita per cercare..." onKeyTyped="#searchInput" />
+
             <TableView fx:id="tabellaPazienti" prefHeight="200.0" prefWidth="200.0" styleClass="table-view">
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

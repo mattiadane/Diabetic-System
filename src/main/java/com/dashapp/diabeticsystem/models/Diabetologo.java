@@ -57,17 +57,17 @@ public class Diabetologo extends Persona implements UpdatePersona {
     public boolean updateTerapia(Terapia terapia){
         if(terapia == null) return false;
 
-        return Main.getDbManager().updateQuery("\n" +
-                "UPDATE terapia SET\n" +
-                "id_farmaco = ?,\n" +
-                "dosaggio_quantità = ?,\n" +
-                "dosaggio_unità = ?,\n" +
-                "quanto = ?,\n" +
-                "periodicità = ?,\n" +
-                "data_inizio_terapia = ?,\n" +
-                "data_fine_terapia = ?,\n" +
-                "descrizione = ?\n" +
-                "WHERE (id_terapia = ?)",
+        return Main.getDbManager().updateQuery("""
+                        UPDATE terapia SET
+                        id_farmaco = ?,
+                        dosaggio_quantità = ?,
+                        dosaggio_unità = ?,
+                        quanto = ?,
+                        periodicità = ?,
+                        data_inizio_terapia = ?,
+                        data_fine_terapia = ?,
+                        descrizione = ?
+                        WHERE (id_terapia = ?)""",
         terapia.getFarmaco().getId_farmaco(), terapia.getDosaggio_quantita(), terapia.getDosaggio_unita(), terapia.getQuanto(), terapia.getPeriodicita().toString(), terapia.getData_inizio(), terapia.getData_fine(), terapia.getDescrizione(), terapia.getId_terapia()
                 );
     }
@@ -143,6 +143,22 @@ public class Diabetologo extends Persona implements UpdatePersona {
             }
         }
         return null;
+    }
+
+    public ObservableList<Paziente> getPazientiResearch(String search){
+        ObservableList<Paziente> pazientiResearch = FXCollections.observableArrayList();
+        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email FROM paziente WHERE codice_fiscale LIKE ? ",
+                rs -> {
+                    while (rs.next()){
+                        pazientiResearch.add(
+                          new Paziente(rs.getInt("id_paziente"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate())
+
+                        );
+                    }
+                    return null;
+                },search + "%");
+        return pazientiResearch;
+
     }
 
     public boolean insersciTerapia(Terapia terapia,Paziente p,Farmaco f){

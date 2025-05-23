@@ -23,7 +23,7 @@ public class Farmaco {
         return nome;
     }
 
-    public String getDescriziome() {
+    public String getDescrizione() {
         return descriziome;
     }
 }

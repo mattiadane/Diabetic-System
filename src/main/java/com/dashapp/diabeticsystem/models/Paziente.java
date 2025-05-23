@@ -13,7 +13,7 @@ public class Paziente extends Persona implements UpdatePersona{
     private LocalDate dataNascita;
 
 
-    private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
+    private final ObservableList<Terapia> terapie = FXCollections.observableArrayList();
 
 
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita) {
