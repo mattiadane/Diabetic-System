@@ -1,6 +1,5 @@
 package com.dashapp.diabeticsystem.controllers;
 
-
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
@@ -8,13 +7,17 @@ import com.dashapp.diabeticsystem.models.Terapia;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
 
 public class DettagliPazienteController {
@@ -87,6 +90,7 @@ public class DettagliPazienteController {
             }
 
         };
+
         Callback<TableColumn<Terapia, Void>, TableCell<Terapia, Void>> cellFactoryModifica = new Callback<>() {
             @Override
             public TableCell<Terapia, Void> call(final TableColumn<Terapia, Void> param) {
@@ -95,10 +99,9 @@ public class DettagliPazienteController {
                     private final Button btn = new Button("Modifica");
                     {
                         btn.getStyleClass().add("btn-modifica");
-                        btn.setOnAction(event -> {
-                            Terapia t = getTableView().getItems().get(getIndex());
-                            System.out.println(t.getFarmaco().getNome());
-                        });
+                        btn.setOnAction(event ->
+                            apriSchedaTerapia(getTableView().getItems().get(getIndex()),paziente)
+                        );
 
                     }
 
@@ -121,11 +124,30 @@ public class DettagliPazienteController {
 
     }
 
+    private void apriSchedaTerapia(Terapia terapia,Paziente paziente){
+        try{
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/modificaTerapia.fxml"));
 
+            Parent root = loader.load();
 
+            ModificaTerapiaController modificaTerapiaController = loader.getController();
+            modificaTerapiaController.loadData(terapia,paziente);
 
+            Stage schedaTerapia = new Stage();
+            Scene newScene = new Scene(root, 600, 700);
 
+            URL cssUrl = Main.class.getResource("css/style.css");
+            if(cssUrl != null){
+                newScene.getStylesheets().add(cssUrl.toExternalForm());
+            }
 
-
+            schedaTerapia.setTitle("Scheda Terapia di: " + this.paziente.getNome() + " " + this.paziente.getCognome());
+            schedaTerapia.setScene(newScene);
+            schedaTerapia.initModality(Modality.NONE);
+            schedaTerapia.show();
+        }catch(IOException err){
+            System.out.println("Errore: " + err.getMessage());
+        }
+    }
 
 }

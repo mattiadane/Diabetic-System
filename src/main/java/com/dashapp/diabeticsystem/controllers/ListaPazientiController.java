@@ -15,9 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 import java.io.IOException;
-import java.io.SyncFailedException;
 import java.net.URL;
 
 public class ListaPazientiController {
@@ -43,11 +41,9 @@ public class ListaPazientiController {
                     private final Button btn = new Button("Apri Scheda");
                     {
                         btn.getStyleClass().add("btn-apri-scheda");
-                        btn.setOnAction(event -> {
-
-                            apriSchedaPaziente(getTableView().getItems().get(getIndex()));
-
-                        });
+                        btn.setOnAction(event ->
+                            apriSchedaPaziente(getTableView().getItems().get(getIndex()))
+                        );
                     }
 
                     @Override
@@ -96,7 +92,7 @@ public class ListaPazientiController {
             schedaStage.show();
 
         } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Errore: " + e.getMessage());
         }
     }
 }

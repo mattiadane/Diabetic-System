@@ -21,8 +21,6 @@ public class Terapia {
 
     private static ObservableList<Farmaco> farmaci = FXCollections.observableArrayList();
 
-
-
     public Terapia(int quanto,PERIODICITA periodicita,double dosaggio_quantita,String dosaggio_unita,LocalDate data_inizio,LocalDate data_fine,String descrizione) {
         this.quanto = quanto;
         this.periodicita = periodicita;
@@ -35,7 +33,10 @@ public class Terapia {
 
     }
 
-
+    /**
+     * Funzione che permette, tramite chiamata a database, di prendere tutti i farmaci registrati.
+     * @return oggetto <code>ObservableList<Farmaco></code> di tutti i farmarci presenti nel database
+     */
     public static ObservableList<Farmaco> getAllDrug() {
         if(farmaci.isEmpty()){
             Main.getDbManager().selectQuery("SELECT * FROM farmaco",
@@ -49,7 +50,14 @@ public class Terapia {
         return farmaci;
     }
 
+    /**
+     * Funzione che permette di prendere un determinato farmaco
+     * @param name nome del farmaco da cercare
+     * @return <code>null</code> se la lista dei farmaci è vuota oppure non è presente nella lista, oggetto <code>Farmaco</code> altrimenti.
+     */
     public Farmaco getFarmacoByName(String name) {
+
+        if(farmaci == null) return null;
 
         for (Farmaco farmaco : farmaci) {
             if(farmaco.toString().equals(name)){
@@ -60,9 +68,7 @@ public class Terapia {
     }
 
 
-    public Farmaco getFarmaco() {
-        return farmaco;
-    }
+    public Farmaco getFarmaco() {return farmaco; }
 
     public void setFarmaco(Farmaco farmaco) {
         this.farmaco = farmaco;
@@ -79,10 +85,9 @@ public class Terapia {
     public String getDosaggio(){
         return dosaggio_quantita + dosaggio_unita;
     }
-    public String getAssunzioni(){
-        return quanto + (periodicita == PERIODICITA.SETTIMANA ? " alla " : " al ") + periodicita;
 
-    }
+    public String getAssunzioni(){ return quanto + (periodicita == PERIODICITA.SETTIMANA ? " alla " : " al ") + periodicita;}
+
     public String getPeriodo(){
         return  data_inizio + " - " + data_fine;
     }
@@ -98,6 +103,7 @@ public class Terapia {
     public LocalDate getData_inizio() {
         return data_inizio;
     }
+
     public String getDescrizione() {
         return descrizione;
     }
@@ -106,6 +112,7 @@ public class Terapia {
         return periodicita;
     }
 
+    public String getPeriodicitaString() { return periodicita.toString(); }
 
     public void setId_terapia(int id_terapia) {
         this.id_terapia = id_terapia;

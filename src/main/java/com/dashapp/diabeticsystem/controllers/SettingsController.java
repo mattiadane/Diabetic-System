@@ -35,33 +35,49 @@ public class SettingsController {
      * Funzione che permette di controllare l'evento di aggiornamento dei dati del diabetologo.
      */
     public void handleUpdateData(){
-        if(!Utility.checkObj(this.textNewPassword.getText()) || !this.textNewPassword.getText().equals(this.textConfirmPassword.getText())
 
-        ){
-            Utility.createAlert(Alert.AlertType.ERROR, "Le password inserite non coincidono.");
-            return;
-        }
 
-        // logica quando le password coincidono
-        if( !Utility.isEmailValid(this.textEmail.getText())
-                || !Utility.checkOnlyLetters(textNome.getText()) || !Utility.checkOnlyLetters(textCognome.getText())
-        ){
-            Utility.createAlert(Alert.AlertType.ERROR, "Dati inseriti non validi.");
-        }else{
-            persona.setNome(textNome.getText());
-            persona.setCognome(textCognome.getText());
-            persona.setEmail(textEmail.getText());
-            boolean success = persona.updatePersona(persona,this.textNewPassword.getText());
-            if(!success){
-                Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'aggiornamento dei dati");
+        if(Utility.checkObj(textNewPassword.getText())){
+            if(!textNewPassword.getText().equals(textConfirmPassword.getText())){
+                Utility.createAlert(Alert.AlertType.ERROR,"Le due password non coincidono");
                 return;
             }
-            Utility.createAlert(Alert.AlertType.INFORMATION, "Dati aggiornati correttamente");
 
-            // reset dei campi di testo
-            Utility.resetField(borderPane);
-            initialize();
+            boolean success =  persona.updatePassword(textNewPassword.getText());
+            if(!success){
+                Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'aggiornamento della password");
+                return;
+            }
+
+
+        } else {
+            if( !Utility.isEmailValid(this.textEmail.getText())
+                    || !Utility.checkOnlyLetters(textNome.getText()) || !Utility.checkOnlyLetters(textCognome.getText())
+                || Utility.checkObj(textConfirmPassword.getText())
+
+            ){
+                Utility.createAlert(Alert.AlertType.ERROR, "Dati inseriti non validi.");
+                return;
+            }else{
+                persona.setNome(textNome.getText());
+                persona.setCognome(textCognome.getText());
+                persona.setEmail(textEmail.getText());
+                boolean success = persona.updatePersona(persona);
+                if(!success){
+                    Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'aggiornamento dei dati");
+                    return;
+                }
+            }
         }
+        Utility.createAlert(Alert.AlertType.INFORMATION, "Dati aggiornati correttamente");
+        Utility.resetField(borderPane);
+        initialize();
+
+
+
+
+
+
     }
 
 

@@ -78,6 +78,9 @@ public abstract class Persona implements UpdatePersona {
         this.email = email.toLowerCase().trim();
     }
 
-    public abstract boolean updatePersona(Persona p,String password);
+    public abstract boolean updatePersona(Persona p);
+
+    @Override
+    public abstract boolean updatePassword(String password) ;
 
 }

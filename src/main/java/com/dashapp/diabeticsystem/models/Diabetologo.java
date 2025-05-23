@@ -35,22 +35,42 @@ public class Diabetologo extends Persona implements UpdatePersona {
         super(nome,cognome,email,codice_fiscale);
     }
 
-    @Override
-    public boolean updatePersona(Persona p, String password) {
+
+    public boolean updatePersona(Persona p) {
         if(!(p instanceof Diabetologo)) return false;
 
-        boolean success =  Main.getDbManager().updateQuery("UPDATE diabetologo SET nome = ? , cognome = ?, email = ? WHERE id_diabetologo = ?",
+        return Main.getDbManager().updateQuery("UPDATE diabetologo SET nome = ? , cognome = ?, email = ? WHERE id_diabetologo = ?",
                 p.getNome(),p.getCognome(),p.getEmail(),id_diabetologo);
-
-        // se la prima query non è andata a buon fine, ritorno subito valore false
-        if(!success) return false;
-
-
-        // ritorno il valore della query di aggiornamento per la password
-        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo = ?",password,id_diabetologo);
 
     }
 
+    @Override
+    public boolean updatePassword(String password) {
+        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo  = ?",password,id_diabetologo);
+    }
+
+    /**
+     * Funzione che permette di modificare i dati di una terapia a database
+     * @param terapia nuova terapia con i dati modificati della precedente
+     * @return <code>true</code> se la query va a buon fine, <code>false</code> altrimenti,
+     */
+    public boolean updateTerapia(Terapia terapia){
+        if(terapia == null) return false;
+
+        return Main.getDbManager().updateQuery("\n" +
+                "UPDATE terapia SET\n" +
+                "id_farmaco = ?,\n" +
+                "dosaggio_quantità = ?,\n" +
+                "dosaggio_unità = ?,\n" +
+                "quanto = ?,\n" +
+                "periodicità = ?,\n" +
+                "data_inizio_terapia = ?,\n" +
+                "data_fine_terapia = ?,\n" +
+                "descrizione = ?\n" +
+                "WHERE (id_terapia = ?)",
+        terapia.getFarmaco().getId_farmaco(), terapia.getDosaggio_quantita(), terapia.getDosaggio_unita(), terapia.getQuanto(), terapia.getPeriodicita().toString(), terapia.getData_inizio(), terapia.getData_fine(), terapia.getDescrizione(), terapia.getId_terapia()
+                );
+    }
 
     /**
      * Funzione che permette di inserire all'interno della tabella 'paziente' il nuovo paziente che viene assegnato al dottore

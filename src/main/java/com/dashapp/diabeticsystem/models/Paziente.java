@@ -44,18 +44,21 @@ public class Paziente extends Persona implements UpdatePersona{
     }
 
     @Override
-    public boolean updatePersona(Persona p, String password) {
+    public boolean updatePersona(Persona p) {
         if(!(p instanceof Paziente)) return false;
 
-        boolean success =  Main.getDbManager().updateQuery("UPDATE paziente SET nome = ? , cognome = ?, email = ? WHERE id_paziente = ?"
+        return Main.getDbManager().updateQuery("UPDATE paziente SET nome = ? , cognome = ?, email = ? WHERE id_paziente = ?"
                 ,p.getNome(),p.getCognome(),p.getEmail(),id_paziente);
+    }
 
-        // se la prima query non è andata a buon fine, ritorno subito valore false
-        if(!success) return false;
 
-        // ritorno il valore della query di aggiornamento per la password
-        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_paziente = ?",password,id_paziente);
+    public boolean updatePassword(String password) {
+        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_paziente  = ?",password,id_paziente);
+    }
 
+    public void updateTerapia(Terapia t){
+        terapie.removeIf(tt -> tt.getId_terapia() == t.getId_terapia());
+        terapie.add(t);
     }
 
     public ObservableList<Terapia> loadAllTerapie() {

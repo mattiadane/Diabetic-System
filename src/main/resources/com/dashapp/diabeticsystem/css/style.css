@@ -131,7 +131,7 @@
     -fx-background-insets: 0;
     -fx-prompt-text-fill: #888888;
     -fx-padding: 8 12 8 12;
-    -fx-border-color: transparent;
+    -fx-border-color: #888888;
     -fx-border-radius: 10;
     -fx-border-width: 1;
 }
@@ -164,4 +164,16 @@
 
 .btn-elimina {
     -fx-background-color: #CC0000;
+    -fx-text-fill: white;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 6px;
+}
+
+.btn-modifica{
+    -fx-background-color: #007bff;  /* blu iniziale */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
 }
