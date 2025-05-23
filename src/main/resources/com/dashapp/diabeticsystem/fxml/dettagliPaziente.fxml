@@ -44,6 +44,7 @@
                     <TableColumn text="Farmaco"  fx:id="col_nome"/>
                     <TableColumn text="Dosaggio"  fx:id="col_dosaggio"/>
                     <TableColumn text="# Assunzioni" fx:id="col_assunzioni" />
+                    <TableColumn text="Periodo" fx:id="col_periodo" />
                     <TableColumn text="Modifica" fx:id="modifica" />
                     <TableColumn text="Elimina"  fx:id="elimina" />
                 </columns>

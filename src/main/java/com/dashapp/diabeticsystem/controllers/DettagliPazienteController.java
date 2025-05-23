@@ -1,14 +1,18 @@
 package com.dashapp.diabeticsystem.controllers;
 
 
+import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 
 import java.util.Optional;
@@ -21,6 +25,8 @@ public class DettagliPazienteController {
     @FXML private TableColumn<Terapia, String> col_nome;
     @FXML private TableColumn<Terapia, String> col_dosaggio;
     @FXML private TableColumn<Terapia, String> col_assunzioni;
+    @FXML private TableColumn<Terapia, String> col_periodo;
+
     @FXML private TableColumn<Terapia, Void> modifica;
     @FXML private TableColumn<Terapia, Void> elimina;
     private  Paziente paziente;
@@ -40,11 +46,12 @@ public class DettagliPazienteController {
 
         this.col_dosaggio.setCellValueFactory(new PropertyValueFactory<>("dosaggio"));
         this.col_assunzioni.setCellValueFactory(new PropertyValueFactory<>("assunzioni"));
+        this.col_periodo.setCellValueFactory(new PropertyValueFactory<>("periodo"));
 
 
 
 
-        Callback<TableColumn<Terapia, Void>, TableCell<Terapia, Void>> cellFactory = new Callback<>() {
+        Callback<TableColumn<Terapia, Void>, TableCell<Terapia, Void>> cellFactoryElimina = new Callback<>() {
             @Override
             public TableCell<Terapia, Void> call(final TableColumn<Terapia, Void> param) {
                 return new TableCell<>() {
@@ -80,7 +87,37 @@ public class DettagliPazienteController {
             }
 
         };
-        elimina.setCellFactory(cellFactory);
+        Callback<TableColumn<Terapia, Void>, TableCell<Terapia, Void>> cellFactoryModifica = new Callback<>() {
+            @Override
+            public TableCell<Terapia, Void> call(final TableColumn<Terapia, Void> param) {
+                return new TableCell<>() {
+
+                    private final Button btn = new Button("Modifica");
+                    {
+                        btn.getStyleClass().add("btn-modifica");
+                        btn.setOnAction(event -> {
+                            Terapia t = getTableView().getItems().get(getIndex());
+                            System.out.println(t.getFarmaco().getNome());
+                        });
+
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+
+                };
+            }
+
+        };
+        modifica.setCellFactory(cellFactoryModifica);
+        elimina.setCellFactory(cellFactoryElimina);
 
     }
 

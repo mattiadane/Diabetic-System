@@ -61,14 +61,15 @@ public class Paziente extends Persona implements UpdatePersona{
     public ObservableList<Terapia> loadAllTerapie() {
         if(terapie.isEmpty()){
 
-            Main.getDbManager().selectQuery("SELECT f.nome,t.id_terapia,t.dosaggio_quantità,t.dosaggio_unità,t.quanto,t.periodicità FROM terapia t\n" +
+            Main.getDbManager().selectQuery("SELECT f.nome,t.id_terapia,t.dosaggio_quantità,t.dosaggio_unità,t.quanto,t.periodicità,t.data_inizio_terapia,t.data_fine_terapia,t.descrizione FROM terapia t\n" +
                     "INNER JOIN farmaco f ON t.id_farmaco = f.id_farmaco WHERE id_paziente = ?; ",
                     rs -> {
                         while(rs.next()){
                             Terapia t = new Terapia(
 
                                     rs.getInt("t.quanto"),PERIODICITA.valueOf(rs.getString("t.periodicità").toUpperCase()),
-                                    rs.getDouble("t.dosaggio_quantità"),rs.getString("t.dosaggio_unità")
+                                    rs.getDouble("t.dosaggio_quantità"),rs.getString("t.dosaggio_unità"),rs.getDate("t.data_inizio_terapia").toLocalDate()
+                                    ,rs.getDate("t.data_fine_terapia").toLocalDate(),rs.getString("t.descrizione")
                             );
                             t.setId_terapia(rs.getInt("t.id_terapia"));
                             t.setFarmaco(t.getFarmacoByName(rs.getString("f.nome")));

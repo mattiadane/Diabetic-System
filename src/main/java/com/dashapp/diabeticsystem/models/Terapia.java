@@ -10,13 +10,13 @@ import java.time.LocalDate;
 public class Terapia {
 
     private int id_terapia;
-    private int quanto;
-    private PERIODICITA periodicita;
-    private LocalDate data_inizio;
-    private LocalDate data_fine;
-    private double dosaggio_quantita;
-    private String dosaggio_unita;
-    private String descrizione;
+    private final int quanto;
+    private final PERIODICITA periodicita;
+    private final LocalDate data_inizio;
+    private final LocalDate data_fine;
+    private final double dosaggio_quantita;
+    private final String dosaggio_unita;
+    private final String descrizione;
     private Farmaco farmaco;
 
     private static ObservableList<Farmaco> farmaci = FXCollections.observableArrayList();
@@ -24,20 +24,17 @@ public class Terapia {
 
 
     public Terapia(int quanto,PERIODICITA periodicita,double dosaggio_quantita,String dosaggio_unita,LocalDate data_inizio,LocalDate data_fine,String descrizione) {
-        this(quanto,periodicita,dosaggio_quantita,dosaggio_unita);
-        this.data_inizio = data_inizio;
-        this.data_fine = data_fine;
-        this.descrizione = descrizione;
-
-    }
-
-    public Terapia(int quanto,PERIODICITA periodicita,double dosaggio_quantita,String dosaggio_unita) {
         this.quanto = quanto;
         this.periodicita = periodicita;
         this.dosaggio_quantita = dosaggio_quantita;
         this.dosaggio_unita = dosaggio_unita;
+        this.data_inizio = data_inizio;
+        this.data_fine = data_fine;
+        this.descrizione = descrizione;
         farmaci = getAllDrug();
+
     }
+
 
     public static ObservableList<Farmaco> getAllDrug() {
         if(farmaci.isEmpty()){
@@ -85,6 +82,9 @@ public class Terapia {
     public String getAssunzioni(){
         return quanto + (periodicita == PERIODICITA.SETTIMANA ? " alla " : " al ") + periodicita;
 
+    }
+    public String getPeriodo(){
+        return  data_inizio + " - " + data_fine;
     }
 
     public int getQuanto() {
