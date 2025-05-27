@@ -8,7 +8,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
-
 public class SettingsController {
 
     @FXML private BorderPane borderPane;
@@ -35,8 +34,6 @@ public class SettingsController {
      * Funzione che permette di controllare l'evento di aggiornamento dei dati del diabetologo.
      */
     public void handleUpdateData(){
-
-
         if(Utility.checkObj(textNewPassword.getText())){
             if(!textNewPassword.getText().equals(textConfirmPassword.getText())){
                 Utility.createAlert(Alert.AlertType.ERROR,"Le due password non coincidono");
@@ -48,8 +45,6 @@ public class SettingsController {
                 Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'aggiornamento della password");
                 return;
             }
-
-
         } else {
             if( !Utility.isEmailValid(this.textEmail.getText())
                     || !Utility.checkOnlyLetters(textNome.getText()) || !Utility.checkOnlyLetters(textCognome.getText())
@@ -72,15 +67,5 @@ public class SettingsController {
         Utility.createAlert(Alert.AlertType.INFORMATION, "Dati aggiornati correttamente");
         Utility.resetField(borderPane);
         initialize();
-
-
-
-
-
-
     }
-
-
-
-
 }

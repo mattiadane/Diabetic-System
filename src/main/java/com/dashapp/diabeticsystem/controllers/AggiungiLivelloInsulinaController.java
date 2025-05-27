@@ -27,9 +27,9 @@ public class AggiungiLivelloInsulinaController {
         this.paziente = new Paziente();
         comboBoxMomento.getItems().setAll(PERIODO.values());
     }
+
     /**
-     * Funzione che permette di controllare l'evento di aggiunta del livello di insulina
-     *
+     * Funzione che permette di controllare l'evento di aggiunta del livello di insulina.
      */
     public void handleAggiungiLivello(){
         if(!Utility.checkInsulina(textLivello.getText()) || !Utility.checkTime(this.timeText.getText()) || !Utility.checkObj( comboBoxMomento.getValue())

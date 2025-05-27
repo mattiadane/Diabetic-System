@@ -17,7 +17,6 @@ public class  Insulina {
         this.checkAssunzione = checkAssunzione;
     }
 
-
     public int getLivello_insulina() {
         return livello_insulina;
     }

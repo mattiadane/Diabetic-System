@@ -36,6 +36,11 @@ public class Diabetologo extends Persona implements UpdatePersona {
     }
 
 
+    /**
+     * Funzione che permette di aggiornare i dati del diabetolo a database.
+     * @param p nuova persona per aggiornare i dati correnti.
+     * @return <code>true</code> se la query va a buon fine, <code>false</code> altrimenti.
+     */
     public boolean updatePersona(Persona p) {
         if(!(p instanceof Diabetologo)) return false;
 
@@ -44,6 +49,11 @@ public class Diabetologo extends Persona implements UpdatePersona {
 
     }
 
+    /**
+     * Funzione che permette di aggiornare la password del diabetologo
+     * @param password nuova password da inserire a database
+     * @return <code>true</code> se la query va a buon fine, <code>false</code> altrimenti.
+     */
     @Override
     public boolean updatePassword(String password) {
         return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo  = ?",password,id_diabetologo);
@@ -145,6 +155,11 @@ public class Diabetologo extends Persona implements UpdatePersona {
         return null;
     }
 
+    /**
+     * Funzione che permette di cercare un paziente all'interno della lista dei pazienti associati al diabetologo.
+     * @param search oggetto ti tipo <code>String</code> che contiene il codice fiscale del paziente da cercare.
+     * @return oggetto di tipo <code>ObservableList</code> con i pazienti che hanno il codice fiscale che inizia con il parametro passato.
+     */
     public ObservableList<Paziente> getPazientiResearch(String search){
         ObservableList<Paziente> pazientiResearch = FXCollections.observableArrayList();
         Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email FROM paziente WHERE codice_fiscale LIKE ? ",
@@ -161,10 +176,15 @@ public class Diabetologo extends Persona implements UpdatePersona {
 
     }
 
+    /**
+     * Funzione che permette di inserire una nuova terapia a database
+     * @param terapia oggetto di tipo <code>Terapia</code> da inserire a database
+     * @param p oggetto di tipo <code>Paziente</code> associato alla terapia
+     * @param f oggetto di tipo <code>Farmaco</code> associato alla terapia
+     * @return valore di tipo <code>boolean</code> per controllare che l'inserimento è andato a buon fine.
+     */
     public boolean insersciTerapia(Terapia terapia,Paziente p,Farmaco f){
-
         if(terapia == null || p == null || f == null) return false;
-
 
         return Main.getDbManager().updateQuery("INSERT INTO terapia(id_paziente,id_diabetologo,id_farmaco,dosaggio_quantità" +
                 ",dosaggio_unità,quanto,periodicità,data_inizio_terapia,data_fine_terapia,descrizione) VALUES (?,?,?,?,?,?,?,?,?,?)",
@@ -173,9 +193,13 @@ public class Diabetologo extends Persona implements UpdatePersona {
                 );
     }
 
+    /**
+     * Funzione che permette di rimuovere una terapia a database
+     * @param t oggetto di tipo <code>Terapia</code> da rimuovere a database
+     * @return valore di tipo <code>boolean</code> per controllare che la rimozione è andata a buon fine.
+     */
     public boolean rimuoviTerapia(Terapia t){
         if(t == null) return false;
-
 
         return Main.getDbManager().updateQuery("DELETE FROM terapia WHERE id_terapia = ?",t.getId_terapia());
     }

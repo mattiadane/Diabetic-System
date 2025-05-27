@@ -34,8 +34,10 @@ public class TerapieController {
         periodicita.getItems().addAll(PERIODICITA.values());
     }
 
+    /**
+     * Funzione che permette di gestire l'evento generato dal bottone per aggiungere una terapia.
+     */
     public void aggiungiTerapia() {
-
         if(!Utility.checkObj(periodicita.getValue()) || !Utility.checkObj(medicinale.getValue())
             || !Utility.checkOnlyLetters(unita.getText()) || !Utility.checkOnlyNumbers(quantita.getText()) || !Utility.checkOnlyNumbers(quanto.getText())
                 || !Utility.isCodiceFiscaleValid(codice_fiscale.getText()) || !Utility.checkDates(data_inizio.getValue(),data_fine.getValue())

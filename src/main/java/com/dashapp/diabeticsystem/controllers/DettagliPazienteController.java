@@ -52,8 +52,6 @@ public class DettagliPazienteController {
         this.col_periodo.setCellValueFactory(new PropertyValueFactory<>("periodo"));
 
 
-
-
         Callback<TableColumn<Terapia, Void>, TableCell<Terapia, Void>> cellFactoryElimina = new Callback<>() {
             @Override
             public TableCell<Terapia, Void> call(final TableColumn<Terapia, Void> param) {
@@ -124,6 +122,11 @@ public class DettagliPazienteController {
 
     }
 
+    /**
+     * Funzione che permette di aprire la scheda del paziente selezionato.
+     * @param terapia terapia da visualizzare
+     * @param paziente paziente a cui appartiene la terapia.
+     */
     private void apriSchedaTerapia(Terapia terapia,Paziente paziente){
         try{
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/modificaTerapia.fxml"));

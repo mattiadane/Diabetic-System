@@ -20,8 +20,6 @@ public class LoginController {
     /**
      * Funzione che permette di avviare il procedimento di Login in base ai dati inseriti
      * dall'utente nel form.
-     *
-     *
      */
     @FXML
     protected void onClickLogin()  {

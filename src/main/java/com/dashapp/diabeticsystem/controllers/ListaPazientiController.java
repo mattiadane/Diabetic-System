@@ -67,6 +67,10 @@ public class ListaPazientiController {
 
     }
 
+    /**
+     * Funzione che permette di aprire la scheda del paziente selezionato.
+     * @param paziente il paziente da visualizzare
+     */
     private void apriSchedaPaziente(Paziente paziente) {
         try{
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/dettagliPaziente.fxml"));
@@ -98,6 +102,9 @@ public class ListaPazientiController {
         }
     }
 
+    /**
+     * Funzione che permette di cercare un paziente in base al codice fiscale inserito.
+     */
     public void searchInput() {
         tabellaPazienti.setItems(diabetologo.getPazientiResearch(codice_fiscale.getText()));
 
