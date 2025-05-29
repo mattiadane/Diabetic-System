@@ -15,6 +15,8 @@ public class SidebarController {
     @FXML private Button settingsButton;
     @FXML private Button insulinaButton;
     @FXML private Button logoutButton;
+    @FXML private Button diabetologiButton;
+
 
     private Login user;
 
@@ -47,6 +49,8 @@ public class SidebarController {
     }
 
     public void handleInsulina() { Router.navigateToInsulina(); }
+    public void handleDiabetologi() { Router.navigateToDiabetologi(); }
+
 
     /**
      * Funzione che permette di settare i bottoni (tutti nascosti inizialmente) della sidebar in modo che,
@@ -63,6 +67,8 @@ public class SidebarController {
         settingsButton.setManaged(false);
         insulinaButton.setVisible(false);
         insulinaButton.setManaged(false);
+        diabetologiButton.setVisible(false);
+        diabetologiButton.setManaged(false);
 
 
 
@@ -79,6 +85,8 @@ public class SidebarController {
                     // Se vuoi che l'admin abbia una dashboard, rendi visibile dashboardButton
                     homeButton.setVisible(true);
                     homeButton.setManaged(true);
+                    diabetologiButton.setVisible(true);
+                    diabetologiButton.setManaged(true);
                     break;
                 case DIABETOLOGO:
                     // Il Diabetologo vede Home, Pazienti, Impostazioni, Logout

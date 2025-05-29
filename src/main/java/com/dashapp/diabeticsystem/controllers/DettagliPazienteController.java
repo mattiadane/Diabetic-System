@@ -22,8 +22,7 @@ import java.util.Optional;
 
 public class DettagliPazienteController {
 
-    // componenti FXML
-    @FXML private Label main_label;
+
     @FXML private TableView<Terapia> tabella_terapie;
     @FXML private TableColumn<Terapia, String> col_nome;
     @FXML private TableColumn<Terapia, String> col_dosaggio;
@@ -62,7 +61,7 @@ public class DettagliPazienteController {
                         btn.getStyleClass().add("btn-elimina");
                         btn.setOnAction(event -> {
                             Optional<ButtonType> result = Utility.createAlert(Alert.AlertType.CONFIRMATION,"Sei sicuro di voler rimuovere la terapia?");
-                            if(result.get().getText().equals("Si")){
+                            if( result.isPresent() && result.get().getText().equals("Si")){
                                 boolean success = diabetologo.rimuoviTerapia(getTableView().getItems().get(getIndex()));
                                 if(!success){
                                     return;

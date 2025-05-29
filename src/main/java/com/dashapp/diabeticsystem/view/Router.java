@@ -138,11 +138,16 @@ public class Router {
     }
 
     public static void navigateToTerapia(){
-        loadView("terapie.fxml");
+        loadView("aggiungiTerapie.fxml");
     }
 
     public static void navigateToPazienti(){
         loadView("listaPazienti.fxml");
+    }
+
+
+    public static void navigateToDiabetologi(){
+        loadView("listaDiabetologi.fxml");
     }
 
 

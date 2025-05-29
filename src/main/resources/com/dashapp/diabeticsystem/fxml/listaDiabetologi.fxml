@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.dashapp.diabeticsystem.controllers.ListaDiabetologiController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <center>
+        <VBox>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+            <Label text="Lista Diabetologi" styleClass="title"/>
+
+
+
+            <TableView fx:id="tabellaDiabetologo" prefHeight="200.0" prefWidth="200.0" styleClass="table-view">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn fx:id="nomeDiabetologo" prefWidth="75.0" text="Nome"/>
+                    <TableColumn fx:id="cognomeDiabetologo" prefWidth="75.0"  text="Cognome"/>
+                    <TableColumn fx:id="cfDiabetologo" prefWidth="75.0" text="Codice fiscale"/>
+                    <TableColumn fx:id="azioniColonna" prefWidth="300.0"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+</BorderPane>

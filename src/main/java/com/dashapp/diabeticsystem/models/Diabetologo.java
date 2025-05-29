@@ -34,6 +34,13 @@ public class Diabetologo extends Persona implements UpdatePersona {
     public Diabetologo(String nome, String cognome, String email,String codice_fiscale){
         super(nome,cognome,email,codice_fiscale);
     }
+    public Diabetologo(int id_diabetologo, String  nome, String cognome, String email,String codice_fiscale){
+        this(nome,cognome,email,codice_fiscale);
+        this.id_diabetologo = id_diabetologo;
+
+    }
+
+
 
 
     /**
