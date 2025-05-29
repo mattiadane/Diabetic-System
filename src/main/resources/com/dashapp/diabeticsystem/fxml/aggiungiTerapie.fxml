@@ -32,9 +32,9 @@
 
             <Label text="Dosaggio quantità / unità" />
             <HBox spacing="5" alignment="CENTER_LEFT">
-                <TextField promptText="Quantità" HBox.hgrow="ALWAYS"/>
+                <TextField  fx:id="quantita" promptText="Quantità" HBox.hgrow="ALWAYS"/>
                 <Label text="/"/>
-                <TextField promptText="unità" HBox.hgrow="ALWAYS"/>
+                <TextField  fx:id="unita"   promptText="unità" HBox.hgrow="ALWAYS"/>
             </HBox>
 
 

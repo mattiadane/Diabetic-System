@@ -86,10 +86,10 @@ public class Terapia {
         return dosaggio_quantita + dosaggio_unita;
     }
 
-    public String getAssunzioni(){ return quanto + (periodicita == PERIODICITA.SETTIMANA ? " alla " : " al ") + periodicita;}
+    public String getAssunzioni(){ return quanto + (quanto == 1 ? " volta " : " volte ")   +(periodicita == PERIODICITA.SETTIMANA ? " alla " : " al ") + periodicita;}
 
     public String getPeriodo(){
-        return  data_inizio + " - " + data_fine;
+        return  " Da " +  data_inizio + " a " + data_fine;
     }
 
     public int getQuanto() {
@@ -120,5 +120,9 @@ public class Terapia {
 
     public int getId_terapia() {
         return id_terapia;
+    }
+
+    public String toStringForList(){
+        return  descrizione + " " + getDosaggio() + " " +  getAssunzioni() +  " di " + this.farmaco + getPeriodo();
     }
 }

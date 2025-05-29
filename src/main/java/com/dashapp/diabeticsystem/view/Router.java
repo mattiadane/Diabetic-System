@@ -58,14 +58,10 @@ public class Router {
 
     public static void changeScene (String fxml) {
         int x , y;
-
         try {
-
-            // Load the main application layout (e.g., main.fxml)
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/" + fxml));
             Parent root = fxmlLoader.load();
 
-            // Get the controller for the main layout
             Object newMainController = fxmlLoader.getController();
 
             if(fxml.equals("mainView.fxml")){
@@ -81,8 +77,6 @@ public class Router {
             }
 
 
-
-            // Switch the scene of the primary stage
             Stage stage = Main.getPrimaryStage();
             if (stage == null) {
                 System.err.println("Primary stage is null. Cannot switch scene.");
@@ -100,8 +94,6 @@ public class Router {
             stage.setScene(newScene);
             stage.setTitle("Diabetic System - Dashboard"); // Update title
             stage.show();
-
-
 
         } catch (IOException e) {
             System.err.println("Error navigating to dashboard: " + e.getMessage());

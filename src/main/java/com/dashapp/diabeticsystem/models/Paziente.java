@@ -91,8 +91,16 @@ public class Paziente extends Persona implements UpdatePersona{
     }
 
     public void rimuoviTerapie(Terapia t) {
-
         terapie.remove(t);
+    }
+
+    /**
+     * Funzione che restituisce tutte le terapie caricate nel paziente. Se non sono già caricate, tento di caricarle dal database.
+     * @return <code>ObservableList</code> con le terapie del paziente, <code>null</code> altrimenti.
+     */
+    public ObservableList<Terapia> getAllTerapie() {
+        if(terapie.isEmpty()) return loadAllTerapie();
+        return this.terapie;
     }
 
     /**

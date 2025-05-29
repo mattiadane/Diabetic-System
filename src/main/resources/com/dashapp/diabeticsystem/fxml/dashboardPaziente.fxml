@@ -8,7 +8,6 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardPazienteController"
             prefHeight="400.0" prefWidth="600.0"
-
 >
 
 
@@ -20,13 +19,13 @@
             </padding>
 
             <Label fx:id="benvenuto" styleClass="title"/>
+
+            <!-- spazio per il grafico dell'insulina -->
+
+            <Label text="Le mie terapie" styleClass="title"/>
+
+            <ListView fx:id="listaTerapie" />
         </VBox>
-
-        <Label text="La mia terapia" />
-
-
-
-
     </center>
 
 </BorderPane>
