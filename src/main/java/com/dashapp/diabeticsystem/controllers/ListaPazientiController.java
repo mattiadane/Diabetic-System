@@ -44,7 +44,7 @@ public class ListaPazientiController {
             public TableCell<Paziente, Void> call(final TableColumn<Paziente, Void> param) {
                 return new TableCell<>() {
 
-                    private final Button btn = new Button("Apri Scheda");
+                    private final Button btn = new Button("Apri");
                     {
                         btn.getStyleClass().add("btn-apri-scheda");
                         btn.setOnAction(event ->
@@ -74,7 +74,7 @@ public class ListaPazientiController {
             public TableCell<Paziente, Void> call(final TableColumn<Paziente, Void> param) {
                 return new TableCell<>() {
 
-                    private final Button btn = new Button("elimina");
+                    private final Button btn = new Button("Elimina");
                     {
                         btn.getStyleClass().add("btn-elimina");
                         btn.setOnAction(event -> {
@@ -125,6 +125,7 @@ public class ListaPazientiController {
 
             DettagliPazienteController dettagliPazienteController = loader.getController();
             dettagliPazienteController.loadTerapie(paziente);
+            dettagliPazienteController.initChart(paziente);
 
 
             Stage schedaStage = new Stage();
@@ -143,7 +144,7 @@ public class ListaPazientiController {
             schedaStage.show();
 
         } catch (IOException e) {
-                System.out.println("Errore: " + e.getMessage());
+                e.printStackTrace();
         }
     }
 

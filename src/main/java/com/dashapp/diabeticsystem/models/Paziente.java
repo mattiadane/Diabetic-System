@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
@@ -139,14 +140,18 @@ public class Paziente extends Persona implements UpdatePersona{
     public ObservableList<Insulina> getAllInsulinas() {
         ObservableList<Insulina> list = FXCollections.observableArrayList();
 
-        Main.getDbManager().selectQuery("SELECT * FROM insulina WHERE id_paziente = ?;",
+        Main.getDbManager().selectQuery("SELECT * FROM insulina WHERE id_paziente = ? ORDER BY orario ASC;",
                 rs -> {
+
                     while(rs.next()) {
                         Insulina temp = new Insulina();
+                        // importo solo i dati che mi interessano
+                        temp.setOrario(rs.getObject("orario", LocalDateTime.class));
+                        temp.setLivelloInsulina(rs.getInt("valore_glicemia"));
 
-
+                        list.add(temp);
                     }
-                    return null;
+                    return null; // restituzione del call back
                 },
                 this.id_paziente
         );

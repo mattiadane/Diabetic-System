@@ -25,7 +25,7 @@
 
        <!-- spazio per i dati del paziente (livelli di insulina) -->
         <VBox>
-            <Label text="Livelli di insulina" styleClass="title"/>
+            <Label text="Livelli di insulina:" styleClass="title"/>
 
             <LineChart fx:id="chart">
                 <xAxis>
@@ -34,7 +34,7 @@
 
                 <!-- asse verticale numerico (es. unità di insulina) -->
                 <yAxis>
-                    <NumberAxis fx:id="yAxis" label="Unità di insulina"/>
+                    <NumberAxis fx:id="yAxis" label="Valore (mg/dL) "/>
                 </yAxis>
             </LineChart>
 

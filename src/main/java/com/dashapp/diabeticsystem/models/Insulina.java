@@ -31,4 +31,20 @@ public class  Insulina {
     }
 
     public boolean getAssuzione(){ return this.checkAssunzione; }
+
+    public void setLivelloInsulina(int livello_insulina){
+        this.livello_insulina = livello_insulina;
+    }
+
+    public void setPeriodo(PERIODO periodo){
+        this.periodo = periodo;
+    }
+
+    public void setOrario(LocalDateTime orario){
+        this.orario = orario;
+    }
+
+    public void setCheckAssunzione(boolean checkAssunzione) {
+        this.checkAssunzione = checkAssunzione;
+    }
 }

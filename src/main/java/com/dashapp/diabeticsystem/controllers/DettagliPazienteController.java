@@ -7,6 +7,7 @@ import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +23,7 @@ import java.util.Date;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 
 public class DettagliPazienteController {
@@ -48,7 +50,6 @@ public class DettagliPazienteController {
 
 
     public void initialize(){
-        initChart();
         this.diabetologo = new Diabetologo();
         this.col_nome.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getFarmaco().getNome()));
@@ -125,7 +126,6 @@ public class DettagliPazienteController {
         };
         modifica.setCellFactory(cellFactoryModifica);
         elimina.setCellFactory(cellFactoryElimina);
-
     }
 
     /**
@@ -162,7 +162,7 @@ public class DettagliPazienteController {
     /**
      * Funzione che permette di mostrare i livelli di insulina di una settimana di un determinato paziente
      */
-    private void initChart(){
+    public void initChart(Paziente paziente){
         // setto i label per x e y
         chart.getXAxis().setLabel("Giorni");
         chart.getYAxis().setLabel("Registrazioni");
@@ -170,10 +170,19 @@ public class DettagliPazienteController {
         XYChart.Series<String,Number> series = new XYChart.Series<>();
         series.setName("Insulina");
 
+        ObservableList<Insulina> data = paziente.getAllInsulinas();
+        if(data.isEmpty()) {
+            Utility.createAlert(Alert.AlertType.WARNING, "Non ci sono registrazioni di insulina per questo paziente");
+        }
 
-        series.getData().add(new XYChart.Data<>("2025‑06‑23", 18.5));
-        series.getData().add(new XYChart.Data<>("2025‑06‑24", 20.2));
+        for(Insulina reg : data){
+            String day = reg.getOrario().toLocalDate().toString();
+            int value = reg.getLivello_insulina();
 
+            series.getData().add(new XYChart.Data<>(day, value));
+        }
+
+        if(series.getData().isEmpty()) return;
         chart.getData().add(series);
     }
 
