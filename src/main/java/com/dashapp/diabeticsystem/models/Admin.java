@@ -67,7 +67,6 @@ public class Admin {
     public boolean rimuoviDiabetologo(Diabetologo diabetologo){
         if(diabetologo == null) return false;
 
-        System.out.println(diabetologo.getId_diabetologo());
         boolean success =  Main.getDbManager().updateQuery("DELETE FROM diabetologo WHERE id_diabetologo = ?",diabetologo.getId_diabetologo());
 
         if(success)

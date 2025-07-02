@@ -10,21 +10,25 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 public class ListaPazientiController {
+
 
     @FXML private TextField codice_fiscale ;
     @FXML private TableView<Paziente> tabellaPazienti ;
     @FXML private TableColumn<Paziente, String> nomePaziente;
     @FXML private TableColumn<Paziente, String> cognomePaziente;
     @FXML private TableColumn<Paziente, String> cfPaziente;
-    @FXML private TableColumn<Paziente, Void> azioniColonna;
+    @FXML private TableColumn<Paziente, Void> terapie;
+    @FXML public TableColumn<Paziente,Void> elimina;
+
+
     private Diabetologo diabetologo;
 
     public void initialize(){
@@ -33,8 +37,9 @@ public class ListaPazientiController {
         this.cognomePaziente.setCellValueFactory(new PropertyValueFactory<>("cognome"));
         this.cfPaziente.setCellValueFactory(new PropertyValueFactory<>("codice_fiscale"));
 
+
         // Implementazione per settare i bottoni per aprire la scheda del paziente
-        Callback<TableColumn<Paziente, Void>, TableCell<Paziente, Void>> cellFactory = new Callback<>() {
+        Callback<TableColumn<Paziente, Void>, TableCell<Paziente, Void>> apriScheda = new Callback<>() {
             @Override
             public TableCell<Paziente, Void> call(final TableColumn<Paziente, Void> param) {
                 return new TableCell<>() {
@@ -61,7 +66,47 @@ public class ListaPazientiController {
             }
         };
 
-        azioniColonna.setCellFactory(cellFactory);
+
+
+        // Implementazione per settare i bottoni per eliminare il paziente
+        Callback<TableColumn<Paziente, Void>, TableCell<Paziente, Void>> eliminaPaziente = new Callback<>() {
+            @Override
+            public TableCell<Paziente, Void> call(final TableColumn<Paziente, Void> param) {
+                return new TableCell<>() {
+
+                    private final Button btn = new Button("elimina");
+                    {
+                        btn.getStyleClass().add("btn-elimina");
+                        btn.setOnAction(event -> {
+                            Optional<ButtonType> result = Utility.createAlert(Alert.AlertType.CONFIRMATION, "Sei sicuro di voler rimuovere il diabetologo?");
+                            if (result.isPresent() && result.get().getText().equals("Si")) {
+                                boolean success = diabetologo.rimuoviPaziente(getTableView().getItems().get(getIndex()));
+                                if (!success) {
+                                    Utility.createAlert(Alert.AlertType.ERROR, "Errore nella rimozione del diabetologo");
+                                }
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+
+                };
+            }
+        };
+
+
+
+        terapie.setCellFactory(apriScheda);
+        elimina.setCellFactory(eliminaPaziente);
         tabellaPazienti.setItems(diabetologo.getAllPatients());
 
 

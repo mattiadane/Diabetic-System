@@ -6,6 +6,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="400.0" prefWidth="600.0"
@@ -22,16 +25,20 @@
 
        <!-- spazio per i dati del paziente (livelli di insulina) -->
         <VBox>
-            <Label text="" fx:id="main_label" styleClass="title"/>
-        </VBox>
+            <Label text="Livelli di insulina" styleClass="title"/>
 
-        <!-- spazio per le terapie associate -->
-        <VBox>
-            <Label text="Andamento dei livelli di glicemia" styleClass="title"/>
-        </VBox>
+            <LineChart fx:id="chart">
+                <xAxis>
+                    <CategoryAxis fx:id="xAxis" label="Settimana"/>
+                </xAxis>
+
+                <!-- asse verticale numerico (es. unità di insulina) -->
+                <yAxis>
+                    <NumberAxis fx:id="yAxis" label="Unità di insulina"/>
+                </yAxis>
+            </LineChart>
 
 
-        <VBox>
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20" />
             </padding>

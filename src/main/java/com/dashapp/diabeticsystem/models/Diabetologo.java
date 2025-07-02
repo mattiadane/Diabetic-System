@@ -182,6 +182,14 @@ public class Diabetologo extends Persona implements UpdatePersona {
         return pazientiResearch;
 
     }
+    public boolean rimuoviPaziente(Paziente paziente){
+        boolean success =  Main.getDbManager().updateQuery("DELETE FROM paziente WHERE id_paziente = ?",paziente.getId_paziente());
+
+        if(success)
+            pazienti.remove(paziente);
+
+        return success;
+    }
 
     /**
      * Funzione che permette di inserire una nuova terapia a database

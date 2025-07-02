@@ -5,10 +5,10 @@ import com.dashapp.diabeticsystem.enums.PERIODO;
 import java.time.LocalDateTime;
 
 public class  Insulina {
-    private final int livello_insulina;
-    private final PERIODO periodo;
-    private final LocalDateTime orario;
-    private final boolean checkAssunzione;
+    private  int livello_insulina;
+    private  PERIODO periodo;
+    private  LocalDateTime orario;
+    private  boolean checkAssunzione;
 
     public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario, boolean checkAssunzione) {
         this.livello_insulina = livello_insulina;
@@ -16,6 +16,8 @@ public class  Insulina {
         this.orario = orario;
         this.checkAssunzione = checkAssunzione;
     }
+
+    public Insulina(){}
 
     public int getLivello_insulina() {
         return livello_insulina;

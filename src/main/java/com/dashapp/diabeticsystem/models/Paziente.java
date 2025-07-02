@@ -11,8 +11,6 @@ import java.time.LocalDate;
 public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
     private LocalDate dataNascita;
-
-
     private final ObservableList<Terapia> terapie = FXCollections.observableArrayList();
 
 
@@ -132,5 +130,27 @@ public class Paziente extends Persona implements UpdatePersona{
     public boolean aggiungiLivelloInsulina(Insulina insulina) {
         return Main.getDbManager().updateQuery("INSERT INTO insulina(id_paziente,valore_glicemia,orario,periodo) VALUES(?,?,?,?)",
                 id_paziente,insulina.getLivello_insulina(),insulina.getOrario(),insulina.getPeriodo().toString());
+    }
+
+    /**
+     * Funzione che permette di eseguire una chiamata a database per fare in modo di prendersi tutti i livelli di insulina da lui registrati
+     * @return un oggetto <code>ObservableList<Insulina></code>
+     */
+    public ObservableList<Insulina> getAllInsulinas() {
+        ObservableList<Insulina> list = FXCollections.observableArrayList();
+
+        Main.getDbManager().selectQuery("SELECT * FROM insulina WHERE id_paziente = ?;",
+                rs -> {
+                    while(rs.next()) {
+                        Insulina temp = new Insulina();
+
+
+                    }
+                    return null;
+                },
+                this.id_paziente
+        );
+
+        return list;
     }
 }

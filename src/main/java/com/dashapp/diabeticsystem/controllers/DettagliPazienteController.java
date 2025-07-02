@@ -2,6 +2,7 @@ package com.dashapp.diabeticsystem.controllers;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
 import com.dashapp.diabeticsystem.utility.Utility;
@@ -10,11 +11,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.scene.chart.LineChart;
+import java.util.Date;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +35,8 @@ public class DettagliPazienteController {
 
     @FXML private TableColumn<Terapia, Void> modifica;
     @FXML private TableColumn<Terapia, Void> elimina;
+
+    @FXML private LineChart<String, Number> chart;
     private  Paziente paziente;
     private Diabetologo diabetologo;
 
@@ -42,6 +48,7 @@ public class DettagliPazienteController {
 
 
     public void initialize(){
+        initChart();
         this.diabetologo = new Diabetologo();
         this.col_nome.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getFarmaco().getNome()));
@@ -150,6 +157,24 @@ public class DettagliPazienteController {
         }catch(IOException err){
             System.out.println("Errore: " + err.getMessage());
         }
+    }
+
+    /**
+     * Funzione che permette di mostrare i livelli di insulina di una settimana di un determinato paziente
+     */
+    private void initChart(){
+        // setto i label per x e y
+        chart.getXAxis().setLabel("Giorni");
+        chart.getYAxis().setLabel("Registrazioni");
+
+        XYChart.Series<String,Number> series = new XYChart.Series<>();
+        series.setName("Insulina");
+
+
+        series.getData().add(new XYChart.Data<>("2025‑06‑23", 18.5));
+        series.getData().add(new XYChart.Data<>("2025‑06‑24", 20.2));
+
+        chart.getData().add(series);
     }
 
 }

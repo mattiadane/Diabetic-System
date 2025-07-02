@@ -39,7 +39,9 @@
                     <TableColumn fx:id="nomePaziente" prefWidth="75.0" text="Nome"/>
                     <TableColumn fx:id="cognomePaziente" prefWidth="75.0"  text="Cognome"/>
                     <TableColumn fx:id="cfPaziente" prefWidth="75.0" text="Codice fiscale"/>
-                    <TableColumn fx:id="azioniColonna" prefWidth="300.0"/>
+                    <TableColumn fx:id="terapie" prefWidth="75.0"/>
+                    <TableColumn fx:id="elimina" prefWidth="75.0"/>
+
                 </columns>
             </TableView>
         </VBox>

@@ -10,7 +10,8 @@
             prefHeight="700.0" prefWidth="1000.0"  fx:id="borderPane">
 
     <center>
-        <VBox spacing="20"> <padding>
+        <VBox spacing="20">
+        <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
 
@@ -45,30 +46,16 @@
                         <DatePicker fx:id="dataNascitaPicker" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label></Label>
+                       <Label></Label>
                         <Button text="Crea Paziente" maxWidth="Infinity" onAction="#handleNuovoPaziente" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 15;"/>
                     </VBox>
 
 
                 </HBox>
-
             </VBox>
-            <TableView fx:id="tabellaPazienti" prefHeight="400.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
-                <columnResizePolicy>
-                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                </columnResizePolicy>
-                <columns>
-                    <TableColumn fx:id="nomeColonna" prefWidth="120.0" minWidth="100.0" text="Nome" />
-                    <TableColumn fx:id="cognomeColonna" prefWidth="120.0" minWidth="100.0" text="Cognome" />
-                    <TableColumn fx:id="nascitaColonna" prefWidth="150.0" minWidth="120.0" text="Data di nascita" />
-                    <TableColumn fx:id="cfColonna" prefWidth="180.0" minWidth="150.0" text="Codice fiscale" />
-                    <TableColumn fx:id="mailColonna" prefWidth="200.0" minWidth="150.0" text="Email" />
-                </columns>
-            </TableView>
+
         </VBox>
     </center>
 
-    <right>
-    </right>
 
 </BorderPane>

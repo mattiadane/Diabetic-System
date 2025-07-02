@@ -2,7 +2,6 @@ package com.dashapp.diabeticsystem.controllers;
 
 import com.dashapp.diabeticsystem.models.Admin;
 import com.dashapp.diabeticsystem.models.Diabetologo;
-import com.dashapp.diabeticsystem.models.Terapia;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
