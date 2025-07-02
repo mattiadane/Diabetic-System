@@ -165,7 +165,7 @@ public class DettagliPazienteController {
     public void initChart(Paziente paziente){
         // setto i label per x e y
         chart.getXAxis().setLabel("Giorni");
-        chart.getYAxis().setLabel("Registrazioni");
+        chart.getYAxis().setLabel("Valori (mg/dL)");
 
         XYChart.Series<String,Number> series = new XYChart.Series<>();
         series.setName("Insulina");
