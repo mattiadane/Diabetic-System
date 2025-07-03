@@ -129,6 +129,7 @@ public class ListaPazientiController {
 
 
             Stage schedaStage = new Stage();
+
             Scene newScene = new Scene(root, 1000, 700);
 
             URL cssUrl = Main.class.getResource("css/style.css");

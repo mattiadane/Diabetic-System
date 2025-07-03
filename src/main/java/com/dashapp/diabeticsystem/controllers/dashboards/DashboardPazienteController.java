@@ -59,10 +59,6 @@ public class DashboardPazienteController   {
         series.setName("Insulina");
 
         ObservableList<Insulina> data = paziente.getInsulina(10,0);
-        if(data.isEmpty()){
-            Utility.createAlert(Alert.AlertType.WARNING, "Non ci sono registrazioni di insulina");
-        }
-
         for(Insulina reg : data){
             String day = reg.getOrario().toLocalDate().toString() + " " + reg.getOrario().toLocalTime().toString();
             int value = reg.getLivello_insulina();
@@ -72,8 +68,6 @@ public class DashboardPazienteController   {
 
         if(series.getData().isEmpty()) return;
         this.chart.getData().addAll(series);
-
-
     }
 
 

@@ -6,8 +6,10 @@ import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
 import com.dashapp.diabeticsystem.utility.Utility;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,6 +41,7 @@ public class DettagliPazienteController {
     @FXML private TableColumn<Terapia, Void> elimina;
 
     @FXML private LineChart<String, Number> chart;
+    @FXML private DatePicker settimana;
     private  Paziente paziente;
     private Diabetologo diabetologo;
 
@@ -105,7 +108,7 @@ public class DettagliPazienteController {
                     {
                         btn.getStyleClass().add("btn-modifica");
                         btn.setOnAction(event ->
-                            apriSchedaTerapia(getTableView().getItems().get(getIndex()),paziente)
+                            modificaSchedaTerapia(getTableView().getItems().get(getIndex()),paziente)
                         );
 
                     }
@@ -133,7 +136,7 @@ public class DettagliPazienteController {
      * @param terapia terapia da visualizzare
      * @param paziente paziente a cui appartiene la terapia.
      */
-    private void apriSchedaTerapia(Terapia terapia,Paziente paziente){
+    private void modificaSchedaTerapia(Terapia terapia,Paziente paziente){
         try{
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/modificaTerapia.fxml"));
 
@@ -170,20 +173,34 @@ public class DettagliPazienteController {
         XYChart.Series<String,Number> series = new XYChart.Series<>();
         series.setName("Insulina");
 
-        ObservableList<Insulina> data = paziente.getInsulina(null,0);
+        // il limite di 42 è secondo questa logica: 6 registrazinoni massime al giorno * 7 giorni
+        ObservableList<Insulina> data = paziente.getInsulina(42,0);
         if(data.isEmpty()) {
             Utility.createAlert(Alert.AlertType.WARNING, "Non ci sono registrazioni di insulina per questo paziente");
         }
 
         for(Insulina reg : data){
-            String day = reg.getOrario().toLocalDate().toString();
+            String day = reg.getOrario().toLocalDate().toString() + " " + reg.getOrario().toLocalTime().toString();
             int value = reg.getLivello_insulina();
 
-            series.getData().add(new XYChart.Data<>(day, value));
+            XYChart.Data<String, Number> point = new XYChart.Data<>(day, value);
+            series.getData().add(point);
         }
+
+        Platform.runLater(() -> {
+            for (XYChart.Data<String,Number> point : series.getData()) {
+                Tooltip tip = new Tooltip(
+                        "Valore: " + point.getYValue() + " mg/dL\n"
+                );
+                Tooltip.install(point.getNode(), tip);
+            }
+        });
 
         if(series.getData().isEmpty()) return;
         chart.getData().add(series);
     }
 
+    public void handleSettimana() {
+
+    }
 }
