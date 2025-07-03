@@ -8,13 +8,11 @@ public class  Insulina {
     private  int livello_insulina;
     private  PERIODO periodo;
     private  LocalDateTime orario;
-    private  boolean checkAssunzione;
 
-    public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario, boolean checkAssunzione) {
+    public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario) {
         this.livello_insulina = livello_insulina;
         this.periodo = periodo;
         this.orario = orario;
-        this.checkAssunzione = checkAssunzione;
     }
 
     public Insulina(){}
@@ -30,7 +28,6 @@ public class  Insulina {
         return orario;
     }
 
-    public boolean getAssuzione(){ return this.checkAssunzione; }
 
     public void setLivelloInsulina(int livello_insulina){
         this.livello_insulina = livello_insulina;
@@ -44,7 +41,4 @@ public class  Insulina {
         this.orario = orario;
     }
 
-    public void setCheckAssunzione(boolean checkAssunzione) {
-        this.checkAssunzione = checkAssunzione;
-    }
 }

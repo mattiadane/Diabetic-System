@@ -4,6 +4,9 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardPazienteController"
@@ -21,9 +24,18 @@
             <Label fx:id="benvenuto" styleClass="title"/>
 
             <!-- spazio per il grafico dell'insulina -->
+            <LineChart fx:id="chart">
+                <xAxis>
+                    <CategoryAxis fx:id="xAxis" label="Giorno"/>
+                </xAxis>
 
+                <yAxis>
+                    <NumberAxis fx:id="yAxis" label="Valore (mg/dL) "/>
+                </yAxis>
+            </LineChart>
+
+            <!-- spazio per la lista delle terapie associate-->
             <Label text="Le mie terapie" styleClass="title"/>
-
             <ListView fx:id="listaTerapie" />
         </VBox>
     </center>

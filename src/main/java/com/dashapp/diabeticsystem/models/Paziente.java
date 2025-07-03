@@ -135,27 +135,40 @@ public class Paziente extends Persona implements UpdatePersona{
 
     /**
      * Funzione che permette di eseguire una chiamata a database per fare in modo di prendersi tutti i livelli di insulina da lui registrati
+     * @param limit limite per il numero di registrazioni da prendere. <code>null</code> per non avere restrizioni, un valore <code>int</code> per mettere un limite
      * @return un oggetto <code>ObservableList<Insulina></code>
      */
-    public ObservableList<Insulina> getAllInsulinas() {
+    public ObservableList<Insulina> getInsulina(Integer limit,int option) {
+        if(limit == null) limit = 100;
+
         ObservableList<Insulina> list = FXCollections.observableArrayList();
 
-        Main.getDbManager().selectQuery("SELECT * FROM insulina WHERE id_paziente = ? ORDER BY orario ASC;",
-                rs -> {
+        String baseQuery = "SELECT * FROM (SELECT * FROM insulina WHERE id_paziente = ? ORDER BY id_glicemia DESC LIMIT " + limit  + " ) AS sub";
 
-                    while(rs.next()) {
+        if(option != 0){
+            baseQuery += " WHERE Date(orario) = " + "'" + LocalDate.now() + "'";
+        }
+
+        baseQuery += " ORDER BY orario ASC";
+
+        Main.getDbManager().selectQuery(baseQuery,
+                rs -> {
+                    while (rs.next()) {
                         Insulina temp = new Insulina();
-                        // importo solo i dati che mi interessano
                         temp.setOrario(rs.getObject("orario", LocalDateTime.class));
                         temp.setLivelloInsulina(rs.getInt("valore_glicemia"));
-
                         list.add(temp);
                     }
-                    return null; // restituzione del call back
+                    return null;
                 },
                 this.id_paziente
         );
 
         return list;
     }
+
+    public int countInsulinaGiornaliero(){
+        return getInsulina(null,1).size();
+    }
+
 }

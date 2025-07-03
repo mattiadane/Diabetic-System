@@ -29,8 +29,6 @@
             <Label text="Momento del giorno: " />
             <ComboBox fx:id="comboBoxMomento" layoutX="50" layoutY="50" prefWidth="200" />
 
-            <CheckBox text="Ho assunto correttamente la medicina." fx:id="checkAssunzione"/>
-
             <Label text="Ora (HH:mm):" />
             <TextField fx:id="timeText" promptText="ex: 14:30, 15:50, 09:32, ..."/>
 

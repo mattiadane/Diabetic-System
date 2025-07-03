@@ -76,7 +76,7 @@ public class Utility {
         if( !checkObj(number) ) return false;
         try{
             double n = Double.parseDouble(number);
-            return n >= 0 && n <= 150;
+            return n >= 0 ;
         }catch(NumberFormatException e){
             return false;
         }

@@ -170,7 +170,7 @@ public class DettagliPazienteController {
         XYChart.Series<String,Number> series = new XYChart.Series<>();
         series.setName("Insulina");
 
-        ObservableList<Insulina> data = paziente.getAllInsulinas();
+        ObservableList<Insulina> data = paziente.getInsulina(null,0);
         if(data.isEmpty()) {
             Utility.createAlert(Alert.AlertType.WARNING, "Non ci sono registrazioni di insulina per questo paziente");
         }

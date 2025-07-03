@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
+import java.awt.image.AbstractMultiResolutionImage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,7 +19,6 @@ public class AggiungiLivelloInsulinaController {
     @FXML private ComboBox<PERIODO> comboBoxMomento;
     @FXML private TextField textLivello;
     @FXML private TextField timeText;
-    @FXML private CheckBox checkAssunzione;
     private Paziente paziente;
 
 
@@ -32,6 +32,14 @@ public class AggiungiLivelloInsulinaController {
      * Funzione che permette di controllare l'evento di aggiunta del livello di insulina.
      */
     public void handleAggiungiLivello(){
+        if(paziente.countInsulinaGiornaliero() > 5){
+            Utility.createAlert(Alert.AlertType.ERROR, "Hai già inserito tutte le misurazioni giornaliere");
+            Utility.resetField(borderpane);
+            return;
+        }
+
+
+
         if(!Utility.checkInsulina(textLivello.getText()) || !Utility.checkTime(this.timeText.getText()) || !Utility.checkObj( comboBoxMomento.getValue())
         ) {
             Utility.createAlert(Alert.AlertType.ERROR, "Input non valido");
@@ -39,7 +47,7 @@ public class AggiungiLivelloInsulinaController {
         }
 
         LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(),LocalTime.parse(timeText.getText()));
-        boolean success = paziente.aggiungiLivelloInsulina(new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime, this.checkAssunzione.isSelected()));
+        boolean success = paziente.aggiungiLivelloInsulina(new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime));
 
         if(!success){
             Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'inserimento dell'indice glicemico");
