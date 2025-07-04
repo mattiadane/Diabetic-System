@@ -18,4 +18,28 @@ public enum PERIODO {
     public String toString() {
         return descrizione;
     }
+
+    /**
+     * Restituisce la costante PERIODO corrispondente alla descrizione fornita.
+     * La ricerca è case-insensitive e ignora spazi iniziali/finali.
+     *
+     * @param text La stringa di descrizione da cercare (es. "prima della colazione").
+     * @return La costante PERIODO corrispondente.
+     * @throws IllegalArgumentException Se nessuna costante PERIODO corrisponde alla descrizione fornita.
+     */
+    public static PERIODO fromDescrizione(String text) {
+        if (text == null) {
+            // Puoi scegliere di restituire null, un valore di default, o lanciare un'eccezione
+            throw new IllegalArgumentException("La descrizione del PERIODO non può essere null.");
+        }
+        // Itera su tutte le costanti dell'enum
+        for (PERIODO periodo : PERIODO.values()) {
+            // Confronta la descrizione dell'enum (ignorando maiuscole/minuscole e spazi)
+            if (periodo.descrizione.equalsIgnoreCase(text.trim())) {
+                return periodo; // Trovata una corrispondenza, restituisci la costante
+            }
+        }
+        // Se non viene trovata alcuna corrispondenza, lancia un'eccezione
+        throw new IllegalArgumentException("Nessun PERIODO trovato per la descrizione: '" + text + "'");
+    }
 }

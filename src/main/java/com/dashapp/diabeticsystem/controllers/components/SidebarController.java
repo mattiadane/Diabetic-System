@@ -16,6 +16,7 @@ public class SidebarController {
     @FXML private Button insulinaButton;
     @FXML private Button logoutButton;
     @FXML private Button diabetologiButton;
+    @FXML private Button assunzioniButton;
 
 
     private Login user;
@@ -49,8 +50,10 @@ public class SidebarController {
     }
 
     public void handleInsulina() { Router.navigateToInsulina(); }
+
     public void handleDiabetologi() { Router.navigateToDiabetologi(); }
 
+    public void handleAssunzioni() { Router.navigateToAddAssunzione(); }
 
     /**
      * Funzione che permette di settare i bottoni (tutti nascosti inizialmente) della sidebar in modo che,
@@ -69,6 +72,8 @@ public class SidebarController {
         insulinaButton.setManaged(false);
         diabetologiButton.setVisible(false);
         diabetologiButton.setManaged(false);
+        assunzioniButton.setVisible(false);
+        assunzioniButton.setManaged(false);
 
 
 
@@ -100,13 +105,15 @@ public class SidebarController {
                     settingsButton.setManaged(true);
                     break;
                 case PAZIENTE:
-                    // Il Paziente vede Home, Terapie, Impostazioni, Logout
+                    // Il Paziente vede Home, Terapie, Insulina, Impostazioni, Logout
                     homeButton.setVisible(true);
                     homeButton.setManaged(true);
                     insulinaButton.setVisible(true);
                     insulinaButton.setManaged(true);
                     settingsButton.setVisible(true);
                     settingsButton.setManaged(true);
+                    assunzioniButton.setVisible(true);
+                    assunzioniButton.setManaged(true);
                     break;
                 default:
                     System.err.println("Sidebar: Ruolo utente non riconosciuto: " + role);

@@ -3,11 +3,13 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.enums.PERIODICITA;
+import com.dashapp.diabeticsystem.enums.PERIODO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 
 public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
@@ -139,7 +141,7 @@ public class Paziente extends Persona implements UpdatePersona{
      * @return un oggetto <code>ObservableList<Insulina></code>
      */
     public ObservableList<Insulina> getInsulina(Integer limit,int option) {
-        if(limit == null) limit = 100;
+        if(limit == null) limit = Integer.MAX_VALUE;
 
         ObservableList<Insulina> list = FXCollections.observableArrayList();
 
@@ -149,19 +151,38 @@ public class Paziente extends Persona implements UpdatePersona{
             baseQuery += " WHERE Date(orario) = " + "'" + LocalDate.now() + "'";
         }
 
+
+
         baseQuery += " ORDER BY orario ASC";
 
         Main.getDbManager().selectQuery(baseQuery,
                 rs -> {
                     while (rs.next()) {
-                        Insulina temp = new Insulina();
-                        temp.setOrario(rs.getObject("orario", LocalDateTime.class));
-                        temp.setLivelloInsulina(rs.getInt("valore_glicemia"));
-                        list.add(temp);
+                        list.add(
+                                new Insulina(rs.getInt("valore_glicemia"), PERIODO.fromDescrizione(rs.getString("periodo")),rs.getTimestamp("orario").toLocalDateTime())
+                        );
                     }
                     return null;
                 },
                 this.id_paziente
+        );
+
+        return list;
+    }
+
+    public ObservableList<Insulina> getInsulinaByDate(LocalDateTime inizio, LocalDateTime fine) {
+        ObservableList<Insulina> list = FXCollections.observableArrayList();
+
+        Main.getDbManager().selectQuery("SELECT * FROM insulina WHERE id_paziente = ? AND orario BETWEEN ? AND ?",
+                rs -> {
+                    while (rs.next()) {
+                        list.add(
+                                new Insulina(rs.getInt("valore_glicemia"), PERIODO.fromDescrizione(rs.getString("periodo")),rs.getTimestamp("orario").toLocalDateTime())
+                        );
+                    }
+                    return null;
+                },
+                this.id_paziente,inizio,fine
         );
 
         return list;

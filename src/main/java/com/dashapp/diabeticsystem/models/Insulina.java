@@ -2,6 +2,7 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.enums.PERIODO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class  Insulina {
@@ -29,6 +30,8 @@ public class  Insulina {
     }
 
 
+
+
     public void setLivelloInsulina(int livello_insulina){
         this.livello_insulina = livello_insulina;
     }
@@ -41,4 +44,8 @@ public class  Insulina {
         this.orario = orario;
     }
 
+    @Override
+    public String toString() {
+        return livello_insulina +","+periodo +","+orario;
+    }
 }

@@ -109,6 +109,7 @@ public class Router {
             default -> System.err.println("Unknown role: " + role);
         }
     }
+
     public static void navigateToSettings(){
         loadView("impostazioni.fxml");
     }
@@ -143,6 +144,7 @@ public class Router {
     }
 
 
+    public static void navigateToAddAssunzione() { loadView("assunzioneFarmaco.fxml"); }
 
 
 

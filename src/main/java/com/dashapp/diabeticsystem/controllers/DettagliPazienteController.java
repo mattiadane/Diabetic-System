@@ -1,19 +1,21 @@
 package com.dashapp.diabeticsystem.controllers;
 
+
+import java.time.format.DateTimeFormatter;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
 import com.dashapp.diabeticsystem.utility.Utility;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,11 +23,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.scene.chart.LineChart;
-import java.util.Date;
-
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Comparator;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 
 public class DettagliPazienteController {
@@ -60,6 +65,15 @@ public class DettagliPazienteController {
         this.col_dosaggio.setCellValueFactory(new PropertyValueFactory<>("dosaggio"));
         this.col_assunzioni.setCellValueFactory(new PropertyValueFactory<>("assunzioni"));
         this.col_periodo.setCellValueFactory(new PropertyValueFactory<>("periodo"));
+
+
+        chart.setAnimated(false); // Disabilita le animazioni che potrebbero causare problemi
+        chart.getXAxis().setTickLabelRotation(45); // Ruota le etichette per migliore leggibilità
+
+
+        // Imposta le label degli assi
+        chart.getXAxis().setLabel("Giorni");
+        chart.getYAxis().setLabel("Valori (mg/dL)");
 
 
         Callback<TableColumn<Terapia, Void>, TableCell<Terapia, Void>> cellFactoryElimina = new Callback<>() {
@@ -148,6 +162,7 @@ public class DettagliPazienteController {
             Stage schedaTerapia = new Stage();
             Scene newScene = new Scene(root, 600, 700);
 
+
             URL cssUrl = Main.class.getResource("css/style.css");
             if(cssUrl != null){
                 newScene.getStylesheets().add(cssUrl.toExternalForm());
@@ -165,42 +180,67 @@ public class DettagliPazienteController {
     /**
      * Funzione che permette di mostrare i livelli di insulina di una settimana di un determinato paziente
      */
-    public void initChart(Paziente paziente){
-        // setto i label per x e y
-        chart.getXAxis().setLabel("Giorni");
-        chart.getYAxis().setLabel("Valori (mg/dL)");
+    public void initChart(Paziente paziente,LocalDateTime inizio,LocalDateTime fine){
 
-        XYChart.Series<String,Number> series = new XYChart.Series<>();
-        series.setName("Insulina");
 
-        // il limite di 42 è secondo questa logica: 6 registrazinoni massime al giorno * 7 giorni
-        ObservableList<Insulina> data = paziente.getInsulina(42,0);
-        if(data.isEmpty()) {
-            Utility.createAlert(Alert.AlertType.WARNING, "Non ci sono registrazioni di insulina per questo paziente");
+        chart.getData().clear();
+
+        ObservableList<Insulina> data = paziente.getInsulinaByDate(inizio, fine);
+        if (data.isEmpty()) {
+            Utility.createAlert(Alert.AlertType.WARNING, "Non ci sono registrazioni di insulina per questo paziente nella settimana selezionata");
+            return;
         }
 
-        for(Insulina reg : data){
-            String day = reg.getOrario().toLocalDate().toString() + " " + reg.getOrario().toLocalTime().toString();
+        // Crea una nuova serie solo se ci sono dati
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Glicemia");
+
+
+        XYChart.Series<String, Number> seriesSogliaBassa = new XYChart.Series<>();
+        seriesSogliaBassa.setName("Soglia Min prima dei pasti"); // Nome per la leggenda
+
+        XYChart.Series<String, Number> seriesSogliaMedia = new XYChart.Series<>();
+        seriesSogliaMedia.setName("Soglia Max prima dei pasti ");
+
+        XYChart.Series<String, Number> seriesSogliaAlta = new XYChart.Series<>();
+        seriesSogliaAlta.setName("Soglia max dopo due ore i pasti ");
+
+
+        DateTimeFormatter xAxisFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        data.sort(Comparator.comparing(Insulina::getOrario));
+
+        for (Insulina reg : data) {
+            String day = reg.getOrario().format(xAxisFormatter);
             int value = reg.getLivello_insulina();
+            series.getData().add(new XYChart.Data<>(day, value));
+            seriesSogliaBassa.getData().add(new XYChart.Data<>(day, 80));
+            seriesSogliaMedia.getData().add(new XYChart.Data<>(day, 130));
+            seriesSogliaAlta.getData().add(new XYChart.Data<>(day, 180));
 
-            XYChart.Data<String, Number> point = new XYChart.Data<>(day, value);
-            series.getData().add(point);
         }
 
-        Platform.runLater(() -> {
-            for (XYChart.Data<String,Number> point : series.getData()) {
-                Tooltip tip = new Tooltip(
-                        "Valore: " + point.getYValue() + " mg/dL\n"
-                );
-                Tooltip.install(point.getNode(), tip);
-            }
-        });
 
-        if(series.getData().isEmpty()) return;
+
+        chart.getData().add(seriesSogliaBassa);
+        chart.getData().add(seriesSogliaMedia);
+        chart.getData().add(seriesSogliaAlta);
         chart.getData().add(series);
+
+
     }
 
     public void handleSettimana() {
+        LocalDate dayOfWeek = settimana.getValue();
+
+        if(Utility.checkObj(dayOfWeek)){
+            LocalDateTime firstDayOfWeek = LocalDateTime.of(dayOfWeek.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)), LocalTime.MIN);
+
+            LocalDateTime lastDayOfWeek = LocalDateTime.of(dayOfWeek.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)), LocalTime.MAX).withNano(0);
+
+            initChart(paziente,firstDayOfWeek,lastDayOfWeek);
+        }
+
+
 
     }
 }

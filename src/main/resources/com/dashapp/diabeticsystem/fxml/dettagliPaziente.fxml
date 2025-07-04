@@ -33,7 +33,7 @@
                     <Label text="Livelli di insulina:" styleClass="title"/>
                     <LineChart fx:id="chart" prefHeight="500.0" maxHeight="650.0">
                         <xAxis>
-                            <CategoryAxis label="Settimana"/>
+                            <CategoryAxis label="Giorni" />
                         </xAxis>
                         <yAxis>
                             <NumberAxis label="Valore (mg/dL)"/>

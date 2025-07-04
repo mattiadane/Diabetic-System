@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.dashapp.diabeticsystem.controllers.AssunzioneFarmacoController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <center>
+        <VBox>
+            <Label text="Inserimento assunzione di medicine" styleClass="title" />
+
+            <Label text="Seleziona Mediciale:"/>
+            <ComboBox fx:id="medicinali">
+            </ComboBox>
+
+            <Label text="Dosaggio / quantità:"/>
+            <TextField fx:id="dosaggioText" promptText="ex: 200, 500, 1000, ..."/>
+
+            <Label text="Dosaggio unità:" />
+            <TextField fx:id="unitaText" promptText="ex: mg, ..."/>
+
+            <Label text="Sintomi:" />
+            <TextArea fx:id="sintomiArea" promptText="Inserisci eventuali sintomi riscontrati dopo l'assuzione della medicina" />
+
+            <Label text="Giorno di assunzione" />
+            <DatePicker fx:id="datePicker" />
+
+            <Label text="Ora di assunzione: " />
+            <TextField fx:id="oraText" promptText="ex: 07:35, 09:22, 10:45, ..."/>
+
+        </VBox>
+    </center>
+
+</BorderPane>
