@@ -11,6 +11,8 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ScrollPane?>
 
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="400.0" prefWidth="600.0"
@@ -55,6 +57,23 @@
                             <TableColumn fx:id="elimina"/>
                         </columns>
                     </TableView>
+
+                    <!-- Informazioni relative al paziente -->
+                    <Label text="Informazioni sul paziente" styleClass="title"/>
+                    <Label text="Fattori di rischio:" />
+                    <TextField fx:id="textFattori"/>
+
+                    <Label text="Commorbità:" />
+                    <TextField fx:id="textCommorbita" />
+
+                    <Label text="Patologie pregresse:" />
+                    <TextField fx:id="textPatologiePreg" />
+
+                    <Label text="Patologie in concomitanza:" />
+                    <TextField fx:id="textPatologieAtt"/>
+
+                    <Button text="Aggiorna" styleClass="loginButton" onAction="#handleUpdateInfo" />
+
                 </VBox>
             </content>
         </ScrollPane>

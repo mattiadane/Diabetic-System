@@ -125,6 +125,7 @@ public class ListaPazientiController {
 
             DettagliPazienteController dettagliPazienteController = loader.getController();
             dettagliPazienteController.loadTerapie(paziente);
+            dettagliPazienteController.setTextFields(paziente);
 
 
             Stage schedaStage = new Stage();

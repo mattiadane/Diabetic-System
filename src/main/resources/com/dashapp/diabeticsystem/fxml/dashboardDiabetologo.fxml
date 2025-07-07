@@ -40,13 +40,37 @@
                     </VBox>
                 </HBox>
 
+                <!-- campi di testo per fattori di rischio e commorbità -->
+                <HBox spacing="10">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Fattori di rischio:" />
+                        <TextField fx:id="textFattoriRischio" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Commorbità:" />
+                        <TextField fx:id="textCommorbita" maxWidth="Infinity"/>
+                    </VBox>
+                </HBox>
+
+                <!-- campi di testo per patologie pregresse e in concomitanza -->
+                <HBox spacing="10">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Patologie pregresse:" />
+                        <TextField fx:id="textPatologiePregresse" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Patologie in concomitanza:" />
+                        <TextField fx:id="textPatologieConcomitanza" maxWidth="Infinity"/>
+                    </VBox>
+                </HBox>
+
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
                         <Label text="Data di nascita:"/>
                         <DatePicker fx:id="dataNascitaPicker" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                       <Label></Label>
+                        <Label /> <!-- label di spacing -->
                         <Button text="Crea Paziente" maxWidth="Infinity" onAction="#handleNuovoPaziente" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 15;"/>
                     </VBox>
 
