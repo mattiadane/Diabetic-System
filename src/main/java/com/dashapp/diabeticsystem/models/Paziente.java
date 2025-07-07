@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
     private LocalDate dataNascita;
-    private final ObservableList<Terapia> terapie = FXCollections.observableArrayList();
+    private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
 
 
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita) {
@@ -41,6 +41,7 @@ public class Paziente extends Persona implements UpdatePersona{
                     }
                     return null;
                 },id_paziente);
+        terapie = loadAllTerapie();
 
     }
 
@@ -87,9 +88,15 @@ public class Paziente extends Persona implements UpdatePersona{
         return terapie;
     }
 
-    public void inserisciTerapia(Terapia t){
-        terapie.add(t);
+    public ObservableList<Farmaco> loadFarmaciByPaziente() {
+        ObservableList<Farmaco> farmaci = FXCollections.observableArrayList();
+        for(Terapia t : terapie) {
+            if(!farmaci.contains(t.getFarmaco())) farmaci.add(t.getFarmaco());
+        }
+        return farmaci;
     }
+
+    public void inserisciTerapia(Terapia t) { terapie.add(t);}
 
     public void rimuoviTerapie(Terapia t) {
         terapie.remove(t);
@@ -190,6 +197,14 @@ public class Paziente extends Persona implements UpdatePersona{
 
     public int countInsulinaGiornaliero(){
         return getInsulina(null,1).size();
+    }
+
+
+    public boolean inserisciAssunzioneFarmaco (AssunzioneFarmaco assunzioneFarmaco){
+        if(assunzioneFarmaco == null) return false;
+
+        return Main.getDbManager().updateQuery("INSERT INTO assunzione_farmaco(id_paziente,id_farmaco,dosaggio_quantità,dosaggio_unità,data_assunzione,sintomi) " +
+                "VALUES(?,?,?,?,?,?)",id_paziente,assunzioneFarmaco.getFarmaco().getId_farmaco(),assunzioneFarmaco.getDosaggio_quantita(),assunzioneFarmaco.getDosaggio_unita(),assunzioneFarmaco.getData_assunzione(),assunzioneFarmaco.getSintomi());
     }
 
 }

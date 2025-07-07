@@ -6,6 +6,7 @@
 <?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+            fx:id="pane"
             fx:controller="com.dashapp.diabeticsystem.controllers.AssunzioneFarmacoController"
             prefHeight="400.0" prefWidth="600.0">
 
@@ -36,6 +37,7 @@
             <Label text="Ora di assunzione: " />
             <TextField fx:id="oraText" promptText="ex: 07:35, 09:22, 10:45, ..."/>
 
+            <Button onAction="#handleAssunzione" styleClass="loginButton">Aggiungi assunzione</Button>
         </VBox>
     </center>
 

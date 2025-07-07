@@ -1,26 +1,63 @@
 package com.dashapp.diabeticsystem.controllers;
 
+import com.dashapp.diabeticsystem.models.AssunzioneFarmaco;
 import com.dashapp.diabeticsystem.models.Farmaco;
+import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class AssunzioneFarmacoController {
 
+
+    @FXML private BorderPane pane;
+    @FXML private DatePicker datePicker;
     @FXML private ComboBox<Farmaco> medicinali;
     @FXML private TextField dosaggioText;
     @FXML private TextField unitaText;
     @FXML private TextArea sintomiArea;
-    @FXML private DatePicker datePicker;
     @FXML private TextField oraText;
+    private Paziente paziente;
+
 
 
     public void initialize(){
-
+        this.paziente = new Paziente();
+        medicinali.getItems().addAll(paziente.loadFarmaciByPaziente());
     }
 
 
+    public void handleAssunzione() {
+        if(!Utility.checkObj((medicinali.getValue())) || !Utility.checkOnlyNumbers(dosaggioText.getText()) || !Utility.checkOnlyLetters(unitaText.getText())
+                || !Utility.checkObj(datePicker.getValue())|| !Utility.checkTime(oraText.getText())
+        ){
+            Utility.createAlert(Alert.AlertType.ERROR, "Input non valido");
+            return;
+        }
 
+
+        LocalDateTime date = LocalDateTime.of(datePicker.getValue(), LocalTime.parse(oraText.getText()));
+        boolean success = paziente.inserisciAssunzioneFarmaco(
+                new AssunzioneFarmaco(
+                        medicinali.getValue(),unitaText.getText(),Double.parseDouble(dosaggioText.getText()),sintomiArea.getText(),date
+                )
+        );
+
+        if(!success){
+            Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'inserimento dell'assunzione farmaco");
+            return;
+        }
+
+        Utility.createAlert(Alert.AlertType.INFORMATION, "Assunzione farmaco inserita correttamente");
+        Utility.resetField(pane);
+
+
+
+
+
+    }
 }
