@@ -7,8 +7,12 @@ import com.dashapp.diabeticsystem.enums.PERIODO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Objects;
 
 
 public class Paziente extends Persona implements UpdatePersona{
@@ -206,5 +210,53 @@ public class Paziente extends Persona implements UpdatePersona{
         return Main.getDbManager().updateQuery("INSERT INTO assunzione_farmaco(id_paziente,id_farmaco,dosaggio_quantità,dosaggio_unità,data_assunzione,sintomi) " +
                 "VALUES(?,?,?,?,?,?)",id_paziente,assunzioneFarmaco.getFarmaco().getId_farmaco(),assunzioneFarmaco.getDosaggio_quantita(),assunzioneFarmaco.getDosaggio_unita(),assunzioneFarmaco.getData_assunzione(),assunzioneFarmaco.getSintomi());
     }
+
+    public Terapia loadTeriapiaByFarmaco(Farmaco f){
+        if(f == null) return null;
+
+        return terapie.stream().filter(tf -> tf.getFarmaco().getId_farmaco() == f.getId_farmaco()).findFirst().orElse(null);
+
+    }
+
+    public double sommaDosaggioTerapia(Farmaco f){
+
+        Terapia t = loadTeriapiaByFarmaco(f);
+
+        return t.getQuanto() * t.getDosaggio_quantita();
+
+
+    }
+
+    public double sommaDosaggioAssunzioneFarmaco(Farmaco f,LocalDateTime date){
+        Terapia t = loadTeriapiaByFarmaco(f);
+
+        LocalDateTime inizio ,fine ;
+        String query = "SELECT SUM(dosaggio_quantità) AS sum FROM assunzione_farmaco WHERE id_paziente = ? AND id_farmaco = ? AND data_assunzione BETWEEN ? AND ?";
+        if(t.getPeriodicita().toString().equals("giorno")){
+            inizio = date.toLocalDate().atStartOfDay();
+            fine = date.toLocalDate().atTime(LocalTime.MAX);
+        }  else if(t.getPeriodicita().toString().equals("settimana")){
+            inizio = date.toLocalDate().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).atStartOfDay();
+            fine = date.toLocalDate().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).atTime(LocalTime.MAX);
+
+        } else {
+            inizio = date.toLocalDate().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay();
+            fine = date.toLocalDate().with(TemporalAdjusters.lastDayOfMonth()).atTime(LocalTime.MAX);
+
+        }
+
+
+        return Main.getDbManager().selectQuery(query,
+                rs -> {
+                    if(rs.next()){
+                        return rs.getDouble("sum");
+
+                    }
+                    return null;
+                },id_paziente,t.getFarmaco().getId_farmaco(),inizio,fine);
+
+    }
+
+
 
 }

@@ -1,8 +1,10 @@
 package com.dashapp.diabeticsystem.controllers;
 
+import com.dashapp.diabeticsystem.enums.PERIODICITA;
 import com.dashapp.diabeticsystem.models.AssunzioneFarmaco;
 import com.dashapp.diabeticsystem.models.Farmaco;
 import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.models.Terapia;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -32,6 +34,9 @@ public class AssunzioneFarmacoController {
 
 
     public void handleAssunzione() {
+
+
+
         if(!Utility.checkObj((medicinali.getValue())) || !Utility.checkOnlyNumbers(dosaggioText.getText()) || !Utility.checkOnlyLetters(unitaText.getText())
                 || !Utility.checkObj(datePicker.getValue())|| !Utility.checkTime(oraText.getText())
         ){
@@ -40,19 +45,31 @@ public class AssunzioneFarmacoController {
         }
 
 
-        LocalDateTime date = LocalDateTime.of(datePicker.getValue(), LocalTime.parse(oraText.getText()));
-        boolean success = paziente.inserisciAssunzioneFarmaco(
-                new AssunzioneFarmaco(
-                        medicinali.getValue(),unitaText.getText(),Double.parseDouble(dosaggioText.getText()),sintomiArea.getText(),date
-                )
-        );
 
-        if(!success){
-            Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'inserimento dell'assunzione farmaco");
-            return;
+
+        LocalDateTime date = LocalDateTime.of(datePicker.getValue(), LocalTime.parse(oraText.getText()));
+
+        Terapia t = paziente.loadTeriapiaByFarmaco(medicinali.getValue());
+
+        if(paziente.sommaDosaggioAssunzioneFarmaco(medicinali.getValue(),date) + Double.parseDouble(dosaggioText.getText()) <= paziente.sommaDosaggioTerapia(medicinali.getValue())) {
+            boolean success = paziente.inserisciAssunzioneFarmaco(
+                    new AssunzioneFarmaco(
+                            medicinali.getValue(),unitaText.getText(),Double.parseDouble(dosaggioText.getText()),sintomiArea.getText(),date
+                    )
+            );
+
+            if(!success){
+                Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'inserimento dell'assunzione farmaco");
+                return;
+            }
+
+            Utility.createAlert(Alert.AlertType.INFORMATION, "Assunzione farmaco inserita correttamente");
+        } else {
+            Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere un dosaggio maggiore di " + paziente.sommaDosaggioTerapia(medicinali.getValue()) + unitaText.getText()
+                    + " nella terapia di " + medicinali.getValue().getNome() + " durante " + (t.getPeriodicita() == PERIODICITA.SETTIMANA ? " la " : " il ")  + t.getPeriodicita().toString()  );
         }
 
-        Utility.createAlert(Alert.AlertType.INFORMATION, "Assunzione farmaco inserita correttamente");
+
         Utility.resetField(pane);
 
 
