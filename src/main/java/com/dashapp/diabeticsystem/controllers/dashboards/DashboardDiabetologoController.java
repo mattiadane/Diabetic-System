@@ -8,8 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
-
-
 public class DashboardDiabetologoController {
 
     private final Diabetologo diabetologo = new Diabetologo();
@@ -24,6 +22,10 @@ public class DashboardDiabetologoController {
     @FXML private TextField textCognome;
     @FXML private TextField textEmail;
     @FXML private TextField textCodiceFiscale;
+    @FXML private TextField textFattoriRischio;
+    @FXML private TextField textCommorbita;
+    @FXML private TextField textPatologiePregresse;
+    @FXML private TextField textPatologieConcomitanza;
     @FXML private DatePicker dataNascitaPicker;
 
 
@@ -47,11 +49,18 @@ public class DashboardDiabetologoController {
             return;
         }
 
+
+        String[] info = {this.textFattoriRischio.getText(),
+                         this.textCommorbita.getText(),
+                         this.textPatologiePregresse.getText(),
+                         this.textPatologieConcomitanza.getText()};
+
         // eseguo la query di inserimento del nuovo paziente a database
         boolean success = diabetologo.inserisciPaziente(
                 new Paziente(
                         textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue()
-                )
+                ),
+                info
         );
 
         // controllo dell'esito dell'inserimento del nuovo paziente a database e mostro un Alert dedicato
