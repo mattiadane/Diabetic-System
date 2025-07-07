@@ -23,13 +23,13 @@
             </padding>
             <Label  text="Impostazioni" styleClass="title"/>
 
-            <Label text="Nome:" />
+            <Label text="Nome:*" />
             <TextField fx:id="textNome"/>
 
-            <Label text="Cognome: " />
+            <Label text="Cognome:*" />
             <TextField fx:id="textCognome" />
 
-            <Label text="Email: " />
+            <Label text="Email:*" />
             <TextField fx:id="textEmail" />
 
             <Label text="Nuova password: " />
@@ -38,7 +38,12 @@
             <Label text="Conferma nuova password: "/>
             <PasswordField fx:id="textConfirmPassword" />
             <Button text="Aggiorna dati" onAction="#handleUpdateData" styleClass="loginButton"/>
+
+            <Label text="Legenda:" styleClass="title"/>
+            <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
+            <Label text="I campi di password verranno controllati solo se valorizzati."/>
         </VBox>
+
     </center>
 
 </BorderPane>

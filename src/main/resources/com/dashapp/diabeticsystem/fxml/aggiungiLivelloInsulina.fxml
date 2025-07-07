@@ -23,16 +23,23 @@
 
             <Label text="Aggiungi livello di insulina" styleClass="title" />
 
-            <Label text="Livello (in mg):" />
+            <Label text="Livello (in mg):*" />
             <TextField fx:id="textLivello" prefWidth="200"/>
 
-            <Label text="Momento del giorno: " />
+            <Label text="Momento del giorno:*" />
             <ComboBox fx:id="comboBoxMomento" layoutX="50" layoutY="50" prefWidth="200" />
 
-            <Label text="Ora (HH:mm):" />
+            <Label text="Ora (HH:mm):*" />
             <TextField fx:id="timeText" promptText="ex: 14:30, 15:50, 09:32, ..."/>
 
             <Button text="Aggiungi livello" styleClass="loginButton" onAction="#handleAggiungiLivello"/>
+
+            <!-- sezione delle legenda -->
+            <VBox>
+                <Label text="Legenda:" styleClass="title"/>
+                <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
+                <Label text="Tutti gli altri dati sono facoltativi."/>
+            </VBox>
         </VBox>
     </center>
 

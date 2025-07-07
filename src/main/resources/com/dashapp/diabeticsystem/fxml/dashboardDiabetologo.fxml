@@ -21,21 +21,21 @@
 
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Nome:"/>
+                        <Label text="Nome:*"/>
                         <TextField fx:id="textNome" maxWidth="Infinity"/> </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Cognome:"/>
+                        <Label text="Cognome:*"/>
                         <TextField fx:id="textCognome" maxWidth="Infinity"/>
                     </VBox>
                 </HBox>
 
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Email:" />
+                        <Label text="Email:*" />
                         <TextField fx:id="textEmail" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Codice fiscale:" />
+                        <Label text="Codice fiscale:*" />
                         <TextField fx:id="textCodiceFiscale" maxWidth="Infinity"/>
                     </VBox>
                 </HBox>
@@ -76,6 +76,13 @@
 
 
                 </HBox>
+            </VBox>
+
+            <!-- sezione della legenda -->
+            <VBox>
+                <Label text="Legenda:" styleClass="title"/>
+                <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
+                <Label text="Tutti gli altri dati sono facoltativi."/>
             </VBox>
 
         </VBox>

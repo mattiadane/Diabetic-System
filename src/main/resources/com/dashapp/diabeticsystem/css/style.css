@@ -4,6 +4,7 @@
     -fx-font-weight: bold;
     -fx-padding: 8px 16px;
     -fx-cursor: hand;
+    -fx-margin-top: 20px;
     -fx-background-radius: 5;
     -fx-effect: dropshadow(gaussian, rgba(30,136,229,0.4), 5, 0.5, 0, 2);
     -fx-transition: all 0.3s ease-in-out;
@@ -150,6 +151,7 @@
     -fx-font-weight: bold;
     -fx-padding: 10 20;
     -fx-cursor: hand;
+    -fx-margin-top: 20px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);
 }
 

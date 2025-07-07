@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.TerapieController"
@@ -17,50 +18,58 @@
 >
 
     <center>
-        <VBox>
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-            <Label text="Crea terapia" styleClass="title"/>
+        <ScrollPane>
+            <content>
+                <VBox>
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="Crea terapia" styleClass="title"/>
 
-            <Label text="Seleziona Mediciale"/>
-            <ComboBox fx:id="medicinale">
-            </ComboBox>
+                    <Label text="Seleziona Mediciale:*"/>
+                    <ComboBox fx:id="medicinale">
+                    </ComboBox>
 
-            <Label text="Codice fiscale del paziente" />
-            <TextField fx:id="codice_fiscale"/>
+                    <Label text="Codice fiscale del paziente: *" />
+                    <TextField fx:id="codice_fiscale"/>
 
-            <Label text="Dosaggio quantità / unità" />
-            <HBox spacing="5" alignment="CENTER_LEFT">
-                <TextField  fx:id="quantita" promptText="Quantità" HBox.hgrow="ALWAYS"/>
-                <Label text="/"/>
-                <TextField  fx:id="unita"   promptText="unità" HBox.hgrow="ALWAYS"/>
-            </HBox>
-
-
-            <Label text="Assunzione"/>
-            <HBox spacing="5" alignment="CENTER_LEFT">
-                <TextField fx:id="quanto" HBox.hgrow="ALWAYS"/>
-                <Label text="al/alla"/>
-                <ComboBox fx:id="periodicita" HBox.hgrow="ALWAYS">
-                </ComboBox>
-            </HBox>
+                    <Label text="Dosaggio quantità / unità:*" />
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <TextField  fx:id="quantita" promptText="Quantità" HBox.hgrow="ALWAYS"/>
+                        <Label text="/"/>
+                        <TextField  fx:id="unita"   promptText="unità" HBox.hgrow="ALWAYS"/>
+                    </HBox>
 
 
+                    <Label text="Assunzione:*"/>
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <TextField fx:id="quanto" HBox.hgrow="ALWAYS"/>
+                        <Label text="al/alla*"/>
+                        <ComboBox fx:id="periodicita" HBox.hgrow="ALWAYS">
+                        </ComboBox>
+                    </HBox>
 
-            <Label text="Data inizio / Data fine " />
-            <HBox spacing="5" alignment="CENTER_LEFT">
-                <DatePicker  promptText="inizio"  fx:id="data_inizio" HBox.hgrow="ALWAYS"/>
-                <DatePicker  promptText="fine" fx:id="data_fine" HBox.hgrow="ALWAYS"/>
-
-            </HBox>
 
 
-            <Label text="Descrizione aggiuntive " />
-            <TextArea fx:id="descrizione"/>
+                    <Label text="Data inizio* / Data fine:*" />
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <DatePicker  promptText="inizio"  fx:id="data_inizio" HBox.hgrow="ALWAYS"/>
+                        <DatePicker  promptText="fine" fx:id="data_fine" HBox.hgrow="ALWAYS"/>
 
-            <Button onAction="#aggiungiTerapia" text="Aggiungi terapia" styleClass="loginButton"/>
-        </VBox>
+                    </HBox>
+
+
+                    <Label text="Descrizione aggiuntive:*" />
+                    <TextArea fx:id="descrizione"/>
+
+                    <Button onAction="#aggiungiTerapia" text="Aggiungi terapia" styleClass="loginButton" />
+
+                    <Label text="Legenda:" styleClass="title"/>
+                    <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
+                    <Label text="I campi di password verranno controllati solo se valorizzati."/>
+                </VBox>
+            </content>
+        </ScrollPane>
     </center>
 
 </BorderPane>

@@ -10,35 +10,45 @@
             fx:controller="com.dashapp.diabeticsystem.controllers.AssunzioneFarmacoController"
             prefHeight="400.0" prefWidth="600.0">
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20" />
-    </padding>
-
     <center>
-        <VBox>
-            <Label text="Inserimento assunzione di medicine" styleClass="title" />
+        <ScrollPane>
+            <content>
+                <VBox>
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20" />
+                    </padding>
 
-            <Label text="Seleziona Mediciale:"/>
-            <ComboBox fx:id="medicinali">
-            </ComboBox>
+                    <Label text="Inserimento assunzione di medicine" styleClass="title" />
 
-            <Label text="Dosaggio / quantità:"/>
-            <TextField fx:id="dosaggioText" promptText="ex: 200, 500, 1000, ..."/>
+                    <Label text="Seleziona Mediciale:*"/>
+                    <ComboBox fx:id="medicinali">
+                    </ComboBox>
 
-            <Label text="Dosaggio unità:" />
-            <TextField fx:id="unitaText" promptText="ex: mg, ..."/>
+                    <Label text="Dosaggio / quantità:*"/>
+                    <TextField fx:id="dosaggioText" promptText="ex: 200, 500, 1000, ..."/>
 
-            <Label text="Sintomi:" />
-            <TextArea fx:id="sintomiArea" promptText="Inserisci eventuali sintomi riscontrati dopo l'assuzione della medicina" />
+                    <Label text="Dosaggio unità:*" />
+                    <TextField fx:id="unitaText" promptText="ex: mg, ..."/>
 
-            <Label text="Giorno di assunzione" />
-            <DatePicker fx:id="datePicker" />
+                    <Label text="Sintomi:*" />
+                    <TextArea fx:id="sintomiArea" promptText="Inserisci eventuali sintomi riscontrati dopo l'assuzione della medicina" />
 
-            <Label text="Ora di assunzione: " />
-            <TextField fx:id="oraText" promptText="ex: 07:35, 09:22, 10:45, ..."/>
+                    <Label text="Giorno di assunzione:*" />
+                    <DatePicker fx:id="datePicker" />
 
-            <Button onAction="#handleAssunzione" styleClass="loginButton">Aggiungi assunzione</Button>
-        </VBox>
+                    <Label text="Ora di assunzione:*" />
+                    <TextField fx:id="oraText" promptText="ex: 07:35, 09:22, 10:45, ..."/>
+
+                    <Button onAction="#handleAssunzione" styleClass="loginButton">Aggiungi assunzione</Button>
+
+                    <VBox>
+                        <Label text="Legenda:" styleClass="title"/>
+                        <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
+                        <Label text="Tutti gli altri dati sono facoltativi."/>
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
     </center>
 
 </BorderPane>
