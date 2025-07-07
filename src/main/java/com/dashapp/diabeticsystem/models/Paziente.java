@@ -15,6 +15,7 @@ public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
     private LocalDate dataNascita;
     private final ObservableList<Terapia> terapie = FXCollections.observableArrayList();
+    private InformazioniPaziente info;
 
 
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita) {
@@ -190,6 +191,31 @@ public class Paziente extends Persona implements UpdatePersona{
 
     public int countInsulinaGiornaliero(){
         return getInsulina(null,1).size();
+    }
+
+    /**
+     * Recupera le informazioni del paziente. Se le informazioni non sono già caricate,
+     * recupera i dati dal database e inizializza l'oggetto contenente le informazioni del paziente.
+     *
+     * @return un'istanza di {@code InformazioniPaziente} contenente le informazioni del paziente.
+     */
+    public InformazioniPaziente getInfo(){
+        if(info != null) return this.info;
+
+        this.info = new InformazioniPaziente();
+        Main.getDbManager().selectQuery("SELECT fattori_rischio, commorbità, patologie_pregresse, patologie_in_concomitanza FROM informazione_paziente WHERE id_paziente = ?;",
+                rs -> {
+                    if(rs.next()){
+                        this.info.setFattoriRischio(rs.getString("fattori_rischio"));
+                        this.info.setCommorbita(rs.getString("commorbità"));
+                        this.info.setPatologiePreg(rs.getString("patologie_pregresse"));
+                        this.info.setPatologieAtt(rs.getString("patologie_in_concomitanza"));
+                    }
+                    return null;
+                },
+                this.id_paziente);
+
+        return this.info;
     }
 
 }

@@ -3,10 +3,7 @@ package com.dashapp.diabeticsystem.controllers;
 
 import java.time.format.DateTimeFormatter;
 import com.dashapp.diabeticsystem.Main;
-import com.dashapp.diabeticsystem.models.Diabetologo;
-import com.dashapp.diabeticsystem.models.Insulina;
-import com.dashapp.diabeticsystem.models.Paziente;
-import com.dashapp.diabeticsystem.models.Terapia;
+import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
@@ -14,8 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -35,7 +30,6 @@ import java.util.Optional;
 
 public class DettagliPazienteController {
 
-
     @FXML private TableView<Terapia> tabella_terapie;
     @FXML private TableColumn<Terapia, String> col_nome;
     @FXML private TableColumn<Terapia, String> col_dosaggio;
@@ -44,6 +38,11 @@ public class DettagliPazienteController {
 
     @FXML private TableColumn<Terapia, Void> modifica;
     @FXML private TableColumn<Terapia, Void> elimina;
+
+    @FXML private TextField textFattori;
+    @FXML private TextField textCommorbita;
+    @FXML private TextField textPatologiePreg;
+    @FXML private TextField textPatologieAtt;
 
     @FXML private LineChart<String, Number> chart;
     @FXML private DatePicker settimana;
@@ -59,6 +58,7 @@ public class DettagliPazienteController {
 
     public void initialize(){
         this.diabetologo = new Diabetologo();
+
         this.col_nome.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getFarmaco().getNome()));
 
@@ -145,6 +145,15 @@ public class DettagliPazienteController {
         elimina.setCellFactory(cellFactoryElimina);
     }
 
+    public void setTextFields(Paziente p) {
+        InformazioniPaziente temp = p.getInfo();
+
+        this.textFattori.setText(temp.getFattoriRischio());
+        this.textCommorbita.setText(temp.getCommorbita());
+        this.textPatologiePreg.setText(temp.getPatologiePreg());
+        this.textPatologieAtt.setText(temp.getPatologieAtt());
+    }
+
     /**
      * Funzione che permette di aprire la scheda del paziente selezionato.
      * @param terapia terapia da visualizzare
@@ -181,8 +190,6 @@ public class DettagliPazienteController {
      * Funzione che permette di mostrare i livelli di insulina di una settimana di un determinato paziente
      */
     public void initChart(Paziente paziente,LocalDateTime inizio,LocalDateTime fine){
-
-
         chart.getData().clear();
 
         ObservableList<Insulina> data = paziente.getInsulinaByDate(inizio, fine);
@@ -209,6 +216,7 @@ public class DettagliPazienteController {
         DateTimeFormatter xAxisFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         data.sort(Comparator.comparing(Insulina::getOrario));
 
+        // per ogni dato presente, vado ad aggiungerlo alla serie da mostrare poi nel grafico
         for (Insulina reg : data) {
             String day = reg.getOrario().format(xAxisFormatter);
             int value = reg.getLivello_insulina();
@@ -219,14 +227,10 @@ public class DettagliPazienteController {
 
         }
 
-
-
         chart.getData().add(seriesSogliaBassa);
         chart.getData().add(seriesSogliaMedia);
         chart.getData().add(seriesSogliaAlta);
         chart.getData().add(series);
-
-
     }
 
     public void handleSettimana() {
@@ -239,8 +243,19 @@ public class DettagliPazienteController {
 
             initChart(paziente,firstDayOfWeek,lastDayOfWeek);
         }
+    }
 
-
-
+    /**
+     * Funzione che permette di aggiornare i dati relativi alle informazioni aggiuntive sul paziente
+     */
+    public void handleUpdateInfo(){
+        String[] info = {
+                this.textFattori.getText(),
+                this.textCommorbita.getText(),
+                this.textPatologiePreg.getText(),
+                this.textPatologieAtt.getText()
+        };
+        if(diabetologo.updateInfo(paziente,info)) Utility.createAlert(Alert.AlertType.INFORMATION,"Informazioni aggiornate con successo");
+        else Utility.createAlert(Alert.AlertType.ERROR,"Errore durante l'aggiornamento delle informazioni");
     }
 }

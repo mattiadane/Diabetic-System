@@ -239,5 +239,12 @@ public class Diabetologo extends Persona implements UpdatePersona {
         return id_diabetologo;
     }
 
+    public boolean updateInfo(Paziente p, String[] info){
+        if(p == null) return false;
+        if(info.length != 4) return false;
 
+        return Main.getDbManager().updateQuery("UPDATE informazione_paziente SET fattori_rischio = ?, commorbità = ?, patologie_pregresse = ?, patologie_in_concomitanza = ? WHERE id_paziente = ?",
+                info[0],info[1],info[2],info[3],p.getId_paziente());
+
+    }
 }
