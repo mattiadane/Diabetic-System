@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -51,23 +52,33 @@ public class AssunzioneFarmacoController {
 
         Terapia t = paziente.loadTeriapiaByFarmaco(medicinali.getValue());
 
-        if(paziente.sommaDosaggioAssunzioneFarmaco(medicinali.getValue(),date) + Double.parseDouble(dosaggioText.getText()) <= paziente.sommaDosaggioTerapia(medicinali.getValue())) {
-            boolean success = paziente.inserisciAssunzioneFarmaco(
-                    new AssunzioneFarmaco(
-                            medicinali.getValue(),unitaText.getText(),Double.parseDouble(dosaggioText.getText()),sintomiArea.getText(),date
-                    )
-            );
+        LocalDate inizio = t.getData_inizio(),fine = t.getData_fine();
 
-            if(!success){
-                Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'inserimento dell'assunzione farmaco");
-                return;
+        if(Utility.checkDataIsCompresa(inizio,fine,datePicker.getValue())){
+            if(paziente.sommaDosaggioAssunzioneFarmaco(medicinali.getValue(),date) + Double.parseDouble(dosaggioText.getText()) <= paziente.sommaDosaggioTerapia(medicinali.getValue())) {
+                boolean success = paziente.inserisciAssunzioneFarmaco(
+                        new AssunzioneFarmaco(
+                                medicinali.getValue(),unitaText.getText(),Double.parseDouble(dosaggioText.getText()),sintomiArea.getText(),date
+                        )
+                );
+
+
+                if(!success){
+                    Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'inserimento dell'assunzione farmaco");
+                    return;
+                }
+
+                Utility.createAlert(Alert.AlertType.INFORMATION, "Assunzione farmaco inserita correttamente");
+            } else {
+                Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere un dosaggio maggiore di " + paziente.sommaDosaggioTerapia(medicinali.getValue()) + unitaText.getText()
+                        + " nella terapia di " + medicinali.getValue().getNome() + " durante " + (t.getPeriodicita() == PERIODICITA.SETTIMANA ? " la " : " il ")  + t.getPeriodicita().toString()  );
             }
 
-            Utility.createAlert(Alert.AlertType.INFORMATION, "Assunzione farmaco inserita correttamente");
         } else {
-            Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere un dosaggio maggiore di " + paziente.sommaDosaggioTerapia(medicinali.getValue()) + unitaText.getText()
-                    + " nella terapia di " + medicinali.getValue().getNome() + " durante " + (t.getPeriodicita() == PERIODICITA.SETTIMANA ? " la " : " il ")  + t.getPeriodicita().toString()  );
+            Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere " + t.getFarmaco().toString() + " fuori dal periodo della terapia ( "+ t.getData_inizio().toString() + " - " + t.getData_fine().toString() + " )" );
+
         }
+
 
 
         Utility.resetField(pane);
@@ -77,4 +88,7 @@ public class AssunzioneFarmacoController {
 
 
     }
+
+
+
 }

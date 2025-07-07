@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -213,6 +214,21 @@ public class Utility {
         if(data_inizio.isAfter(data_fine) || data_inizio.isEqual(data_fine)) return false;
 
         return (data_inizio.isAfter(LocalDate.now()) || data_inizio.isEqual(LocalDate.now())) && (data_fine.isAfter(LocalDate.now()));
+    }
+
+
+    /**
+     *
+     * @param data_inizio data  di inizio
+     * @param data_fine data di fine
+     * @param data_oggetto data da confrontare con data inizio e data fine
+     * @return true se la data è compresa tra data inizio e data fine , false altrimenti
+     */
+    public static boolean checkDataIsCompresa(LocalDate data_inizio, LocalDate data_fine,LocalDate data_oggetto){
+        if(!checkObj(data_inizio) || !checkObj(data_fine) || !checkObj(data_oggetto)) return false;
+
+        return (data_oggetto.isAfter(data_inizio) || data_oggetto.isEqual(data_inizio))
+                && (data_oggetto.isBefore(data_fine) || data_oggetto.isEqual(data_fine));
     }
 
 
