@@ -94,7 +94,7 @@ public class Diabetologo extends Persona implements UpdatePersona {
      * @param paziente oggetto di tipo <code>Paziente</code> da inserire nella tabella
      * @return valore di tipo <code>boolean</code> per controllare che l'inserimento è andato a buon fine.
      */
-    public boolean inserisciPaziente(Paziente paziente){
+    public boolean inserisciPaziente(Paziente paziente, String[] info){
         boolean success = false;
         if(paziente == null)
             return false;
@@ -110,10 +110,15 @@ public class Diabetologo extends Persona implements UpdatePersona {
         if (last_id >  0){
             paziente.setId_paziente(last_id);
             pazienti.add(paziente);
-            success =  Main.getDbManager().updateQuery(
+            success = Main.getDbManager().updateQuery(
                     "INSERT INTO login(id_paziente,id_diabetologo,username,password_hash) VALUES(?,?,?,?)",
                     paziente.getId_paziente(),null,new CredentialsGenerator(last_id,0,paziente.getNome(),paziente.getCognome()).createUsername(),
                     new CredentialsGenerator(last_id,0,paziente.getNome(), paziente.getCognome()).generatePassword()
+            );
+
+            success = Main.getDbManager().updateQuery(
+                    "INSERT INTO informazione_paziente(id_paziente, fattori_rischio, commorbità, patologie_pregresse, patologie_in_concomitanza) VALUES (?, ?, ?, ?, ?)",
+                    paziente.getId_paziente(), info[0], info[1], info[2], info[3]
             );
         }
 
@@ -234,5 +239,12 @@ public class Diabetologo extends Persona implements UpdatePersona {
         return id_diabetologo;
     }
 
+    public boolean updateInfo(Paziente p, String[] info){
+        if(p == null) return false;
+        if(info.length != 4) return false;
 
+        return Main.getDbManager().updateQuery("UPDATE informazione_paziente SET fattori_rischio = ?, commorbità = ?, patologie_pregresse = ?, patologie_in_concomitanza = ? WHERE id_paziente = ?",
+                info[0],info[1],info[2],info[3],p.getId_paziente());
+
+    }
 }
