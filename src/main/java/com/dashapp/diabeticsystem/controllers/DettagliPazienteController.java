@@ -249,13 +249,9 @@ public class DettagliPazienteController {
      * Funzione che permette di aggiornare i dati relativi alle informazioni aggiuntive sul paziente
      */
     public void handleUpdateInfo(){
-        String[] info = {
-                this.textFattori.getText(),
-                this.textCommorbita.getText(),
-                this.textPatologiePreg.getText(),
-                this.textPatologieAtt.getText()
-        };
-        if(diabetologo.updateInfo(paziente,info)) Utility.createAlert(Alert.AlertType.INFORMATION,"Informazioni aggiornate con successo");
+        InformazioniPaziente temp = new InformazioniPaziente(this.textFattori.getText(), this.textCommorbita.getText(), this.textPatologiePreg.getText(), this.textPatologieAtt.getText());
+
+        if(diabetologo.updateInfo(paziente, temp)) Utility.createAlert(Alert.AlertType.INFORMATION,"Informazioni aggiornate con successo");
         else Utility.createAlert(Alert.AlertType.ERROR,"Errore durante l'aggiornamento delle informazioni");
     }
 }

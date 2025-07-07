@@ -2,6 +2,7 @@ package com.dashapp.diabeticsystem.controllers.dashboards;
 
 import com.dashapp.diabeticsystem.controllers.SettingsController;
 import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.models.InformazioniPaziente;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
@@ -50,10 +51,8 @@ public class DashboardDiabetologoController {
         }
 
 
-        String[] info = {this.textFattoriRischio.getText(),
-                         this.textCommorbita.getText(),
-                         this.textPatologiePregresse.getText(),
-                         this.textPatologieConcomitanza.getText()};
+
+        InformazioniPaziente info = new InformazioniPaziente(this.textFattoriRischio.getText(), this.textCommorbita.getText(), this.textPatologiePregresse.getText(), this.textPatologieConcomitanza.getText());
 
         // eseguo la query di inserimento del nuovo paziente a database
         boolean success = diabetologo.inserisciPaziente(
