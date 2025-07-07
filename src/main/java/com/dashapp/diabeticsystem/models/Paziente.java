@@ -7,15 +7,19 @@ import com.dashapp.diabeticsystem.enums.PERIODO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Objects;
 
 
 public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
     private LocalDate dataNascita;
-    private final ObservableList<Terapia> terapie = FXCollections.observableArrayList();
     private InformazioniPaziente info;
+    private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
 
 
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita) {
@@ -42,6 +46,7 @@ public class Paziente extends Persona implements UpdatePersona{
                     }
                     return null;
                 },id_paziente);
+        terapie = loadAllTerapie();
 
     }
 
@@ -88,9 +93,15 @@ public class Paziente extends Persona implements UpdatePersona{
         return terapie;
     }
 
-    public void inserisciTerapia(Terapia t){
-        terapie.add(t);
+    public ObservableList<Farmaco> loadFarmaciByPaziente() {
+        ObservableList<Farmaco> farmaci = FXCollections.observableArrayList();
+        for(Terapia t : terapie) {
+            if(!farmaci.contains(t.getFarmaco())) farmaci.add(t.getFarmaco());
+        }
+        return farmaci;
     }
+
+    public void inserisciTerapia(Terapia t) { terapie.add(t);}
 
     public void rimuoviTerapie(Terapia t) {
         terapie.remove(t);
@@ -193,7 +204,60 @@ public class Paziente extends Persona implements UpdatePersona{
         return getInsulina(null,1).size();
     }
 
-    /**
+    public boolean inserisciAssunzioneFarmaco (AssunzioneFarmaco assunzioneFarmaco){
+        if(assunzioneFarmaco == null) return false;
+
+        return Main.getDbManager().updateQuery("INSERT INTO assunzione_farmaco(id_paziente,id_farmaco,dosaggio_quantità,dosaggio_unità,data_assunzione,sintomi) " +
+                "VALUES(?,?,?,?,?,?)",id_paziente,assunzioneFarmaco.getFarmaco().getId_farmaco(),assunzioneFarmaco.getDosaggio_quantita(),assunzioneFarmaco.getDosaggio_unita(),assunzioneFarmaco.getData_assunzione(),assunzioneFarmaco.getSintomi());
+    }
+
+    public Terapia loadTeriapiaByFarmaco(Farmaco f){
+        if(f == null) return null;
+
+        return terapie.stream().filter(tf -> tf.getFarmaco().getId_farmaco() == f.getId_farmaco()).findFirst().orElse(null);
+
+    }
+
+    public double sommaDosaggioTerapia(Farmaco f){
+
+        Terapia t = loadTeriapiaByFarmaco(f);
+
+        return t.getQuanto() * t.getDosaggio_quantita();
+
+
+    }
+
+    public double sommaDosaggioAssunzioneFarmaco(Farmaco f,LocalDateTime date){
+        Terapia t = loadTeriapiaByFarmaco(f);
+
+        LocalDateTime inizio ,fine ;
+        String query = "SELECT SUM(dosaggio_quantità) AS sum FROM assunzione_farmaco WHERE id_paziente = ? AND id_farmaco = ? AND data_assunzione BETWEEN ? AND ?";
+        if(t.getPeriodicita().toString().equals("giorno")){
+            inizio = date.toLocalDate().atStartOfDay();
+            fine = date.toLocalDate().atTime(LocalTime.MAX);
+        }  else if(t.getPeriodicita().toString().equals("settimana")){
+            inizio = date.toLocalDate().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).atStartOfDay();
+            fine = date.toLocalDate().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).atTime(LocalTime.MAX);
+
+        } else {
+            inizio = date.toLocalDate().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay();
+            fine = date.toLocalDate().with(TemporalAdjusters.lastDayOfMonth()).atTime(LocalTime.MAX);
+
+        }
+
+
+        return Main.getDbManager().selectQuery(query,
+                rs -> {
+                    if(rs.next()){
+                        return rs.getDouble("sum");
+
+                    }
+                    return null;
+                },id_paziente,t.getFarmaco().getId_farmaco(),inizio,fine);
+
+    }
+  
+      /**
      * Recupera le informazioni del paziente. Se le informazioni non sono già caricate,
      * recupera i dati dal database e inizializza l'oggetto contenente le informazioni del paziente.
      *
@@ -217,5 +281,4 @@ public class Paziente extends Persona implements UpdatePersona{
 
         return this.info;
     }
-
 }
