@@ -83,8 +83,6 @@ public class SidebarController {
 
         if (user != null) {
             ROLE role = user.getRole();
-            System.out.println("Sidebar: Aggiornamento per ruolo: " + role);
-
             switch (role) {
                 case ADMIN:
                     // Se vuoi che l'admin abbia una dashboard, rendi visibile dashboardButton
@@ -116,12 +114,8 @@ public class SidebarController {
                     assunzioniButton.setManaged(true);
                     break;
                 default:
-                    System.err.println("Sidebar: Ruolo utente non riconosciuto: " + role);
                     break;
             }
-        } else {
-            // Se nessun utente è loggato, tutti i pulsanti (incluso logout) sono nascosti
-            System.out.println("Sidebar: Nessun utente loggato, tutti i pulsanti nascosti.");
         }
     }
 

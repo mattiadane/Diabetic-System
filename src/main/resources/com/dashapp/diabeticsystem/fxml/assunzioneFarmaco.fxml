@@ -30,7 +30,7 @@
                     <Label text="Dosaggio unità:*" />
                     <TextField fx:id="unitaText" promptText="ex: mg, ..."/>
 
-                    <Label text="Sintomi:*" />
+                    <Label text="Sintomi:" />
                     <TextArea fx:id="sintomiArea" promptText="Inserisci eventuali sintomi riscontrati dopo l'assuzione della medicina" />
 
                     <Label text="Giorno di assunzione:*" />

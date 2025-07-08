@@ -12,8 +12,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Objects;
-
 
 public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
@@ -22,27 +20,28 @@ public class Paziente extends Persona implements UpdatePersona{
     private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
 
 
-    public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita) {
-        super(nome,cognome,email,codiceFiscale);
+    public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso) {
+        super(nome,cognome,email,codiceFiscale,sesso);
 
         this.dataNascita = dataNascita;
     }
 
-    public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita) {
-        this(nome, cognome, email, codiceFiscale, dataNascita);
+    public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso) {
+        this(nome, cognome, email, codiceFiscale, dataNascita,sesso);
         this.id_paziente = id_paziente;
 
     }
 
 
     public Paziente(){
-        Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM paziente WHERE id_paziente = ?",
+        Main.getDbManager().selectQuery("SELECT nome,cognome,email,sesso FROM paziente WHERE id_paziente = ?",
                 rs -> {
                     if (rs.next()){
 
                         setNome(rs.getString("nome"));
                         setCognome(rs.getString("cognome"));
                         setEmail(rs.getString("email"));
+                        setSesso(rs.getString("sesso"));
                     }
                     return null;
                 },id_paziente);

@@ -17,11 +17,11 @@ public class Admin {
 
     private ObservableList<Diabetologo> getAllDiabetologi() {
         if(diabetologi.isEmpty()) {
-            Main.getDbManager().selectQuery("SELECT id_diabetologo,nome,cognome,codice_fiscale,email FROM diabetologo",
+            Main.getDbManager().selectQuery("SELECT id_diabetologo,nome,cognome,codice_fiscale,email,sesso FROM diabetologo",
                     rs -> {
                         while (rs.next()) {
                             diabetologi.add(
-                                    new Diabetologo(rs.getInt("id_diabetologo"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"))
+                                    new Diabetologo(rs.getInt("id_diabetologo"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getString("sesso"))
                             );
                         }
                         return null;
@@ -44,8 +44,8 @@ public class Admin {
 
         // eseguo l'inserimento del nuovo diabetologo a database assegnandolo direttamente al diabetologo che ha assegnto il login
         int  last_id =  Main.getDbManager().insertAndGetGeneratedId(
-                "INSERT INTO diabetologo(nome,cognome,codice_fiscale,email) VALUES (?,?,?,?)",
-                diabetologo.getNome(),diabetologo.getCognome(),diabetologo.getCodice_fiscale(),diabetologo.getEmail()
+                "INSERT INTO diabetologo(nome,cognome,codice_fiscale,email,sesso) VALUES (?,?,?,?,?)",
+                diabetologo.getNome(),diabetologo.getCognome(),diabetologo.getCodice_fiscale(),diabetologo.getEmail(),diabetologo.getSesso()
         );
 
         // eseguo l'inserimento del nuovo utente, considerandolo come nuova utenza per il login

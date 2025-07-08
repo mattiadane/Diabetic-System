@@ -112,8 +112,6 @@ public class Terapia {
         return periodicita;
     }
 
-    public String getPeriodicitaString() { return periodicita.toString(); }
-
     public void setId_terapia(int id_terapia) {
         this.id_terapia = id_terapia;
     }

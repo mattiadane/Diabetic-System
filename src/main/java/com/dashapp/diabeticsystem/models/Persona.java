@@ -8,13 +8,14 @@ public abstract class Persona implements UpdatePersona {
     private String cognome;
     private String email;
     private String codice_fiscale;
+    private String sesso;
 
 
     public Persona() {
 
     }
 
-    public Persona(String nome, String cognome, String email,String codice_fiscale) {
+    public Persona(String nome, String cognome, String email,String codice_fiscale,String sesso) {
         if(nome == null || nome.isEmpty() || cognome == null || cognome.isEmpty() || email == null || email.isEmpty() || codice_fiscale==null || codice_fiscale.isEmpty())
             throw new IllegalArgumentException("Il nome, il cognome e la email non posso essere null oppure stringhe vuote");
 
@@ -22,6 +23,7 @@ public abstract class Persona implements UpdatePersona {
         this.cognome = Utility.convertName(cognome);
         this.email = email.trim().toLowerCase();
         this.codice_fiscale = codice_fiscale.trim().toUpperCase();
+        this.sesso = sesso;
     }
 
 
@@ -76,6 +78,14 @@ public abstract class Persona implements UpdatePersona {
 
     public void setEmail(String email) {
         this.email = email.toLowerCase().trim();
+    }
+
+    public String getSesso() {
+        return sesso;
+    }
+
+    public void setSesso(String sesso) {
+        this.sesso = sesso;
     }
 
     public abstract boolean updatePersona(Persona p);

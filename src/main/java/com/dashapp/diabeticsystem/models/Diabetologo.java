@@ -18,24 +18,25 @@ public class Diabetologo extends Persona implements UpdatePersona {
     private ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
 
     public Diabetologo() {
-        Main.getDbManager().selectQuery("SELECT nome,cognome,email FROM diabetologo WHERE id_diabetologo = ?",
+        Main.getDbManager().selectQuery("SELECT nome,cognome,email,sesso FROM diabetologo WHERE id_diabetologo = ?",
                 rs -> {
                     if (rs.next()){
 
                         setNome(rs.getString("nome"));
                         setCognome(rs.getString("cognome"));
                         setEmail(rs.getString("email"));
+                        setSesso(rs.getString("sesso"));
                     }
                     return null;
         },id_diabetologo);
         pazienti = loadAllPatients();
     }
 
-    public Diabetologo(String nome, String cognome, String email,String codice_fiscale){
-        super(nome,cognome,email,codice_fiscale);
+    public Diabetologo(String nome, String cognome, String email,String codice_fiscale,String sesso){
+        super(nome,cognome,email,codice_fiscale,sesso);
     }
-    public Diabetologo(int id_diabetologo, String  nome, String cognome, String email,String codice_fiscale){
-        this(nome,cognome,email,codice_fiscale);
+    public Diabetologo(int id_diabetologo, String  nome, String cognome, String email,String codice_fiscale,String sesso){
+        this(nome,cognome,email,codice_fiscale,sesso);
         this.id_diabetologo = id_diabetologo;
 
     }
@@ -115,11 +116,14 @@ public class Diabetologo extends Persona implements UpdatePersona {
                     paziente.getId_paziente(),null,new CredentialsGenerator(last_id,0,paziente.getNome(),paziente.getCognome()).createUsername(),
                     new CredentialsGenerator(last_id,0,paziente.getNome(), paziente.getCognome()).generatePassword()
             );
+            if(success){
+                success = Main.getDbManager().updateQuery(
+                        "INSERT INTO informazione_paziente(id_paziente, fattori_rischio, commorbità, patologie_pregresse, patologie_in_concomitanza) VALUES (?, ?, ?, ?, ?)",
+                        paziente.getId_paziente(), info.getFattoriRischio(), info.getCommorbita(), info.getPatologiePreg(), info.getPatologieAtt()
+                );
+            }
 
-            success = Main.getDbManager().updateQuery(
-                    "INSERT INTO informazione_paziente(id_paziente, fattori_rischio, commorbità, patologie_pregresse, patologie_in_concomitanza) VALUES (?, ?, ?, ?, ?)",
-                    paziente.getId_paziente(), info.getFattoriRischio(), info.getCommorbita(), info.getPatologiePreg(), info.getPatologieAtt()
-            );
+
         }
 
         return success;
@@ -144,12 +148,12 @@ public class Diabetologo extends Persona implements UpdatePersona {
      */
     private ObservableList<Paziente> loadAllPatients() {
         pazienti.clear();
-        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email FROM paziente WHERE id_diabetologo = ?",
+        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso FROM paziente WHERE id_diabetologo = ?",
                rs -> {
                     while (rs.next()){
 
                         pazienti.add(
-                                new Paziente(rs.getInt("id_paziente"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate())
+                                new Paziente(rs.getInt("id_paziente"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate(),rs.getString("sesso"))
                         );
                     }
                     return null;
@@ -174,11 +178,11 @@ public class Diabetologo extends Persona implements UpdatePersona {
      */
     public ObservableList<Paziente> getPazientiResearch(String search){
         ObservableList<Paziente> pazientiResearch = FXCollections.observableArrayList();
-        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email FROM paziente WHERE codice_fiscale LIKE ? ",
+        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso FROM paziente WHERE codice_fiscale LIKE ? ",
                 rs -> {
                     while (rs.next()){
                         pazientiResearch.add(
-                          new Paziente(rs.getInt("id_paziente"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate())
+                          new Paziente(rs.getInt("id_paziente"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate(),rs.getString("sesso"))
 
                         );
                     }

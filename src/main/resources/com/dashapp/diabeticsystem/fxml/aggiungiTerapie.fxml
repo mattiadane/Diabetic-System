@@ -59,14 +59,13 @@
                     </HBox>
 
 
-                    <Label text="Descrizione aggiuntive:*" />
+                    <Label text="Descrizione aggiuntive:" />
                     <TextArea fx:id="descrizione"/>
 
                     <Button onAction="#aggiungiTerapia" text="Aggiungi terapia" styleClass="loginButton" />
 
                     <Label text="Legenda:" styleClass="title"/>
                     <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
-                    <Label text="I campi di password verranno controllati solo se valorizzati."/>
                 </VBox>
             </content>
         </ScrollPane>

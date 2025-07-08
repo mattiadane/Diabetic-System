@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public class AssunzioneFarmaco {
 
-    private Farmaco farmaco;
-    private String dosaggio_unita;
-    private double dosaggio_quantita;
-    private String sintomi;
-    private LocalDateTime data_assunzione;
+    private final Farmaco farmaco;
+    private final String dosaggio_unita;
+    private final double dosaggio_quantita;
+    private final String sintomi;
+    private final LocalDateTime data_assunzione;
 
 
     public AssunzioneFarmaco(Farmaco farmaco, String dosaggio_unita, double dosaggio_quantita, String sintomi, LocalDateTime data_assunzione) {

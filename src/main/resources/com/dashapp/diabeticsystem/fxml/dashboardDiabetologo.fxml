@@ -40,6 +40,17 @@
                     </VBox>
                 </HBox>
 
+                <HBox spacing="10">
+                    <Label text="Sesso:*"/>
+                    <fx:define>
+                        <ToggleGroup fx:id="gruppoSesso" />
+                    </fx:define>
+
+                    <RadioButton text="Maschio" toggleGroup="$gruppoSesso"  selected="true" userData="M" />
+                    <RadioButton text="Femmina" toggleGroup="$gruppoSesso"  userData="F" />
+
+                </HBox>
+
                 <!-- campi di testo per fattori di rischio e commorbità -->
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
@@ -64,9 +75,10 @@
                     </VBox>
                 </HBox>
 
+
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Data di nascita:"/>
+                        <Label text="Data di nascita:*"/>
                         <DatePicker fx:id="dataNascitaPicker" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">

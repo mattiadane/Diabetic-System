@@ -26,11 +26,11 @@
             <!-- spazio per il grafico dell'insulina -->
             <LineChart fx:id="chart">
                 <xAxis>
-                    <CategoryAxis fx:id="xAxis" label="Giorno"/>
+                    <CategoryAxis  label="Giorno"/>
                 </xAxis>
 
                 <yAxis>
-                    <NumberAxis fx:id="yAxis" label="Valore (mg/dL) "/>
+                    <NumberAxis  label="Valore (mg/dL) "/>
                 </yAxis>
             </LineChart>
 

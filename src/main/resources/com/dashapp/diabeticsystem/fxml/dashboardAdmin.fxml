@@ -19,19 +19,30 @@
             <Label text="Benvenuto admin" styleClass="title"/>
 
             <VBox>
-                <Label text="Nome del nuovo diabetologo:" />
+                <Label text="Nome del nuovo diabetologo:*" />
                 <TextField fx:id="textNome" />
 
-                <Label text="Cognome del nuovo diabetologo:" />
+                <Label text="Cognome del nuovo diabetologo:*" />
                 <TextField fx:id="textCognome" />
 
-                <Label text="Codice fiscale  del nuovo diabetologo:" />
+                <Label text="Codice fiscale  del nuovo diabetologo:*" />
                 <TextField fx:id="textCf" />
 
-                <Label text="Email del nuovo diabetologo:" />
+                <Label text="Email del nuovo diabetologo:*" />
                 <TextField fx:id="textEmail" />
 
+                <Label text="Sesso del nuovo diabetologo"/>
+                <fx:define>
+                    <ToggleGroup fx:id="gruppoSesso" />
+                </fx:define>
+
+                <RadioButton text="Maschio" toggleGroup="$gruppoSesso"  selected="true" userData="M" />
+                <RadioButton text="Femmina" toggleGroup="$gruppoSesso"  userData="F" />
+
                 <Button text="Crea nuovo diabetologo" onAction="#createNewDiabetologo" styleClass="loginButton"/>
+                <Label text="Legenda:" styleClass="title"/>
+                <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
+
             </VBox>
         </VBox>
     </center>

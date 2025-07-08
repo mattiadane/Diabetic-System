@@ -17,32 +17,36 @@
         <VBox>
             <Label text="Dettagli terapia" styleClass="title"/>
 
-            <Label text="Seleziona Mediciale"/>
+            <Label text="Seleziona Mediciale*"/>
             <ComboBox fx:id="medicinale">
             </ComboBox>
 
-            <Label text="Dosaggio quantità / unità" />
+            <Label text="Dosaggio quantità / unità*" />
             <TextField fx:id="quantita"/>
             <Label text="/"/>
             <TextField fx:id="unita"/>
 
-            <Label text="Assunzione"/>
+            <Label text="Assunzione*"/>
             <TextField fx:id="quanto"/>
-            <Label text="al/alla"/>
+            <Label text="al/alla*"/>
             <ComboBox fx:id="periodicita">
             </ComboBox>
 
 
-            <Label text="Data inizio" />
+            <Label text="Data inizio*" />
             <DatePicker fx:id="data_inizio"/>
 
-            <Label text="Data fine" />
+            <Label text="Data fine*" />
             <DatePicker fx:id="data_fine"/>
 
             <Label text="Descrizione aggiuntive " />
             <TextArea fx:id="descrizione"/>
 
             <Button onAction="#modificaTerapia" text="Modifica terapia" styleClass="loginButton"/>
+
+            <Label text="Legenda:" styleClass="title"/>
+            <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per la corretta modifica dei dati."/>
+
         </VBox>
     </center>
 </BorderPane>

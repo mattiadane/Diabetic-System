@@ -17,6 +17,8 @@ public class DashboardDiabetologoController {
     // componenti effettivi della dashboard
     @FXML private Pane borderPane;
     @FXML private Label benvenuto ;
+    @FXML
+    private ToggleGroup gruppoSesso;
 
     // componenti per il form per aggiungere un paziente
     @FXML private TextField textNome;
@@ -32,7 +34,7 @@ public class DashboardDiabetologoController {
 
     public void initialize() {
         SettingsController.setPersona(diabetologo);
-        benvenuto.setText("Bentornato/a " + diabetologo);
+        benvenuto.setText("Bentornat" + (diabetologo.getSesso().equals("M") ? "o" : "a") + " " + diabetologo);
 
     }
 
@@ -42,7 +44,11 @@ public class DashboardDiabetologoController {
      */
     public void handleNuovoPaziente(){
         // controllo della validità dei campi inseriti dal dottore
-        if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscale.getText())
+
+
+
+
+        if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscale.getText()) || !Utility.checkObj(gruppoSesso.getSelectedToggle())
             || !Utility.checkDateNascita(this.dataNascitaPicker.getValue())
             || !Utility.checkOnlyLetters(this.textNome.getText()) || !Utility.checkOnlyLetters(this.textCognome.getText())
         ){
@@ -51,13 +57,13 @@ public class DashboardDiabetologoController {
         }
 
 
-
+        String sesso =  (String) ((RadioButton)gruppoSesso.getSelectedToggle()).getUserData();
         InformazioniPaziente info = new InformazioniPaziente(this.textFattoriRischio.getText(), this.textCommorbita.getText(), this.textPatologiePregresse.getText(), this.textPatologieConcomitanza.getText());
 
         // eseguo la query di inserimento del nuovo paziente a database
         boolean success = diabetologo.inserisciPaziente(
                 new Paziente(
-                        textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue()
+                        textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue(),sesso
                 ),
                 info
         );

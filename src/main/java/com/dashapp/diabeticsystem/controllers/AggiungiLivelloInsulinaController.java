@@ -7,8 +7,6 @@ import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-
-import java.awt.image.AbstractMultiResolutionImage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
