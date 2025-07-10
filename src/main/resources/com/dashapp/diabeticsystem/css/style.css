@@ -238,3 +238,20 @@
     -fx-background-radius: 5px;
     -fx-padding: 4px;
 }
+
+/* stile per il simbolo (*) dei campi obbligatori */
+.required{
+    -fx-fill: red;
+}
+
+/* stile per bottone di aggiunta paziente */
+.add-paziente{
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-padding: 8 15;
+}
+
+.add-paziente:hover{
+    -fx-background-color: #388E3C;
+}
