@@ -221,20 +221,59 @@
     -fx-padding: 3px;
 }
 
+/* colore di default per le linee statiche del grafico dell'insulina */
 .default-color1.chart-legend-item-symbol {
     -fx-background-color: #4CAF50;
     -fx-background-radius: 0;
     -fx-padding: 3px;
 }
 
+/* colore di default per le linee statiche del grafico dell'insulina */
 .default-color2.chart-legend-item-symbol {
     -fx-background-color: #F44336;
     -fx-background-radius: 0;
     -fx-padding: 3px;
 }
 
+/* colore di default per le linee statiche del grafico dell'insulina */
 .default-color3.chart-legend-item-symbol {
     -fx-background-color: #1E90FF;
     -fx-background-radius: 5px;
     -fx-padding: 4px;
+}
+
+/* stile per il simbolo (*) dei campi obbligatori */
+.required{
+    -fx-fill: red;
+}
+
+/* stile per bottone di aggiunta paziente */
+.add-paziente{
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-border-radius: 15;
+    -fx-padding: 8 15;
+}
+
+.add-paziente:hover{
+    -fx-background-color: #388E3C;
+}
+
+/* testo grigio per descrizioni */
+.text-grey{
+    -fx-fill: #808080;
+}
+
+.primary-button {
+    -fx-background-color: #007bff;  /* blu iniziale */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #0056b3;  /* blu più scuro al passaggio del mouse */
 }

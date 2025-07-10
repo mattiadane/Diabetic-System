@@ -7,6 +7,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <VBox fx:controller="com.dashapp.diabeticsystem.controllers.LoginController"
       xmlns:fx="http://javafx.com/fxml"
       alignment="CENTER"
@@ -19,11 +21,17 @@
 
     <Label text="Login" styleClass="header-label" />
 
-    <Label text="Username" styleClass="field-label" />
-    <TextField fx:id="usernameField" promptText="Inserisci username" styleClass="text-input" />
+    <TextFlow maxWidth="375.0">
+        <Text text="Username:" styleClass="field-label"/>
+        <Text text="*"        styleClass="required" />
+    </TextFlow>
+    <TextField fx:id="usernameField" promptText="Inserisci username" styleClass="text-input" maxWidth="375.0"/>
 
-    <Label text="Password" styleClass="field-label" />
-    <PasswordField fx:id="passwordField" promptText="Inserisci password" styleClass="text-input" />
+    <TextFlow maxWidth="375.0">
+        <Text text="Password:" styleClass="field-label" />
+        <Text text="*" styleClass="required" />
+    </TextFlow>
+    <PasswordField fx:id="passwordField" promptText="Inserisci password" styleClass="text-input" maxWidth="375.0"/>
 
     <Button text="Accedi" onAction="#onClickLogin" styleClass="login-button" />
 

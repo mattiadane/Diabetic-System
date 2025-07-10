@@ -23,8 +23,6 @@
             </padding>
             <Label text="Lista Pazienti" styleClass="title"/>
 
-
-
             <HBox spacing="5" alignment="CENTER_LEFT">
                 <Label text="Ricerca tramite codice fiscale : " styleClass="subtitle"/>
                 <TextField fx:id="codice_fiscale" promptText="Digita per cercare..." onKeyTyped="#searchInput" HBox.hgrow="ALWAYS" />

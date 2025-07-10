@@ -4,10 +4,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardDiabetologoController"
-            prefHeight="700.0" prefWidth="1000.0"  fx:id="borderPane">
+            prefHeight="700.0" prefWidth="1000.0" fx:id="borderPane">
 
     <center>
         <VBox spacing="20">
@@ -17,31 +19,47 @@
 
             <Label fx:id="benvenuto" styleClass="title" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-            <VBox spacing="10"> <Label text="Crea Paziente" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <VBox spacing="10">
+                <Label text="Crea Paziente" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
 
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Nome:*"/>
+                        <TextFlow>
+                            <Text text="Nome:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
                         <TextField fx:id="textNome" maxWidth="Infinity"/> </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Cognome:*"/>
+                        <TextFlow>
+                            <Text text="Cognome:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
                         <TextField fx:id="textCognome" maxWidth="Infinity"/>
                     </VBox>
                 </HBox>
 
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Email:*" />
+                        <TextFlow>
+                            <Text text="Email" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
                         <TextField fx:id="textEmail" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Codice fiscale:*" />
+                        <TextFlow>
+                            <Text text="Codice fiscale:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
                         <TextField fx:id="textCodiceFiscale" maxWidth="Infinity"/>
                     </VBox>
                 </HBox>
 
                 <HBox spacing="10">
-                    <Label text="Sesso:*"/>
+                    <TextFlow>
+                        <Text text="Sesso:" styleClass="field-label"/>
+                        <Text text="*" styleClass="required"/>
+                    </TextFlow>
                     <fx:define>
                         <ToggleGroup fx:id="gruppoSesso" />
                     </fx:define>
@@ -54,11 +72,11 @@
                 <!-- campi di testo per fattori di rischio e commorbità -->
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Fattori di rischio:" />
+                        <Label text="Fattori di rischio:" style="-fx-font-size: 14px;"/>
                         <TextField fx:id="textFattoriRischio" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Commorbità:" />
+                        <Label text="Commorbità:" style="-fx-font-size: 14px;"/>
                         <TextField fx:id="textCommorbita" maxWidth="Infinity"/>
                     </VBox>
                 </HBox>
@@ -66,11 +84,11 @@
                 <!-- campi di testo per patologie pregresse e in concomitanza -->
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Patologie pregresse:" />
+                        <Label text="Patologie pregresse:" style="-fx-font-size: 14px;"/>
                         <TextField fx:id="textPatologiePregresse" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Patologie in concomitanza:" />
+                        <Label text="Patologie in concomitanza:" style="-fx-font-size: 14px;"/>
                         <TextField fx:id="textPatologieConcomitanza" maxWidth="Infinity"/>
                     </VBox>
                 </HBox>
@@ -78,12 +96,15 @@
 
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Data di nascita:*"/>
+                        <TextFlow>
+                            <Text text="Data di nascita:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
                         <DatePicker fx:id="dataNascitaPicker" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
                         <Label /> <!-- label di spacing -->
-                        <Button text="Crea Paziente" maxWidth="Infinity" onAction="#handleNuovoPaziente" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 15;"/>
+                        <Button text="Crea Paziente" maxWidth="Infinity" onAction="#handleNuovoPaziente" styleClass="add-paziente"/>
                     </VBox>
 
 
@@ -91,11 +112,11 @@
             </VBox>
 
             <!-- sezione della legenda -->
-            <VBox>
-                <Label text="Legenda:" styleClass="title"/>
-                <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
-                <Label text="Tutti gli altri dati sono facoltativi."/>
-            </VBox>
+            <TextFlow>
+                <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
+                <Text text="*" styleClass="required"/>
+                <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey" />
+            </TextFlow>
 
         </VBox>
     </center>
