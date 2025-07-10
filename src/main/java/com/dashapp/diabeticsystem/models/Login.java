@@ -2,6 +2,8 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.enums.ROLE;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 public class Login {
@@ -9,6 +11,8 @@ public class Login {
     private final int id_paziente;
     private final int id_diabetologo;
     private final int id_login;
+
+    private final ObservableList<Chat> chat = FXCollections.observableArrayList();
 
 
     public Login(int id_login,String username ,int id_paziente , int id_diabetologo ) {
@@ -40,6 +44,8 @@ public class Login {
     }
 
 
+
+
     /**
      * Funzione che permette di ritornare un enum per il tipo di utente che si è loggato nel form di login.
      * @return tipo <code>ROLE</code> per il ruolo dell'utente.
@@ -65,7 +71,44 @@ public class Login {
 
     @Override
     public final String toString() {
-        return username;
+        return id_login + " " + id_paziente + " " + id_diabetologo + " " + username;
     }
 
+
+    public int getid_loginDibaetologo(Diabetologo diabetologo){
+        return Main.getDbManager().selectQuery("SELECT id_login FROM login WHERE id_diabetologo = ?",
+                rs -> {
+                    if(rs.next()) {
+                        return rs.getInt("id_login");
+                    }
+                    return null;
+                }
+                ,diabetologo.getId_diabetologo());
+    }
+
+    public ObservableList<Chat> chatDiabetologoPaziente(int id_mittente,int id_destinatario){
+        Main.getDbManager().selectQuery("SELECT id_mittente_login,id_destinatario_login,messaggio,data_invio FROM chat " +
+                "WHERE (id_mittente_login = ? AND id_destinatario_login = ?) OR (id_mittente_login = ? AND id_destinatario_login = ?) ORDER BY data_invio ASC ",
+                    rs -> {
+                        while(rs.next()){
+                            chat.add(
+                                    new Chat(
+                                           rs.getInt("id_mittente_login"),
+                                           rs.getInt("id_destinatario_login"),
+                                           rs.getString("messaggio"),
+                                           rs.getTimestamp("data_invio").toLocalDateTime()
+                                    )
+                            );
+
+                        }
+                        return null;
+                    }
+                ,id_mittente,id_destinatario,id_destinatario,id_mittente);
+        return chat;
+    }
+
+    public void inviaMessaggio(Chat chat) {
+        Main.getDbManager().updateQuery("INSERT INTO chat(id_mittente_login,id_destinatario_login,messaggio) VALUES(?,?,?)",
+                chat.getId_mittente(),chat.getId_destinatario(),chat.getMessaggio());
+    }
 }

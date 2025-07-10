@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 public class SidebarController {
 
 
+    @FXML private  Button chatPaziente;
+    @FXML private  Button chatDiabetologo;
     @FXML private Button homeButton;
     @FXML private Button pazientiButton;
     @FXML private Button terapieButton;
@@ -55,6 +57,14 @@ public class SidebarController {
 
     public void handleAssunzioni() { Router.navigateToAddAssunzione(); }
 
+    public void handleChatDiabetologo() {
+        Router.navigateToChat();
+    }
+
+    public void handleChatPaziente() {
+        Router.navigateToChat();
+    }
+
     /**
      * Funzione che permette di settare i bottoni (tutti nascosti inizialmente) della sidebar in modo che,
      * una volta loggato l'utente, sia possibile mostrare solo quelli necessari
@@ -74,6 +84,11 @@ public class SidebarController {
         diabetologiButton.setManaged(false);
         assunzioniButton.setVisible(false);
         assunzioniButton.setManaged(false);
+        chatPaziente.setVisible(false);
+        chatPaziente.setManaged(false);
+        chatDiabetologo.setVisible(false);
+        chatDiabetologo.setManaged(false);
+
 
 
 
@@ -101,6 +116,8 @@ public class SidebarController {
                     terapieButton.setManaged(true);
                     settingsButton.setVisible(true);
                     settingsButton.setManaged(true);
+                    chatDiabetologo.setVisible(true);
+                    chatDiabetologo.setManaged(true);
                     break;
                 case PAZIENTE:
                     // Il Paziente vede Home, Terapie, Insulina, Impostazioni, Logout
@@ -112,12 +129,15 @@ public class SidebarController {
                     settingsButton.setManaged(true);
                     assunzioniButton.setVisible(true);
                     assunzioniButton.setManaged(true);
+                    chatPaziente.setVisible(true);
+                    chatPaziente.setManaged(true);
                     break;
                 default:
                     break;
             }
         }
     }
+
 
 
 }

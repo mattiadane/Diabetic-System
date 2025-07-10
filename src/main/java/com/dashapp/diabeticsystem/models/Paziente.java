@@ -280,4 +280,18 @@ public class Paziente extends Persona implements UpdatePersona{
 
         return this.info;
     }
+
+    public Diabetologo getMyDiabetologo(){
+        return Main.getDbManager().selectQuery("SELECT d.id_diabetologo,d.nome,d.cognome,d.email,d.codice_fiscale,d.sesso FROM paziente p " +
+                "INNER JOIN diabetologo d ON p.id_diabetologo = d.id_diabetologo WHERE id_paziente = ?",
+                rs -> {
+                    if(rs.next()){
+                        return new Diabetologo(
+                                rs.getInt("d.id_diabetologo"),rs.getString("nome"),rs.getString("d.cognome"),rs.getString("d.email"),rs.getString("d.codice_fiscale"),rs.getString("d.sesso")
+                                );
+                    }
+                    return null;
+                },id_paziente);
+
+    }
 }

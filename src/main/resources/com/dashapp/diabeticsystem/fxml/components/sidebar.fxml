@@ -20,6 +20,10 @@
     <Button fx:id="assunzioniButton" maxWidth="Infinity" onAction="#handleAssunzioni" styleClass="sideButtons" text="Assunzioni" />
     <Button fx:id="settingsButton" maxWidth="Infinity" onAction="#handleSettings" styleClass="sideButtons" text="Impostazioni"/>
     <Button fx:id="diabetologiButton" maxWidth="Infinity" onAction="#handleDiabetologi" styleClass="sideButtons" text="Diabetologi"/>
+    <Button fx:id="chatPaziente" maxWidth="Infinity" onAction="#handleChatPaziente" styleClass="sideButtons" text="Chat con il diabetologo"/>
+    <Button fx:id="chatDiabetologo" maxWidth="Infinity" onAction="#handleChatDiabetologo" styleClass="sideButtons" text="Chat con il paziente"/>
+
+
 
     <Region VBox.vgrow="ALWAYS"/>
     <Separator/>
