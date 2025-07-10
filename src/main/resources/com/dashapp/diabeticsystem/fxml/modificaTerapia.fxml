@@ -5,48 +5,81 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.ModificaTerapiaController"
             prefHeight="400.0" prefWidth="600.0">
 
-    <padding>
-        <Insets top="20" bottom="20" left="20" right="20"/>
-    </padding>
+
     <center>
-        <VBox>
-            <Label text="Dettagli terapia" styleClass="title"/>
+        <ScrollPane>
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="20" bottom="20" left="20" right="20"/>
+                </padding>
+                <Label text="Dettagli terapia" styleClass="title"/>
 
-            <Label text="Seleziona Mediciale*"/>
-            <ComboBox fx:id="medicinale">
-            </ComboBox>
+                <TextFlow>
+                    <Text text="Seleziona medicinale:" styleClass="field-label"/>
+                    <Text text="*" styleClass="required"/>
+                </TextFlow>
+                <ComboBox fx:id="medicinale">
+                </ComboBox>
 
-            <Label text="Dosaggio quantità / unità*" />
-            <TextField fx:id="quantita"/>
-            <Label text="/"/>
-            <TextField fx:id="unita"/>
+                <TextFlow>
+                    <Text text="Dosaggio quantità / unità" styleClass="field-label"/>
+                    <Text text="*" styleClass="required"/>
+                </TextFlow>
+                <HBox spacing="10">
+                    <TextField fx:id="quantita"/>
+                    <Label text="/" styleClass="field-label"/>
+                    <TextField fx:id="unita"/>
+                </HBox>
 
-            <Label text="Assunzione*"/>
-            <TextField fx:id="quanto"/>
-            <Label text="al/alla*"/>
-            <ComboBox fx:id="periodicita">
-            </ComboBox>
+                <TextFlow>
+                    <Text text="Assunzione:" styleClass="field-label" />
+                    <Text text="*" styleClass="required" />
+                </TextFlow>
+                <HBox spacing="10">
+                    <TextField fx:id="quanto"/>
+                    <TextFlow>
+                        <Text text="al/alla" styleClass="field-label" />
+                        <Text text="*" styleClass="required" />
+                    </TextFlow>
+                    <ComboBox fx:id="periodicita">
+                    </ComboBox>
+                </HBox>
 
+                <HBox spacing="10">
+                    <VBox>
+                        <TextFlow>
+                            <Text text="Data inizio:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required" />
+                        </TextFlow>
+                        <DatePicker fx:id="data_inizio"/>
+                    </VBox>
+                    <VBox>
+                        <TextFlow>
+                            <Text text="Data fine:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <DatePicker fx:id="data_fine"/>
+                    </VBox>
+                </HBox>
 
-            <Label text="Data inizio*" />
-            <DatePicker fx:id="data_inizio"/>
+                <Label text="Descrizione aggiuntive " styleClass="field-label"/>
+                <TextArea fx:id="descrizione"/>
 
-            <Label text="Data fine*" />
-            <DatePicker fx:id="data_fine"/>
+                <Button onAction="#modificaTerapia" text="Modifica terapia" styleClass="primary-button"/>
 
-            <Label text="Descrizione aggiuntive " />
-            <TextArea fx:id="descrizione"/>
-
-            <Button onAction="#modificaTerapia" text="Modifica terapia" styleClass="loginButton"/>
-
-            <Label text="Legenda:" styleClass="title"/>
-            <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per la corretta modifica dei dati."/>
-
-        </VBox>
+                <TextFlow>
+                    <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey" />
+                    <Text text="*" styleClass="required" />
+                    <Text text="sono obbligatori per la corretta modifica dei dati." styleClass="text-grey" />
+                </TextFlow>
+            </VBox>
+        </ScrollPane>
     </center>
 </BorderPane>

@@ -19,7 +19,8 @@
 
             <Label fx:id="benvenuto" styleClass="title" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-            <VBox spacing="10"> <Label text="Crea Paziente" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <VBox spacing="10">
+                <Label text="Crea Paziente" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
 
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
@@ -39,7 +40,10 @@
 
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Email:*" />
+                        <TextFlow>
+                            <Text text="Email" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
                         <TextField fx:id="textEmail" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
@@ -68,11 +72,11 @@
                 <!-- campi di testo per fattori di rischio e commorbità -->
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Fattori di rischio:" styleClass="field-label"/>
+                        <Label text="Fattori di rischio:" style="-fx-font-size: 14px;"/>
                         <TextField fx:id="textFattoriRischio" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Commorbità:" styleClass="field-label"/>
+                        <Label text="Commorbità:" style="-fx-font-size: 14px;"/>
                         <TextField fx:id="textCommorbita" maxWidth="Infinity"/>
                     </VBox>
                 </HBox>
@@ -80,11 +84,11 @@
                 <!-- campi di testo per patologie pregresse e in concomitanza -->
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Patologie pregresse:" styleClass="field-label"/>
+                        <Label text="Patologie pregresse:" style="-fx-font-size: 14px;"/>
                         <TextField fx:id="textPatologiePregresse" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Patologie in concomitanza:" styleClass="field-label"/>
+                        <Label text="Patologie in concomitanza:" style="-fx-font-size: 14px;"/>
                         <TextField fx:id="textPatologieConcomitanza" maxWidth="Infinity"/>
                     </VBox>
                 </HBox>
@@ -108,11 +112,11 @@
             </VBox>
 
             <!-- sezione della legenda -->
-            <VBox>
-                <Label text="Legenda:" styleClass="title"/>
-                <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
-                <Label text="Tutti gli altri dati sono facoltativi."/>
-            </VBox>
+            <TextFlow>
+                <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
+                <Text text="*" styleClass="required"/>
+                <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey" />
+            </TextFlow>
 
         </VBox>
     </center>

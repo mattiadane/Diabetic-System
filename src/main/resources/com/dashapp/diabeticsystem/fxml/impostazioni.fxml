@@ -8,6 +8,8 @@
 
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.SettingsController"
@@ -17,31 +19,44 @@
 
 
     <center>
-        <VBox alignment="TOP_LEFT">
+        <VBox spacing="10">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
             <Label  text="Impostazioni" styleClass="title"/>
 
-            <Label text="Nome:*" />
+            <TextFlow>
+                <Text text="Nome: " styleClass="field-label"/>
+                <Text text="*" styleClass="required"/>
+            </TextFlow>
             <TextField fx:id="textNome"/>
 
-            <Label text="Cognome:*" />
+            <TextFlow>
+                <Text text="Cognome: " styleClass="field-label"/>
+                <Text text="*" styleClass="required"/>
+            </TextFlow>
             <TextField fx:id="textCognome" />
 
-            <Label text="Email:*" />
+            <TextFlow>
+                <Text text="Email: " styleClass="field-label"/>
+                <Text text="*" styleClass="required"/>
+            </TextFlow>
             <TextField fx:id="textEmail" />
 
-            <Label text="Nuova password: " />
+            <Label text="Nuova password: " styleClass="field-label"/>
             <PasswordField fx:id="textNewPassword" />
 
-            <Label text="Conferma nuova password: "/>
+            <Label text="Conferma nuova password: " styleClass="field-label"/>
             <PasswordField fx:id="textConfirmPassword" />
-            <Button text="Aggiorna dati" onAction="#handleUpdateData" styleClass="loginButton"/>
+            <Button text="Aggiorna dati" onAction="#handleUpdateData" styleClass="primary-button"/>
 
-            <Label text="Legenda:" styleClass="title"/>
-            <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
-            <Label text="I campi di password verranno controllati solo se valorizzati."/>
+            <TextFlow>
+                <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
+                <Text text="*" styleClass="required"/>
+                <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey"/>
+                <Text text="I campi di password verranno controllati solo se valorizzati." styleClass="text-grey" />
+            </TextFlow>
+
         </VBox>
 
     </center>

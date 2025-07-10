@@ -9,6 +9,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Button?>
 
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.AggiungiLivelloInsulinaController"
@@ -16,30 +18,39 @@
             fx:id="borderpane"
 >
     <center>
-        <VBox>
+        <VBox spacing="10">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
             <Label text="Aggiungi livello di insulina" styleClass="title" />
 
-            <Label text="Livello (in mg):*" />
+            <TextFlow>
+                <Text text="Livello (in mg):" styleClass="field-label"/>
+                <Text text="*" styleClass="required"/>
+            </TextFlow>
             <TextField fx:id="textLivello" prefWidth="200"/>
 
-            <Label text="Momento del giorno:*" />
+            <TextFlow>
+                <Text text="Momento del giorno:" styleClass="field-label"/>
+                <Text text="*" styleClass="required"/>
+            </TextFlow>
             <ComboBox fx:id="comboBoxMomento" layoutX="50" layoutY="50" prefWidth="200" />
 
-            <Label text="Ora (HH:mm):*" />
+            <TextFlow>
+                <Text text="Ora (HHmm):" styleClass="field-label"/>
+                <Text text="*" styleClass="required"/>
+            </TextFlow>
             <TextField fx:id="timeText" promptText="ex: 14:30, 15:50, 09:32, ..."/>
 
-            <Button text="Aggiungi livello" styleClass="loginButton" onAction="#handleAggiungiLivello"/>
+            <Button text="Aggiungi livello" styleClass="primary-button" onAction="#handleAggiungiLivello"/>
 
             <!-- sezione delle legenda -->
-            <VBox>
-                <Label text="Legenda:" styleClass="title"/>
-                <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
-                <Label text="Tutti gli altri dati sono facoltativi."/>
-            </VBox>
+            <TextFlow>
+                <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
+                <Text text="*" styleClass="required" />
+                <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey"/>
+            </TextFlow>
         </VBox>
     </center>
 
