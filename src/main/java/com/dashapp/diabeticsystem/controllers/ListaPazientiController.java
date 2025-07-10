@@ -140,7 +140,7 @@ public class ListaPazientiController {
             schedaStage.setTitle("Scheda Paziente: " + paziente.getNome() + " " + paziente.getCognome());
             schedaStage.setScene(newScene);
             schedaStage.initModality(Modality.NONE);
-            schedaStage.initOwner(tabellaPazienti.getScene().getWindow());
+
 
             schedaStage.show();
 

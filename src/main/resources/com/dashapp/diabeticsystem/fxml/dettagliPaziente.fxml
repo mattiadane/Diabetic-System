@@ -20,62 +20,60 @@
 
     <center>
         <!-- ScrollPane che avvolge l'intero contenuto -->
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
-            <content>
-                <VBox spacing="20">
-                    <!-- padding del VBox -->
-                    <padding>
-                        <Insets top="20" right="20" bottom="20" left="20"/>
-                    </padding>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+            <VBox spacing="20">
+                <!-- padding del VBox -->
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
 
-                    <!-- DatePicker settimanale -->
-                    <DatePicker fx:id="settimana" onAction="#handleSettimana"/>
+                <!-- DatePicker settimanale -->
+                <DatePicker fx:id="settimana" onAction="#handleSettimana"/>
 
-                    <!-- Titolo e grafico -->
-                    <Label text="Livelli di insulina:" styleClass="title"/>
-                    <LineChart fx:id="chart" prefHeight="500.0" maxHeight="650.0">
-                        <xAxis>
-                            <CategoryAxis label="Giorni" />
-                        </xAxis>
-                        <yAxis>
-                            <NumberAxis label="Valore (mg/dL)"/>
-                        </yAxis>
-                    </LineChart>
+                <!-- Titolo e grafico -->
+                <Label text="Livelli di insulina:" styleClass="title"/>
+                <LineChart fx:id="chart" prefHeight="500.0" maxHeight="650.0">
+                    <xAxis>
+                        <CategoryAxis label="Giorni"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Valore (mg/dL)"/>
+                    </yAxis>
+                </LineChart>
 
-                    <!-- Terapie -->
-                    <Label text="Terapie associate:" styleClass="title"/>
-                    <TableView fx:id="tabella_terapie" styleClass="table-view">
-                        <columnResizePolicy>
-                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                        </columnResizePolicy>
-                        <columns>
-                            <TableColumn text="Farmaco"      fx:id="col_nome"/>
-                            <TableColumn text="Dosaggio"     fx:id="col_dosaggio"/>
-                            <TableColumn text="# Assunzioni" fx:id="col_assunzioni"/>
-                            <TableColumn text="Periodo"      fx:id="col_periodo"/>
-                            <TableColumn fx:id="modifica"/>
-                            <TableColumn fx:id="elimina"/>
-                        </columns>
-                    </TableView>
+                <!-- Terapie -->
+                <Label text="Terapie associate:" styleClass="title"/>
+                <TableView fx:id="tabella_terapie" styleClass="table-view">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn text="Farmaco" fx:id="col_nome"/>
+                        <TableColumn text="Dosaggio" fx:id="col_dosaggio"/>
+                        <TableColumn text="# Assunzioni" fx:id="col_assunzioni"/>
+                        <TableColumn text="Periodo" fx:id="col_periodo"/>
+                        <TableColumn fx:id="modifica"/>
+                        <TableColumn fx:id="elimina"/>
+                    </columns>
+                </TableView>
 
-                    <!-- Informazioni relative al paziente -->
-                    <Label text="Informazioni sul paziente" styleClass="title"/>
-                    <Label text="Fattori di rischio:" />
-                    <TextField fx:id="textFattori"/>
+                <!-- Informazioni relative al paziente -->
+                <Label text="Informazioni sul paziente" styleClass="title"/>
+                <Label text="Fattori di rischio:"/>
+                <TextField fx:id="textFattori"/>
 
-                    <Label text="Commorbità:" />
-                    <TextField fx:id="textCommorbita" />
+                <Label text="Commorbità:"/>
+                <TextField fx:id="textCommorbita"/>
 
-                    <Label text="Patologie pregresse:" />
-                    <TextField fx:id="textPatologiePreg" />
+                <Label text="Patologie pregresse:"/>
+                <TextField fx:id="textPatologiePreg"/>
 
-                    <Label text="Patologie in concomitanza:" />
-                    <TextField fx:id="textPatologieAtt"/>
+                <Label text="Patologie in concomitanza:"/>
+                <TextField fx:id="textPatologieAtt"/>
 
-                    <Button text="Aggiorna" styleClass="primary-button" onAction="#handleUpdateInfo" />
+                <Button text="Aggiorna" styleClass="primary-button" onAction="#handleUpdateInfo"/>
 
-                </VBox>
-            </content>
+            </VBox>
         </ScrollPane>
     </center>
 

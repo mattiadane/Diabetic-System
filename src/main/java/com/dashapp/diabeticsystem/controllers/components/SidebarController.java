@@ -4,10 +4,14 @@ import com.dashapp.diabeticsystem.enums.ROLE;
 import com.dashapp.diabeticsystem.view.Router;
 import com.dashapp.diabeticsystem.models.Login;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 
 public class SidebarController {
 
+
+    @FXML private VBox vbox;
 
     @FXML private  Button chatPaziente;
     @FXML private  Button chatDiabetologo;
@@ -70,24 +74,13 @@ public class SidebarController {
      * una volta loggato l'utente, sia possibile mostrare solo quelli necessari
      */
     private void initializeSidebar() {
-        homeButton.setVisible(false);
-        homeButton.setManaged(false); // setManaged(false) fa sì che l'elemento non occupi spazio nel layout
-        pazientiButton.setVisible(false);
-        pazientiButton.setManaged(false);
-        terapieButton.setVisible(false);
-        terapieButton.setManaged(false);
-        settingsButton.setVisible(false);
-        settingsButton.setManaged(false);
-        insulinaButton.setVisible(false);
-        insulinaButton.setManaged(false);
-        diabetologiButton.setVisible(false);
-        diabetologiButton.setManaged(false);
-        assunzioniButton.setVisible(false);
-        assunzioniButton.setManaged(false);
-        chatPaziente.setVisible(false);
-        chatPaziente.setManaged(false);
-        chatDiabetologo.setVisible(false);
-        chatDiabetologo.setManaged(false);
+
+        for(Node n : vbox.getChildren() ) {
+            Button b = (Button) n;
+            if(b.getId() != null && b.getId().equals("logoutButton"))
+                setButton(b);
+        }
+
 
 
 
@@ -101,36 +94,26 @@ public class SidebarController {
             switch (role) {
                 case ADMIN:
                     // Se vuoi che l'admin abbia una dashboard, rendi visibile dashboardButton
-                    homeButton.setVisible(true);
-                    homeButton.setManaged(true);
-                    diabetologiButton.setVisible(true);
-                    diabetologiButton.setManaged(true);
+                    setButton(homeButton);
+                    setButton(diabetologiButton);
+
                     break;
                 case DIABETOLOGO:
                     // Il Diabetologo vede Home, Pazienti, Impostazioni, Logout
-                    homeButton.setVisible(true);
-                    homeButton.setManaged(true);
-                    pazientiButton.setVisible(true);
-                    pazientiButton.setManaged(true);
-                    terapieButton.setVisible(true);
-                    terapieButton.setManaged(true);
-                    settingsButton.setVisible(true);
-                    settingsButton.setManaged(true);
-                    chatDiabetologo.setVisible(true);
-                    chatDiabetologo.setManaged(true);
+                    setButton(homeButton);
+                    setButton(pazientiButton);
+                    setButton(terapieButton);
+                    setButton(settingsButton);
+                    setButton(chatDiabetologo);
                     break;
                 case PAZIENTE:
                     // Il Paziente vede Home, Terapie, Insulina, Impostazioni, Logout
-                    homeButton.setVisible(true);
-                    homeButton.setManaged(true);
-                    insulinaButton.setVisible(true);
-                    insulinaButton.setManaged(true);
-                    settingsButton.setVisible(true);
-                    settingsButton.setManaged(true);
-                    assunzioniButton.setVisible(true);
-                    assunzioniButton.setManaged(true);
-                    chatPaziente.setVisible(true);
-                    chatPaziente.setManaged(true);
+
+                    setButton(homeButton);
+                    setButton(insulinaButton);
+                    setButton(settingsButton);
+                    setButton(assunzioniButton);
+                    setButton(chatPaziente);
                     break;
                 default:
                     break;
@@ -138,6 +121,11 @@ public class SidebarController {
         }
     }
 
+    private void setButton(Button b) {
+        b.setVisible(false);
+        b.setManaged(false);
+
+    }
 
 
 }

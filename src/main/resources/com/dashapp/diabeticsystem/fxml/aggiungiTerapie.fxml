@@ -21,74 +21,72 @@
 
     <center>
         <ScrollPane>
-            <content>
-                <VBox spacing="10">
-                    <padding>
-                        <Insets top="20" right="20" bottom="20" left="20"/>
-                    </padding>
-                    <Label text="Crea terapia" styleClass="title"/>
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <Label text="Crea terapia" styleClass="title"/>
 
-                    <TextFlow>
-                        <Text text="Seleziona medicinale:" styleClass="field-label"/>
-                        <Text text="*" styleClass="required"/>
-                    </TextFlow>
-                    <ComboBox fx:id="medicinale">
+                <TextFlow>
+                    <Text text="Seleziona medicinale:" styleClass="field-label"/>
+                    <Text text="*" styleClass="required"/>
+                </TextFlow>
+                <ComboBox fx:id="medicinale">
+                </ComboBox>
+
+
+                <TextFlow>
+                    <Text text="Codice fiscale del paziente:" styleClass="field-label"/>
+                    <Text text="*" styleClass="required"/>
+                </TextFlow>
+                <TextField fx:id="codice_fiscale"/>
+
+                <TextFlow>
+                    <Text text="Dosaggio quantità / unità:" styleClass="field-label"/>
+                    <Text text="*" styleClass="required"/>
+                </TextFlow>
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <TextField fx:id="quantita" promptText="Quantità" HBox.hgrow="ALWAYS"/>
+                    <Label text="/"/>
+                    <TextField fx:id="unita" promptText="unità" HBox.hgrow="ALWAYS"/>
+                </HBox>
+
+
+                <TextFlow>
+                    <Text text="Assunzione:" styleClass="field-label"/>
+                    <Text text="*" styleClass="required"/>
+                </TextFlow>
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <TextField fx:id="quanto" HBox.hgrow="ALWAYS"/>
+                    <Label text="al/alla" styleClass="field-label"/>
+                    <ComboBox fx:id="periodicita" HBox.hgrow="ALWAYS">
                     </ComboBox>
+                </HBox>
+
+                <TextFlow>
+                    <Text text="Data inzio" styleClass="field-label"/>
+                    <Text text="*" styleClass="required"/>
+                    <Text text=" / Data fine:" styleClass="field-label"/>
+                    <Text text="*" styleClass="required"/>
+                </TextFlow>
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <DatePicker promptText="inizio" fx:id="data_inizio" HBox.hgrow="ALWAYS"/>
+                    <DatePicker promptText="fine" fx:id="data_fine" HBox.hgrow="ALWAYS"/>
+
+                </HBox>
 
 
-                    <TextFlow>
-                        <Text text="Codice fiscale del paziente:" styleClass="field-label"/>
-                        <Text text="*" styleClass="required"/>
-                    </TextFlow>
-                    <TextField fx:id="codice_fiscale"/>
+                <Label text="Descrizione aggiuntive:" styleClass="field-label"/>
+                <TextArea fx:id="descrizione"/>
 
-                    <TextFlow>
-                        <Text text="Dosaggio quantità / unità:" styleClass="field-label" />
-                        <Text text="*" styleClass="required"/>
-                    </TextFlow>
-                    <HBox spacing="5" alignment="CENTER_LEFT">
-                        <TextField  fx:id="quantita" promptText="Quantità" HBox.hgrow="ALWAYS"/>
-                        <Label text="/"/>
-                        <TextField  fx:id="unita"   promptText="unità" HBox.hgrow="ALWAYS"/>
-                    </HBox>
+                <Button onAction="#aggiungiTerapia" text="Aggiungi terapia" styleClass="primary-button"/>
 
-
-                    <TextFlow>
-                        <Text text="Assunzione:" styleClass="field-label"/>
-                        <Text text="*" styleClass="required"/>
-                    </TextFlow>
-                    <HBox spacing="5" alignment="CENTER_LEFT">
-                        <TextField fx:id="quanto" HBox.hgrow="ALWAYS"/>
-                        <Label text="al/alla" styleClass="field-label"/>
-                        <ComboBox fx:id="periodicita" HBox.hgrow="ALWAYS">
-                        </ComboBox>
-                    </HBox>
-
-                    <TextFlow>
-                        <Text text="Data inzio" styleClass="field-label"/>
-                        <Text text="*" styleClass="required"/>
-                        <Text text=" / Data fine:" styleClass="field-label"/>
-                        <Text text="*" styleClass="required"/>
-                    </TextFlow>
-                    <HBox spacing="5" alignment="CENTER_LEFT">
-                        <DatePicker  promptText="inizio"  fx:id="data_inizio" HBox.hgrow="ALWAYS"/>
-                        <DatePicker  promptText="fine" fx:id="data_fine" HBox.hgrow="ALWAYS"/>
-
-                    </HBox>
-
-
-                    <Label text="Descrizione aggiuntive:" styleClass="field-label"/>
-                    <TextArea fx:id="descrizione"/>
-
-                    <Button onAction="#aggiungiTerapia" text="Aggiungi terapia" styleClass="primary-button" />
-
-                    <TextFlow>
-                        <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
-                        <Text text="*" styleClass="required"/>
-                        <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey"/>
-                    </TextFlow>
-                </VBox>
-            </content>
+                <TextFlow>
+                    <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
+                    <Text text="*" styleClass="required"/>
+                    <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey"/>
+                </TextFlow>
+            </VBox>
         </ScrollPane>
     </center>
 

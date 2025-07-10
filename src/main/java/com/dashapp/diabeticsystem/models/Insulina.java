@@ -30,19 +30,6 @@ public class  Insulina {
 
 
 
-
-    public void setLivelloInsulina(int livello_insulina){
-        this.livello_insulina = livello_insulina;
-    }
-
-    public void setPeriodo(PERIODO periodo){
-        this.periodo = periodo;
-    }
-
-    public void setOrario(LocalDateTime orario){
-        this.orario = orario;
-    }
-
     @Override
     public String toString() {
         return livello_insulina +","+periodo +","+orario;
