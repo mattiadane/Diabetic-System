@@ -134,12 +134,11 @@ public class Login {
         ,
                 rs -> {
                     while(rs.next()){
-                        System.out.println(rs.getString("ultimo_messaggio") + " " + rs.getTimestamp("data"));
-                        Chat c ;
+                        Chat c = null;
                         if(rs.getString("ultimo_messaggio") != null && rs.getTimestamp("data") != null) {
                             c =  new Chat(0,0,rs.getString("ultimo_messaggio"),rs.getTimestamp("data").toLocalDateTime());
 
-                        } else c = null;
+                        }
                         pazientiChat.put(
                                 new Paziente(rs.getInt("p.id_paziente"),rs.getString("p.nome"),
                                         rs.getString("p.cognome"),rs.getString("p.email"),rs.getString("p.codice_fiscale"),
