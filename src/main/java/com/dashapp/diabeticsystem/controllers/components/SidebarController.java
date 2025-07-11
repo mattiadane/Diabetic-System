@@ -76,9 +76,11 @@ public class SidebarController {
     private void initializeSidebar() {
 
         for(Node n : vbox.getChildren() ) {
-            Button b = (Button) n;
-            if(b.getId() != null && b.getId().equals("logoutButton"))
-                setButton(b);
+            if(n instanceof Button b){
+                b.setVisible(false);
+                b.setManaged(false);
+            }
+
         }
 
 
@@ -122,10 +124,11 @@ public class SidebarController {
     }
 
     private void setButton(Button b) {
-        b.setVisible(false);
-        b.setManaged(false);
+        b.setVisible(true);
+        b.setManaged(true);
 
     }
+
 
 
 }

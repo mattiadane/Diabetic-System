@@ -104,6 +104,7 @@ public class Router {
 
         } catch (IOException e) {
             System.err.println("Error loading content view: " + fxml + " - " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

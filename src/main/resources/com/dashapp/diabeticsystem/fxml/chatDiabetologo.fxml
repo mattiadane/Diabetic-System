@@ -1,13 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ListView?>
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.dashapp.diabeticsystem.controllers.ChatDiabetologoController"
             prefHeight="400.0" prefWidth="600.0">
 
 
+    <left>
+        <VBox prefWidth="300.0" style="-fx-background-color: #f0f2f5;">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+            <Label text="Chat Pazienti" VBox.vgrow="NEVER">
+                <font>
+                    <Font name="System Bold" size="18.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            <Separator VBox.vgrow="NEVER">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Separator>
+            <ListView fx:id="chatListView" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+            <Label fx:id="chatHeaderLabel" text="Seleziona una chat" VBox.vgrow="NEVER">
+                <font>
+                    <Font name="System Bold" size="20.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" top="10.0"/>
+                </VBox.margin>
+            </Label>
+            <Separator VBox.vgrow="NEVER">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Separator>
+            <ScrollPane fx:id="messageScrollPane" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox fx:id="messageContainer" spacing="5.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                </VBox>
+            </ScrollPane>
+            <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+                <TextField fx:id="messageInput" HBox.hgrow="ALWAYS" promptText="Scrivi un messaggio..."/>
+                <Button fx:id="sendButton" mnemonicParsing="false"  text="Invia"/>
+            </HBox>
+        </VBox>
+    </center>
 
 </BorderPane>

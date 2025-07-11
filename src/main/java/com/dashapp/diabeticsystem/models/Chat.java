@@ -2,7 +2,7 @@ package com.dashapp.diabeticsystem.models;
 
 import java.time.LocalDateTime;
 
-public class Chat {
+public class Chat implements Comparable<Chat>  {
 
     private final int id_mittente;
     private final int id_destinatario;
@@ -30,5 +30,10 @@ public class Chat {
 
     public LocalDateTime getData_invio() {
         return data_invio;
+    }
+
+    @Override
+    public int compareTo(Chat chat) {
+        return this.data_invio.compareTo(chat.data_invio);
     }
 }

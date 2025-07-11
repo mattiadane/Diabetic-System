@@ -4,6 +4,7 @@ import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.enums.ROLE;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 
 public class Login {
@@ -110,5 +111,44 @@ public class Login {
     public void inviaMessaggio(Chat chat) {
         Main.getDbManager().updateQuery("INSERT INTO chat(id_mittente_login,id_destinatario_login,messaggio) VALUES(?,?,?)",
                 chat.getId_mittente(),chat.getId_destinatario(),chat.getMessaggio());
+    }
+
+    public ObservableMap<Paziente,Chat> pazienteEUltimoMessaggioDellaChat(){
+        ObservableMap<Paziente,Chat> pazientiChat = FXCollections.observableHashMap();
+        Main.getDbManager().selectQuery(
+                """
+                        SELECT\s
+                        \tp.nome,p.cognome,p.email,p.codice_fiscale,p.sesso,p.id_paziente,p.data_nascita,MAX(c.data_invio) AS data,
+                            (SELECT c.messaggio FROM chat c
+                        \t\tINNER JOIN login l ON c.id_destinatario_login = l.id_login OR c.id_mittente_login = l.id_login
+                                WHERE l.id_paziente = p.id_paziente
+                                ORDER BY c.data_invio DESC LIMIT 1
+                                ) AS ultimo_messaggio
+                        FROM paziente p
+                        INNER JOIN login l ON p.id_paziente = l.id_paziente
+                        LEFT JOIN chat c ON l.id_login = c.id_destinatario_login OR l.id_login = c.id_mittente_login
+                        WHERE p.id_diabetologo = ?
+                        GROUP BY
+                        \tp.nome,p.cognome,p.id_paziente
+                        ORDER BY max(c.data_invio) DESC;"""
+        ,
+                rs -> {
+                    while(rs.next()){
+                        System.out.println(rs.getString("ultimo_messaggio") + " " + rs.getTimestamp("data"));
+                        Chat c ;
+                        if(rs.getString("ultimo_messaggio") != null && rs.getTimestamp("data") != null) {
+                            c =  new Chat(0,0,rs.getString("ultimo_messaggio"),rs.getTimestamp("data").toLocalDateTime());
+
+                        } else c = null;
+                        pazientiChat.put(
+                                new Paziente(rs.getInt("p.id_paziente"),rs.getString("p.nome"),
+                                        rs.getString("p.cognome"),rs.getString("p.email"),rs.getString("p.codice_fiscale"),
+                                        rs.getDate("p.data_nascita").toLocalDate(),rs.getString("p.sesso")),c
+                        );
+                    }
+                    return null;
+                }
+                ,id_diabetologo);
+        return pazientiChat;
     }
 }
