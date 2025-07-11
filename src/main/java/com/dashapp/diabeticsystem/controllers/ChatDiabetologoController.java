@@ -4,15 +4,20 @@ import com.dashapp.diabeticsystem.models.Chat;
 import com.dashapp.diabeticsystem.models.Login;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Session;
+import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,19 +33,32 @@ public class ChatDiabetologoController {
     private VBox messageContainer;
     @FXML
     private TextField messageInput;
-    @FXML
-    private Button sendButton;
+
 
     private final Login mittente = Session.getCurrentUser();
+    private int id_destinatario  ;
     private Map<Paziente, Chat> pazienteChatMap;
 
     public void initialize() {
         pazienteChatMap = mittente.pazienteEUltimoMessaggioDellaChat();
 
-        List<Paziente> p = pazienteChatMap.keySet().stream().toList();
+        List<Paziente> p = new ArrayList<>(pazienteChatMap.keySet().stream().toList());
+
+        p.sort((p1, p2) -> {
+            Chat c1 = pazienteChatMap.get(p1);
+            Chat c2 = pazienteChatMap.get(p2);
+
+            LocalDateTime data1 = (c1 != null) ? c1.getData_invio() : LocalDateTime.MIN;
+            LocalDateTime data2 = (c2 != null) ? c2.getData_invio() : LocalDateTime.MIN;
+
+
+            return data2.compareTo(data1);
+        });
         chatListView.setItems(FXCollections.observableArrayList(p));
 
-        chatListView.setCellFactory(lv -> new ListCell<Paziente>() {
+
+        chatListView.setCellFactory(lv -> new ListCell<>() {
+
             @Override
             protected void updateItem(Paziente paziente, boolean empty) {
                 super.updateItem(paziente, empty);
@@ -52,16 +70,13 @@ public class ChatDiabetologoController {
                     Label nameLabel = new Label(paziente.getNome() + " " + paziente.getCognome());
 
                     Chat c = pazienteChatMap.get(paziente);
-                    String messageText;
-                    String messageDate;
+                    String messageText = "Nessun messaggio recente";
+                    String messageDate = "";
 
                     if (c != null) {
 
                         messageText =  c.getMessaggio();
-                        messageDate =  c.getData_invio().format(DateTimeFormatter.ofPattern("dd/M/yyyy hh:mm")) ;
-                    } else {
-                        messageText = "Nessun messaggio recente";
-                        messageDate = "";
+                        messageDate =  c.getData_invio().format(DateTimeFormatter.ofPattern("dd/M/yyyy HH:mm")) ;
                     }
 
                     Label lastMessageLabel = new Label(messageText + (messageDate.isEmpty() ? "" : " - " + messageDate));
@@ -87,28 +102,72 @@ public class ChatDiabetologoController {
         chatListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 chatHeaderLabel.setText(newVal.getNome() + " " + newVal.getCognome());
+
                 messageContainer.getChildren().clear();
-                messageContainer.getChildren().add(new Label("Caricamento chat con " + newVal.getNome() + "..."));
-            } else {
-                chatHeaderLabel.setText("Seleziona una chat");
-                messageContainer.getChildren().clear();
+
+                id_destinatario = mittente.getid_loginPaziente(newVal);
+
+
+
+                for(Chat c : mittente.chatDiabetologoPaziente(mittente.getId_login(), id_destinatario)){
+                    addMessage(c);
+                }
+
+                messageScrollPane.setVvalue(1.0);
+
             }
         });
 
-        sendButton.setOnAction(event -> sendMessage());
-        messageInput.setOnAction(event -> sendMessage());
+        messageContainer.heightProperty().addListener((obs, oldVal, newVal) -> messageScrollPane.setVvalue(1.0));
+
+
     }
 
-    private void sendMessage() {
-        String message = messageInput.getText().trim();
-        if (!message.isEmpty()) {
-            System.out.println("Invio messaggio: " + message);
-            Label sentMessageLabel = new Label("Tu: " + message);
-            sentMessageLabel.setStyle("-fx-background-color: #dcf8c6; -fx-padding: 5px 10px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-alignment: center-right;");
-            messageContainer.getChildren().add(sentMessageLabel);
-            messageInput.clear();
-            messageScrollPane.layout();
-            messageScrollPane.setVvalue(1.0);
+
+    private void addMessage(Chat msg) {
+        HBox messageBox = new HBox();
+        messageBox.setPadding(new Insets(5, 10, 5, 10));
+
+        Label messageLabel = new Label(msg.getMessaggio());
+        messageLabel.setWrapText(true); // Permette al testo di andare a capo
+        messageLabel.setMaxWidth(250); // Limita la larghezza della bolla del messaggio
+
+        String sender = msg.getId_mittente() == mittente.getId_login() ? "Mittente" : "Destinatario";
+
+        // Stile del messaggio in base al mittente
+        if (sender.equals("Mittente")) {
+            messageBox.setAlignment(Pos.CENTER_RIGHT); // Allinea a destra per i messaggi inviati
+            messageLabel.setStyle("-fx-background-color: #DCF8C6; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 8;");
+        } else {
+            messageBox.setAlignment(Pos.CENTER_LEFT); // Allinea a sinistra per i messaggi ricevuti
+            messageLabel.setStyle("-fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 8; -fx-border-color: #ddd; -fx-border-width: 1;");
         }
+        messageLabel.setFont(Font.font("Arial", 14));
+
+        // Data e ora del messaggio
+        LocalDateTime now = msg.getData_invio();
+        // Formato italiano per data e ora
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm - dd/MM/yyyy");
+        Label timeLabel = new Label(now.format(formatter));
+        timeLabel.setFont(Font.font("Arial", 10));
+        timeLabel.setTextFill(Color.web("#888888"));
+
+        VBox messageContent = new VBox(messageLabel, timeLabel);
+        messageContent.setSpacing(2);
+
+        messageBox.getChildren().add(messageContent);
+        messageContainer.getChildren().add(messageBox);
+    }
+
+    public void handleInvio() {
+
+        if (!Utility.checkObj(messageInput.getText())) {
+            return;
+        }
+        Chat c = new Chat(mittente.getId_login(), id_destinatario, messageInput.getText(), LocalDateTime.now());
+        mittente.inviaMessaggio(c);
+        addMessage(c);
+        messageInput.clear();
+
     }
 }

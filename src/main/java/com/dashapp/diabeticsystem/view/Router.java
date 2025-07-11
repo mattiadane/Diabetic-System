@@ -76,19 +76,7 @@ public class Router {
                 }
 
 
-            } else if (fxml.equals("chatDiabetologo.fxml")) {
-                if (chatDiabetologoView == null) { // Se la vista della chat diabetologo non è stata ancora caricata
-                    URL fxmlUrl = Main.class.getResource("fxml/" + fxml);
-                    FXMLLoader loader = new FXMLLoader(fxmlUrl);
-                    viewToLoad = loader.load();
-                    chatDiabetologoView = viewToLoad;
-
-                } else {
-                    viewToLoad = chatDiabetologoView;
-                }
             }
-            // Logica per caricare tutte le altre viste (non chat) normalmente,
-            // creando una nuova istanza ogni volta.
             else {
                 URL fxmlUrl = Main.class.getResource("fxml/" + fxml);
                 FXMLLoader loader = new FXMLLoader(fxmlUrl);
@@ -98,13 +86,11 @@ public class Router {
             // Imposta il contenuto centrale del MainController con la vista decisa dalla logica precedente.
             if (viewToLoad != null) {
                 mainController.setContent(viewToLoad);
-            } else {
-                System.err.println("Errore: La vista da caricare è null per: " + fxml);
             }
 
         } catch (IOException e) {
             System.err.println("Error loading content view: " + fxml + " - " + e.getMessage());
-            e.printStackTrace();
+
         }
     }
 

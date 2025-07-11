@@ -77,8 +77,7 @@ public class SidebarController {
 
         for(Node n : vbox.getChildren() ) {
             if(n instanceof Button b){
-                b.setVisible(false);
-                b.setManaged(false);
+                setButton(b,false);
             }
 
         }
@@ -96,26 +95,28 @@ public class SidebarController {
             switch (role) {
                 case ADMIN:
                     // Se vuoi che l'admin abbia una dashboard, rendi visibile dashboardButton
-                    setButton(homeButton);
-                    setButton(diabetologiButton);
+                    setButton(homeButton,true);
+                    setButton(diabetologiButton,true);
 
                     break;
                 case DIABETOLOGO:
                     // Il Diabetologo vede Home, Pazienti, Impostazioni, Logout
-                    setButton(homeButton);
-                    setButton(pazientiButton);
-                    setButton(terapieButton);
-                    setButton(settingsButton);
-                    setButton(chatDiabetologo);
+                    setButton(homeButton,true);
+                    setButton(pazientiButton,true);
+                    setButton(terapieButton,true);
+                    setButton(chatDiabetologo,true);
+                    setButton(settingsButton,true);
+
                     break;
                 case PAZIENTE:
                     // Il Paziente vede Home, Terapie, Insulina, Impostazioni, Logout
 
-                    setButton(homeButton);
-                    setButton(insulinaButton);
-                    setButton(settingsButton);
-                    setButton(assunzioniButton);
-                    setButton(chatPaziente);
+                    setButton(homeButton,true);
+                    setButton(insulinaButton,true);
+                    setButton(settingsButton,true);
+                    setButton(chatPaziente,true);
+                    setButton(assunzioniButton,true);
+
                     break;
                 default:
                     break;
@@ -123,9 +124,9 @@ public class SidebarController {
         }
     }
 
-    private void setButton(Button b) {
-        b.setVisible(true);
-        b.setManaged(true);
+    private void setButton(Button b,boolean visible) {
+        b.setVisible(visible);
+        b.setManaged(visible);
 
     }
 

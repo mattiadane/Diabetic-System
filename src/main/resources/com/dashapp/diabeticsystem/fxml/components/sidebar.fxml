@@ -19,10 +19,11 @@
     <Button fx:id="terapieButton" maxWidth="Infinity" onAction="#handleTerapie" styleClass="sideButtons" text="Terapie"/>
     <Button fx:id="insulinaButton" maxWidth="Infinity" onAction="#handleInsulina" styleClass="sideButtons" text="Insulina"/>
     <Button fx:id="assunzioniButton" maxWidth="Infinity" onAction="#handleAssunzioni" styleClass="sideButtons" text="Assunzioni" />
+    <Button fx:id="chatDiabetologo" maxWidth="Infinity" onAction="#handleChatDiabetologo" styleClass="sideButtons" text="Chat con i  pazienti"/>
+    <Button fx:id="chatPaziente" maxWidth="Infinity" onAction="#handleChatPaziente" styleClass="sideButtons" text="Chat con il diabetologo"/>
+
     <Button fx:id="settingsButton" maxWidth="Infinity" onAction="#handleSettings" styleClass="sideButtons" text="Impostazioni"/>
     <Button fx:id="diabetologiButton" maxWidth="Infinity" onAction="#handleDiabetologi" styleClass="sideButtons" text="Diabetologi"/>
-    <Button fx:id="chatPaziente" maxWidth="Infinity" onAction="#handleChatPaziente" styleClass="sideButtons" text="Chat con il diabetologo"/>
-    <Button fx:id="chatDiabetologo" maxWidth="Infinity" onAction="#handleChatDiabetologo" styleClass="sideButtons" text="Chat con il paziente"/>
 
 
 

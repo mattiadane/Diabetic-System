@@ -67,7 +67,7 @@
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                 </padding>
                 <TextField fx:id="messageInput" HBox.hgrow="ALWAYS" promptText="Scrivi un messaggio..."/>
-                <Button fx:id="sendButton" mnemonicParsing="false"  text="Invia"/>
+                <Button fx:id="sendButton" onAction="#handleInvio" mnemonicParsing="false"  text="Invia"/>
             </HBox>
         </VBox>
     </center>
