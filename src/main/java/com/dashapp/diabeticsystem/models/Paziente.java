@@ -18,7 +18,7 @@ public class Paziente extends Persona implements UpdatePersona{
     private LocalDate dataNascita;
     private InformazioniPaziente info;
     private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
-
+    private ObservableList<AssunzioneFarmaco> assunzioni = FXCollections.observableArrayList();
 
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso) {
         super(nome,cognome,email,codiceFiscale,sesso);
@@ -46,6 +46,7 @@ public class Paziente extends Persona implements UpdatePersona{
                     return null;
                 },id_paziente);
         terapie = loadAllTerapie();
+        assunzioni = loadAllAssunzioni();
 
     }
 
@@ -90,6 +91,27 @@ public class Paziente extends Persona implements UpdatePersona{
 
         }
         return terapie;
+    }
+
+    private ObservableList<AssunzioneFarmaco> loadAllAssunzioni(){
+        if(assunzioni.isEmpty()){
+            Main.getDbManager().selectQuery("SELECT id_farmaco,dosaggio_quantità,dosaggio_unità,sintomi,data_assunzione FROM assunzione_farmaco WHERE id_paziente = ?",
+                    rs -> {
+                        while(rs.next()){
+
+                            Farmaco f = Terapia.getFarmacoById(rs.getInt("id_farmaco"));
+
+                            AssunzioneFarmaco af = new AssunzioneFarmaco(
+                                f,rs.getString("dosaggio_unità"),rs.getDouble("dosaggio_quantità"),rs.getString("sintomi"),rs.getTimestamp("assunzione_farmaco").toLocalDateTime()
+                            );
+                            assunzioni.add(af);
+                        }
+                        return null;
+
+                    },this.id_paziente);
+
+        }
+        return assunzioni;
     }
 
     public ObservableList<Farmaco> loadFarmaciByPaziente() {
@@ -140,7 +162,7 @@ public class Paziente extends Persona implements UpdatePersona{
     }
 
 
-    // TODO: inserire campo per query di effettiva assunzione medicina
+
     public boolean aggiungiLivelloInsulina(Insulina insulina) {
         return Main.getDbManager().updateQuery("INSERT INTO insulina(id_paziente,valore_glicemia,orario,periodo) VALUES(?,?,?,?)",
                 id_paziente,insulina.getLivello_insulina(),insulina.getOrario(),insulina.getPeriodo().toString());
@@ -206,8 +228,13 @@ public class Paziente extends Persona implements UpdatePersona{
     public boolean inserisciAssunzioneFarmaco (AssunzioneFarmaco assunzioneFarmaco){
         if(assunzioneFarmaco == null) return false;
 
-        return Main.getDbManager().updateQuery("INSERT INTO assunzione_farmaco(id_paziente,id_farmaco,dosaggio_quantità,dosaggio_unità,data_assunzione,sintomi) " +
+        boolean success =  Main.getDbManager().updateQuery("INSERT INTO assunzione_farmaco(id_paziente,id_farmaco,dosaggio_quantità,dosaggio_unità,data_assunzione,sintomi) " +
                 "VALUES(?,?,?,?,?,?)",id_paziente,assunzioneFarmaco.getFarmaco().getId_farmaco(),assunzioneFarmaco.getDosaggio_quantita(),assunzioneFarmaco.getDosaggio_unita(),assunzioneFarmaco.getData_assunzione(),assunzioneFarmaco.getSintomi());
+        if(success){
+            assunzioni.add(assunzioneFarmaco);
+
+        }
+        return success;
     }
 
     public Terapia loadTeriapiaByFarmaco(Farmaco f){
@@ -293,5 +320,25 @@ public class Paziente extends Persona implements UpdatePersona{
                     return null;
                 },id_paziente);
 
+    }
+    public int numberDailyTakingMedicine(){
+
+        int count = 0;
+
+        for (AssunzioneFarmaco as : assunzioni ){
+
+        }
+        return Main.getDbManager().selectQuery("""
+                        SELECT COUNT(a.id_assunzione) FROM paziente p
+                        INNER JOIN assunzione_farmaco a ON p.id_paziente = a.id_paziente
+                        WHERE p.id_paziente = ? AND DATE(a.data_assunzione) = ?
+                        """,
+                rs -> {
+                    if(rs.next()){
+                        return rs.getInt("COUNT(a.id_assunzione)");
+                    }
+                    return 0;
+                }
+                ,this.id_paziente,LocalDate.now());
     }
 }

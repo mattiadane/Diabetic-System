@@ -229,6 +229,38 @@ public class Diabetologo extends Persona implements UpdatePersona {
     }
 
 
+    /*
+    public ObservableList<Paziente> notify(){
+        ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
+        Main.getDbManager().selectQuery("SELECT COUNT(a.id_assunzione) AS c,p.id_paziente,p.nome,p.cognome FROM paziente p\n" +
+                "    INNER JOIN diabetologo d ON d.id_diabetologo = p.id_diabetologo\n" +
+                "    LEFT JOIN assunzione_farmaco a ON a.id_paziente = p.id_paziente AND a.data_assunzione BETWEEN CURDATE() - INTERVAL 2 DAY AND CURDATE()\n" +
+                "    WHERE d.id_diabetologo = ?\n" +
+                "    GROUP BY p.id_paziente,p.nome,p.cognome\n" +
+                "    HAVING COUNT(a.id_assunzione) = 0;\n",
+                rs -> {
+                    while(rs.next()){
+                        pazienti.add(
+                                new Paziente()
+                        )
+                    }
+                    return null;
+                }
+                ,this.id_diabetologo);
+
+        return pazienti;
+    }*/
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**

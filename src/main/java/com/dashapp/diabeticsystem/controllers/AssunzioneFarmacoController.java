@@ -54,7 +54,7 @@ public class AssunzioneFarmacoController {
 
         LocalDate inizio = t.getData_inizio(),fine = t.getData_fine();
 
-        if(Utility.checkDataIsCompresa(inizio,fine,datePicker.getValue())){
+        if(Utility.checkDataIsCompresa(inizio,fine,datePicker.getValue()) && datePicker.getValue().isBefore(LocalDate.now().plusDays(1))) {
             if(paziente.sommaDosaggioAssunzioneFarmaco(medicinali.getValue(),date) + Double.parseDouble(dosaggioText.getText()) <= paziente.sommaDosaggioTerapia(medicinali.getValue())) {
                 boolean success = paziente.inserisciAssunzioneFarmaco(
                         new AssunzioneFarmaco(
@@ -69,14 +69,16 @@ public class AssunzioneFarmacoController {
                 }
 
                 Utility.createAlert(Alert.AlertType.INFORMATION, "Assunzione farmaco inserita correttamente");
+
             } else {
                 Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere un dosaggio maggiore di " + paziente.sommaDosaggioTerapia(medicinali.getValue()) + unitaText.getText()
                         + " nella terapia di " + medicinali.getValue().getNome() + " durante " + (t.getPeriodicita() == PERIODICITA.SETTIMANA ? " la " : " il ")  + t.getPeriodicita().toString()  );
+                return ;
             }
 
         } else {
-            Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere " + t.getFarmaco().toString() + " fuori dal periodo della terapia ( "+ t.getData_inizio().toString() + " - " + t.getData_fine().toString() + " )" );
-
+            Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere " + t.getFarmaco().toString() + " fuori dal periodo della terapia ( "+ t.getData_inizio().toString() + " - " + t.getData_fine().toString() + " ) o aggiungere assunzioni nei giorni successivi ad oggi" );
+            return;
         }
 
 

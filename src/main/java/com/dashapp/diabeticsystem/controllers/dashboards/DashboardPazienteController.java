@@ -4,10 +4,14 @@ import com.dashapp.diabeticsystem.controllers.SettingsController;
 import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
+import com.dashapp.diabeticsystem.utility.Utility;
+import com.mysql.cj.util.Util;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -28,6 +32,12 @@ public class DashboardPazienteController   {
         SettingsController.setPersona(paziente);
         createTerapieList();
         initChart();
+        Platform.runLater(() -> {
+            if (paziente.numberDailyTakingMedicine() == 0) {
+                Utility.createAlert(Alert.AlertType.WARNING, "Ricordati di assumere i farmaci, oggi non hai ancora assunto nessun farmaco");
+            }
+        });
+
     }
 
     /**

@@ -68,6 +68,22 @@ public class Terapia {
     }
 
 
+    /**
+     * Funzione che permette di prendere un determinato farmaco
+     * @param id id del farmaco da cercare
+     * @return <code>null</code> se la lista dei farmaci è vuota oppure non è presente nella lista, oggetto <code>Farmaco</code> altrimenti.
+     */
+    public static Farmaco getFarmacoById(int id) {
+        if(farmaci == null) return null;
+        for (Farmaco farmaco : farmaci) {
+            if(farmaco.getId_farmaco() == id){
+                return farmaco;
+            }
+        }
+        return null;
+    }
+
+
     public Farmaco getFarmaco() {return farmaco; }
 
     public void setFarmaco(Farmaco farmaco) {

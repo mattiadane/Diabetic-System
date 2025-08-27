@@ -99,16 +99,23 @@ public class Utility {
      * Funzione che permette di resettare al valore di default un determinato componente
      * @param parent componente passato come parametro da resettare
      */
-    public static void resetField(Pane parent){
-        for(Node child : parent.getChildren()){
-            if( child instanceof TextField){
+    public static void resetField(Pane parent) {
+        for (Node child : parent.getChildren()) {
+            if (child instanceof TextField) {
                 ((TextField) child).setText("");
-            } else if (child instanceof DatePicker){
+            } else if (child instanceof DatePicker) {
                 ((DatePicker) child).setValue(null);
-            } else if (child instanceof ComboBox<?>){
+            } else if (child instanceof ComboBox<?>) {
                 ((ComboBox<?>) child).setValue(null);
-            } else if(child instanceof TextArea){
+            } else if (child instanceof TextArea) {
                 ((TextArea) child).setText("");
+            }
+
+            else if (child instanceof ScrollPane) {
+                Node content = ((ScrollPane) child).getContent();
+                if (content instanceof Pane) {
+                    resetField((Pane) content); // Chiama ricorsivamente sul contenuto dello ScrollPane
+                }
             }
             else if (child instanceof Pane) {
                 resetField((Pane) child);
