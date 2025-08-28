@@ -26,6 +26,8 @@ public class ModificaTerapiaController {
         diabetologo = new Diabetologo();
         medicinale.setItems(Terapia.getAllDrug());
         periodicita.getItems().addAll(PERIODICITA.values());
+        periodicita.getSelectionModel().selectFirst();
+
     }
 
 

@@ -16,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
+import java.time.LocalDate;
+
 public class DashboardPazienteController   {
 
     @FXML private Label benvenuto;
@@ -33,7 +35,7 @@ public class DashboardPazienteController   {
         createTerapieList();
         initChart();
         Platform.runLater(() -> {
-            if (paziente.numberDailyTakingMedicine() == 0) {
+            if (paziente.numberDailyTakingMedicine(LocalDate.now()) == 0) {
                 Utility.createAlert(Alert.AlertType.WARNING, "Ricordati di assumere i farmaci, oggi non hai ancora assunto nessun farmaco");
             }
         });

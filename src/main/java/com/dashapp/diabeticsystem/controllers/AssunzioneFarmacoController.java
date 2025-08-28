@@ -72,7 +72,7 @@ public class AssunzioneFarmacoController {
 
             } else {
                 Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere un dosaggio maggiore di " + paziente.sommaDosaggioTerapia(medicinali.getValue()) + unitaText.getText()
-                        + " nella terapia di " + medicinali.getValue().getNome() + " durante " + (t.getPeriodicita() == PERIODICITA.SETTIMANA ? " la " : " il ")  + t.getPeriodicita().toString()  );
+                        + " nella terapia di " + medicinali.getValue().getNome() + " durante il " + t.getPeriodicita().toString()  );
                 return ;
             }
 

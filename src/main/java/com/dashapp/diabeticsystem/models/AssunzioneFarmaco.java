@@ -39,4 +39,9 @@ public class AssunzioneFarmaco {
     public String getDosaggio_unita() {
         return dosaggio_unita;
     }
+
+    @Override
+    public String toString() {
+        return farmaco.toString() + " " + data_assunzione.toString() ;
+    }
 }

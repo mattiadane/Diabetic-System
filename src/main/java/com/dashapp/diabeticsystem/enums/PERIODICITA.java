@@ -1,9 +1,7 @@
 package com.dashapp.diabeticsystem.enums;
 
 public enum PERIODICITA {
-    GIORNO("giorno"),
-    SETTIMANA("settimana"),
-    MESE("mese");
+    GIORNO("giorno");
 
     private final String descrizione;
 

@@ -102,7 +102,7 @@ public class Terapia {
         return dosaggio_quantita + dosaggio_unita;
     }
 
-    public String getAssunzioni(){ return quanto + (quanto == 1 ? " volta " : " volte ")   +(periodicita == PERIODICITA.SETTIMANA ? " alla " : " al ") + periodicita;}
+    public String getAssunzioni(){ return quanto + " al " + periodicita;}
 
     public String getPeriodo(){
         return  " Da " +  data_inizio + " a " + data_fine;

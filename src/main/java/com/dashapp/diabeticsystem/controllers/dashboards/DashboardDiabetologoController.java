@@ -5,9 +5,13 @@ import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.InformazioniPaziente;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.utility.Utility;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public class DashboardDiabetologoController {
 
@@ -35,6 +39,11 @@ public class DashboardDiabetologoController {
     public void initialize() {
         SettingsController.setPersona(diabetologo);
         benvenuto.setText("Bentornat" + (diabetologo.getSesso().equals("M") ? "o" : "a") + " " + diabetologo);
+        Platform.runLater(() -> {
+            List<Paziente> pazientiSbadati = diabetologo.notifyPatient();
+            if(!pazientiSbadati.isEmpty())
+                Utility.createAlert(Alert.AlertType.WARNING,pazientiSbadati.toString() + " è 3 giorni che non " + (pazientiSbadati.size() > 1 ? "assumono "  : "assume " ) +  "medicine ");
+        });
 
     }
 

@@ -32,6 +32,8 @@ public class TerapieController {
         this.diabetologo = new Diabetologo();
         medicinale.getItems().addAll(Terapia.getAllDrug());
         periodicita.getItems().addAll(PERIODICITA.values());
+        periodicita.getSelectionModel().selectFirst();
+
     }
 
     /**

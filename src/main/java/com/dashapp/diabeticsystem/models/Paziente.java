@@ -17,19 +17,22 @@ public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
     private LocalDate dataNascita;
     private InformazioniPaziente info;
+
     private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
     private ObservableList<AssunzioneFarmaco> assunzioni = FXCollections.observableArrayList();
 
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso) {
         super(nome,cognome,email,codiceFiscale,sesso);
-
         this.dataNascita = dataNascita;
+        terapie = loadAllTerapie();
+        assunzioni = loadAllAssunzioni();
     }
 
     public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso) {
         this(nome, cognome, email, codiceFiscale, dataNascita,sesso);
         this.id_paziente = id_paziente;
-
+        terapie = loadAllTerapie();
+        assunzioni = loadAllAssunzioni();
     }
 
 
@@ -93,7 +96,7 @@ public class Paziente extends Persona implements UpdatePersona{
         return terapie;
     }
 
-    private ObservableList<AssunzioneFarmaco> loadAllAssunzioni(){
+    public ObservableList<AssunzioneFarmaco> loadAllAssunzioni(){
         if(assunzioni.isEmpty()){
             Main.getDbManager().selectQuery("SELECT id_farmaco,dosaggio_quantità,dosaggio_unità,sintomi,data_assunzione FROM assunzione_farmaco WHERE id_paziente = ?",
                     rs -> {
@@ -102,7 +105,7 @@ public class Paziente extends Persona implements UpdatePersona{
                             Farmaco f = Terapia.getFarmacoById(rs.getInt("id_farmaco"));
 
                             AssunzioneFarmaco af = new AssunzioneFarmaco(
-                                f,rs.getString("dosaggio_unità"),rs.getDouble("dosaggio_quantità"),rs.getString("sintomi"),rs.getTimestamp("assunzione_farmaco").toLocalDateTime()
+                                f,rs.getString("dosaggio_unità"),rs.getDouble("dosaggio_quantità"),rs.getString("sintomi"),rs.getTimestamp("data_assunzione").toLocalDateTime()
                             );
                             assunzioni.add(af);
                         }
@@ -256,21 +259,12 @@ public class Paziente extends Persona implements UpdatePersona{
     public double sommaDosaggioAssunzioneFarmaco(Farmaco f,LocalDateTime date){
         Terapia t = loadTeriapiaByFarmaco(f);
 
-        LocalDateTime inizio ,fine ;
+        LocalDateTime inizio = null ,fine = null ;
         String query = "SELECT SUM(dosaggio_quantità) AS sum FROM assunzione_farmaco WHERE id_paziente = ? AND id_farmaco = ? AND data_assunzione BETWEEN ? AND ?";
         if(t.getPeriodicita().toString().equals("giorno")){
             inizio = date.toLocalDate().atStartOfDay();
             fine = date.toLocalDate().atTime(LocalTime.MAX);
-        }  else if(t.getPeriodicita().toString().equals("settimana")){
-            inizio = date.toLocalDate().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).atStartOfDay();
-            fine = date.toLocalDate().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).atTime(LocalTime.MAX);
-
-        } else {
-            inizio = date.toLocalDate().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay();
-            fine = date.toLocalDate().with(TemporalAdjusters.lastDayOfMonth()).atTime(LocalTime.MAX);
-
         }
-
 
         return Main.getDbManager().selectQuery(query,
                 rs -> {
@@ -321,24 +315,18 @@ public class Paziente extends Persona implements UpdatePersona{
                 },id_paziente);
 
     }
-    public int numberDailyTakingMedicine(){
+    public int numberDailyTakingMedicine(LocalDate data){
 
         int count = 0;
 
         for (AssunzioneFarmaco as : assunzioni ){
-
+            LocalDate as_date_without_time = LocalDate.from(as.getData_assunzione());
+            if(as_date_without_time.isEqual(data)){
+                count++;
+            }
         }
-        return Main.getDbManager().selectQuery("""
-                        SELECT COUNT(a.id_assunzione) FROM paziente p
-                        INNER JOIN assunzione_farmaco a ON p.id_paziente = a.id_paziente
-                        WHERE p.id_paziente = ? AND DATE(a.data_assunzione) = ?
-                        """,
-                rs -> {
-                    if(rs.next()){
-                        return rs.getInt("COUNT(a.id_assunzione)");
-                    }
-                    return 0;
-                }
-                ,this.id_paziente,LocalDate.now());
+        System.out.println(count);
+        return count;
     }
+
 }
