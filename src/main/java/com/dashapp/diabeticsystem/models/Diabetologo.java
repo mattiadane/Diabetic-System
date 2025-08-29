@@ -1,14 +1,17 @@
 package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
+import com.dashapp.diabeticsystem.enums.GRAVITA;
 import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.swing.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Diabetologo extends Persona implements UpdatePersona {
 
@@ -250,6 +253,27 @@ public class Diabetologo extends Persona implements UpdatePersona {
                 if(check)
                     pazienti.add(paziente);
             }
+        }
+
+        return pazienti;
+    }
+
+
+    public Map<Paziente,List<Insulina>> notifyBloodSugar(){
+        Map<Paziente,List<Insulina>> pazienti = new HashMap<>();
+        for(Paziente paziente : this.pazienti){
+            ObservableList<Insulina> dailyBloodSugar = paziente.getInsulinaByDate(LocalDate.now().atStartOfDay(),LocalDate.now().atTime(LocalTime.MAX));
+            if(!dailyBloodSugar.isEmpty()){
+                List<Insulina> bloodSugar = new ArrayList<>();
+                for(Insulina glicemia : dailyBloodSugar){
+                    if(glicemia.getGravita() != GRAVITA.NORMALE){
+                        bloodSugar.add(glicemia);
+                    }
+                }
+                pazienti.put(paziente,bloodSugar);
+
+            }
+
         }
 
         return pazienti;

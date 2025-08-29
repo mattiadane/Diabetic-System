@@ -6,12 +6,9 @@ import com.dashapp.diabeticsystem.enums.PERIODICITA;
 import com.dashapp.diabeticsystem.enums.PERIODO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAdjusters;
 
 public class Paziente extends Persona implements UpdatePersona{
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
@@ -325,7 +322,7 @@ public class Paziente extends Persona implements UpdatePersona{
                 count++;
             }
         }
-        System.out.println(count);
+
         return count;
     }
 

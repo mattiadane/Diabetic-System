@@ -1,8 +1,10 @@
 package com.dashapp.diabeticsystem.controllers.dashboards;
 
 import com.dashapp.diabeticsystem.controllers.SettingsController;
+import com.dashapp.diabeticsystem.enums.GRAVITA;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.InformazioniPaziente;
+import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.application.Platform;
@@ -10,8 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 public class DashboardDiabetologoController {
 
@@ -21,8 +22,7 @@ public class DashboardDiabetologoController {
     // componenti effettivi della dashboard
     @FXML private Pane borderPane;
     @FXML private Label benvenuto ;
-    @FXML
-    private ToggleGroup gruppoSesso;
+    @FXML private ToggleGroup gruppoSesso;
 
     // componenti per il form per aggiungere un paziente
     @FXML private TextField textNome;
@@ -37,12 +37,56 @@ public class DashboardDiabetologoController {
 
 
     public void initialize() {
+
         SettingsController.setPersona(diabetologo);
         benvenuto.setText("Bentornat" + (diabetologo.getSesso().equals("M") ? "o" : "a") + " " + diabetologo);
         Platform.runLater(() -> {
+            Map<Paziente, List<Insulina>> mappa = diabetologo.notifyBloodSugar();
+
+            if (!mappa.isEmpty()) {
+
+                // Usa dei Set per memorizzare i pazienti unici per ogni livello di gravità
+                Set<Paziente> pazientiCritici = new HashSet<>();
+                Set<Paziente> pazientiLievi = new HashSet<>();
+
+                for (Map.Entry<Paziente, List<Insulina>> entry : mappa.entrySet()) {
+                    Paziente paziente = entry.getKey();
+                    List<Insulina> glicemieErrate = entry.getValue();
+
+                    for (Insulina insulina : glicemieErrate) {
+                        if (insulina.getGravita() == GRAVITA.CRITICA) {
+                            pazientiCritici.add(paziente);
+                        } else {
+                            pazientiLievi.add(paziente);
+                        }
+                    }
+                }
+
+                // Costruisci i messaggi finali solo se i Set non sono vuoti
+                if (!pazientiCritici.isEmpty()) {
+                    StringBuilder message1 = new StringBuilder("Pazienti con glicemie critiche: \n");
+                    for (Paziente p : pazientiCritici) {
+                        message1.append(p).append("\n");
+                    }
+                    Utility.createAlert(Alert.AlertType.ERROR, "" + message1);
+                }
+
+                if (!pazientiLievi.isEmpty()) {
+                    StringBuilder message2 = new StringBuilder("Pazienti con glicemie lievemente fuori norma: \n");
+                    for (Paziente p : pazientiLievi) {
+                        message2.append(p).append("\n");
+                    }
+                    Utility.createAlert(Alert.AlertType.WARNING, "" + message2);
+                }
+            }
+
+
+
             List<Paziente> pazientiSbadati = diabetologo.notifyPatient();
             if(!pazientiSbadati.isEmpty())
-                Utility.createAlert(Alert.AlertType.WARNING,pazientiSbadati.toString() + " è 3 giorni che non " + (pazientiSbadati.size() > 1 ? "assumono "  : "assume " ) +  "medicine ");
+                Utility.createAlert(Alert.AlertType.WARNING,pazientiSbadati + " è 3 giorni che non " + (pazientiSbadati.size() > 1 ? "assumono "  : "assume " ) +  "medicine ");
+
+
         });
 
     }
