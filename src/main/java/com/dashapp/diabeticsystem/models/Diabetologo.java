@@ -53,21 +53,6 @@ public class Diabetologo extends Persona  {
 
 
     /**
-     * Funzione che permette di aggiornare i dati del diabetolo a database.
-     * @param p nuova persona per aggiornare i dati correnti.
-     * @return <code>true</code> se la query va a buon fine, <code>false</code> altrimenti.
-     */
-    public boolean updatePersona(Persona p) {
-        if(!(p instanceof Diabetologo)) return false;
-
-        return Main.getDbManager().updateQuery("UPDATE diabetologo SET nome = ? , cognome = ?, email = ? WHERE id_diabetologo = ?",
-                p.getNome(),p.getCognome(),p.getEmail(),id_diabetologo);
-
-    }
-
-
-
-    /**
      * Funzione che permette di modificare i dati di una terapia a database
      * @param terapia nuova terapia con i dati modificati della precedente
      * @return <code>true</code> se la query va a buon fine, <code>false</code> altrimenti,
