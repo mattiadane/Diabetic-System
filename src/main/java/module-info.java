@@ -1,7 +1,6 @@
 module com.dashapp.diabeticsystem {
     requires javafx.controls;
     requires javafx.fxml;
-
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
     requires mysql.connector.j;
@@ -10,6 +9,9 @@ module com.dashapp.diabeticsystem {
     requires java.desktop;
     requires javafx.graphics;
     requires jdk.compiler;
+
+    // Rimuovi questa riga
+    // requires com.dashapp.diabeticsystem;
 
     opens com.dashapp.diabeticsystem to javafx.fxml;
     opens com.dashapp.diabeticsystem.controllers to javafx.fxml;
@@ -26,4 +28,8 @@ module com.dashapp.diabeticsystem {
     exports com.dashapp.diabeticsystem.models;
     exports com.dashapp.diabeticsystem.utility;
     exports com.dashapp.diabeticsystem.enums;
+
+    // Potresti voler esportare anche gli altri pacchetti, ma per ora concentrati su questo.
+    // exports com.dashapp.diabeticsystem.controllers.components;
+    // exports com.dashapp.diabeticsystem.controllers.dashboards;
 }

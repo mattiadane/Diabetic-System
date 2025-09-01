@@ -2,16 +2,14 @@ package com.dashapp.diabeticsystem.controllers.dashboards;
 
 import com.dashapp.diabeticsystem.controllers.SettingsController;
 import com.dashapp.diabeticsystem.enums.GRAVITA;
-import com.dashapp.diabeticsystem.models.Diabetologo;
-import com.dashapp.diabeticsystem.models.InformazioniPaziente;
-import com.dashapp.diabeticsystem.models.Insulina;
-import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
+import java.net.ServerSocket;
 import java.util.*;
 
 public class DashboardDiabetologoController {
@@ -38,7 +36,8 @@ public class DashboardDiabetologoController {
 
     public void initialize() {
 
-        SettingsController.setPersona(diabetologo);
+
+        SettingsController.setLogin(Session.getCurrentUser());
         benvenuto.setText("Bentornat" + (diabetologo.getSesso().equals("M") ? "o" : "a") + " " + diabetologo);
         Platform.runLater(() -> {
             Map<Paziente, List<Insulina>> mappa = diabetologo.notifyBloodSugar();

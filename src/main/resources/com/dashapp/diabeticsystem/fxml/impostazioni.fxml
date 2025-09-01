@@ -17,7 +17,6 @@
             fx:id="borderPane"
 >
 
-
     <center>
         <VBox spacing="10">
             <padding>
@@ -26,35 +25,22 @@
             <Label  text="Impostazioni" styleClass="title"/>
 
             <TextFlow>
-                <Text text="Nome: " styleClass="field-label"/>
+                <Text text="Scrivi una password nuova" styleClass="field-label"/>
                 <Text text="*" styleClass="required"/>
             </TextFlow>
-            <TextField fx:id="textNome"/>
-
-            <TextFlow>
-                <Text text="Cognome: " styleClass="field-label"/>
-                <Text text="*" styleClass="required"/>
-            </TextFlow>
-            <TextField fx:id="textCognome" />
-
-            <TextFlow>
-                <Text text="Email: " styleClass="field-label"/>
-                <Text text="*" styleClass="required"/>
-            </TextFlow>
-            <TextField fx:id="textEmail" />
-
-            <Label text="Nuova password: " styleClass="field-label"/>
             <PasswordField fx:id="textNewPassword" />
 
-            <Label text="Conferma nuova password: " styleClass="field-label"/>
+            <TextFlow>
+                <Text text="Conferma la password nuova" styleClass="field-label"/>
+                <Text text="*" styleClass="required"/>
+            </TextFlow>
             <PasswordField fx:id="textConfirmPassword" />
-            <Button text="Aggiorna dati" onAction="#handleUpdateData" styleClass="primary-button"/>
+            <Button text="Aggiorna password" onAction="#updatePassword" styleClass="primary-button"/>
 
             <TextFlow>
                 <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
                 <Text text="*" styleClass="required"/>
-                <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey"/>
-                <Text text="I campi di password verranno controllati solo se valorizzati." styleClass="text-grey" />
+                <Text text="Per modificare la password è necessario che le due password coincidano" styleClass="text-grey" />
             </TextFlow>
 
         </VBox>

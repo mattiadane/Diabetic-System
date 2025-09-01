@@ -39,6 +39,7 @@
                     <TableColumn fx:id="cfPaziente" prefWidth="75.0" text="Codice fiscale"/>
                     <TableColumn fx:id="terapie" prefWidth="75.0"/>
                     <TableColumn fx:id="elimina" prefWidth="75.0"/>
+                    <TableColumn fx:id="modifica" prefWidth="75.0"/>
 
                 </columns>
             </TableView>

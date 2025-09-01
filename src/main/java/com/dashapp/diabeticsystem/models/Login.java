@@ -75,6 +75,9 @@ public class Login {
         return id_login + " " + id_paziente + " " + id_diabetologo + " " + username;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
     public int getid_loginDibaetologo(Diabetologo diabetologo){
         return Main.getDbManager().selectQuery("SELECT id_login FROM login WHERE id_diabetologo = ?",
@@ -126,6 +129,18 @@ public class Login {
                 ,id_mittente,id_destinatario,id_destinatario,id_mittente);
         return chat;
     }
+
+
+    /**
+     * Funzione che permette di aggiornare la password degli utenti
+     * @param password nuova password da inserire a database
+     * @return <code>true</code> se la query va a buon fine, <code>false</code> altrimenti.
+     */
+
+    public boolean updatePassword(String password) {
+        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_login  = ?",password,id_login);
+    }
+
 
     public void inviaMessaggio(Chat chat) {
         Main.getDbManager().updateQuery("INSERT INTO chat(id_mittente_login,id_destinatario_login,messaggio) VALUES(?,?,?)",

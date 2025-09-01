@@ -26,7 +26,9 @@ public class ListaPazientiController {
     @FXML private TableColumn<Paziente, String> cognomePaziente;
     @FXML private TableColumn<Paziente, String> cfPaziente;
     @FXML private TableColumn<Paziente, Void> terapie;
-    @FXML public TableColumn<Paziente,Void> elimina;
+    @FXML private TableColumn<Paziente,Void> elimina;
+    @FXML private TableColumn<Paziente,Void> modifica;
+
 
 
     private Diabetologo diabetologo;
@@ -48,7 +50,7 @@ public class ListaPazientiController {
                     {
                         btn.getStyleClass().add("btn-apri-scheda");
                         btn.setOnAction(event ->
-                            apriSchedaPaziente(getTableView().getItems().get(getIndex()))
+                            apriSchedaPaziente(getTableView().getItems().get(getIndex()),"fxml/dettagliPaziente.fxml")
                         );
                     }
 
@@ -104,31 +106,75 @@ public class ListaPazientiController {
         };
 
 
+        // Implementazione per settare i bottoni per modificare la scheda del paziente
+        Callback<TableColumn<Paziente, Void>, TableCell<Paziente, Void>> modificaPaziente = new Callback<>() {
+            @Override
+            public TableCell<Paziente, Void> call(final TableColumn<Paziente, Void> param) {
+                return new TableCell<>() {
+
+                    private final Button btn = new Button("Modifica paziente");
+                    {
+                        btn.getStyleClass().add("btn-apri-scheda");
+                        btn.setOnAction(event ->
+                                apriSchedaPaziente(getTableView().getItems().get(getIndex()),"fxml/modificaPaziente.fxml")
+                        );
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+
+                };
+            }
+        };
+
+
+
 
         terapie.setCellFactory(apriScheda);
         elimina.setCellFactory(eliminaPaziente);
-        tabellaPazienti.setItems(diabetologo.getAllPatients());
-
+        modifica.setCellFactory(modificaPaziente);
+        aggiornaTabella();
 
     }
 
     /**
-     * Funzione che permette di aprire la scheda del paziente selezionato.
+     * Funzione che permette di aprire fxml passato come parametro.
      * @param paziente il paziente da visualizzare
+     * @param fxml pagina da aprire
      */
-    private void apriSchedaPaziente(Paziente paziente) {
+    private void apriSchedaPaziente(Paziente paziente,String fxml) {
         try{
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/dettagliPaziente.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
 
 
             Parent root = loader.load();
 
-            DettagliPazienteController dettagliPazienteController = loader.getController();
-            dettagliPazienteController.loadTerapie(paziente);
-            dettagliPazienteController.setTextFields(paziente);
+            if(fxml.equals("fxml/dettagliPaziente.fxml")){
+                DettagliPazienteController dettagliPazienteController = loader.getController();
+                dettagliPazienteController.loadTerapie(paziente);
+                dettagliPazienteController.setTextFields(paziente);
+
+            } else {
+                ModificaPazienteController modificaPazienteController = loader.getController();
+                modificaPazienteController.setPaziente(paziente);
+                modificaPazienteController.setController(this);
+            }
+
 
 
             Stage schedaStage = new Stage();
+
+
+
+
+
 
             Scene newScene = new Scene(root, 1000, 700);
 
@@ -142,12 +188,15 @@ public class ListaPazientiController {
             schedaStage.initModality(Modality.NONE);
 
 
+
             schedaStage.show();
 
         } catch (IOException e) {
                System.out.println("Errore: " + e.getMessage());
+
         }
     }
+
 
     /**
      * Funzione che permette di cercare un paziente in base al codice fiscale inserito.
@@ -156,4 +205,9 @@ public class ListaPazientiController {
         tabellaPazienti.setItems(diabetologo.getPazientiResearch(codice_fiscale.getText()));
 
     }
+
+    public void aggiornaTabella(){
+        tabellaPazienti.setItems(diabetologo.loadAllPatients());
+    }
+
 }

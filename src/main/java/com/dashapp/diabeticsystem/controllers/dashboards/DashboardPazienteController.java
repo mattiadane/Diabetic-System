@@ -1,9 +1,7 @@
 package com.dashapp.diabeticsystem.controllers.dashboards;
 
 import com.dashapp.diabeticsystem.controllers.SettingsController;
-import com.dashapp.diabeticsystem.models.Insulina;
-import com.dashapp.diabeticsystem.models.Paziente;
-import com.dashapp.diabeticsystem.models.Terapia;
+import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
 import com.mysql.cj.util.Util;
 import javafx.application.Platform;
@@ -31,7 +29,8 @@ public class DashboardPazienteController   {
 
     public void initialize() {
         this.benvenuto.setText("Bentornat" + (paziente.getSesso().equals("M") ? "o" : "a") + " " + paziente);
-        SettingsController.setPersona(paziente);
+
+        SettingsController.setLogin(Session.getCurrentUser());
         createTerapieList();
         initChart();
         Platform.runLater(() -> {

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Paziente extends Persona implements UpdatePersona{
+public class Paziente extends Persona {
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
     private LocalDate dataNascita;
     private InformazioniPaziente info;
@@ -50,18 +50,8 @@ public class Paziente extends Persona implements UpdatePersona{
 
     }
 
-    @Override
-    public boolean updatePersona(Persona p) {
-        if(!(p instanceof Paziente)) return false;
-
-        return Main.getDbManager().updateQuery("UPDATE paziente SET nome = ? , cognome = ?, email = ? WHERE id_paziente = ?"
-                ,p.getNome(),p.getCognome(),p.getEmail(),id_paziente);
-    }
 
 
-    public boolean updatePassword(String password) {
-        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_paziente  = ?",password,id_paziente);
-    }
 
     public void updateTerapia(Terapia t){
         terapie.removeIf(tt -> tt.getId_terapia() == t.getId_terapia());

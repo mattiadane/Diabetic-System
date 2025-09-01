@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.dashapp.diabeticsystem.controllers.ModificaPazienteController"
+            prefHeight="700.0" prefWidth="1000.0" fx:id="borderPane">
+
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="Modifica Paziente" styleClass="title" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+            <VBox spacing="10">
+
+
+                        <TextFlow>
+                            <Text text="Nome:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <TextField fx:id="textNome" maxWidth="Infinity"/>
+
+                        <TextFlow>
+                            <Text text="Cognome:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <TextField fx:id="textCognome" maxWidth="Infinity"/>
+
+
+
+                        <TextFlow>
+                            <Text text="Email" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <TextField fx:id="textEmail" maxWidth="Infinity"/>
+
+                        <TextFlow>
+                            <Text text="Codice fiscale:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <TextField fx:id="textCodiceFiscale" maxWidth="Infinity"/>
+
+
+
+                    <TextFlow>
+                        <Text text="Sesso:" styleClass="field-label"/>
+                        <Text text="*" styleClass="required"/>
+                    </TextFlow>
+                    <fx:define>
+                        <ToggleGroup fx:id="gruppoSesso" />
+                    </fx:define>
+
+                    <RadioButton text="Maschio" fx:id="maschio" toggleGroup="$gruppoSesso"  selected="true" userData="M" />
+                    <RadioButton text="Femmina" fx:id="femmina"  toggleGroup="$gruppoSesso"  userData="F" />
+
+
+
+
+
+                        <TextFlow>
+                            <Text text="Data di nascita:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <DatePicker fx:id="dataNascitaPicker" maxWidth="Infinity"/>
+
+
+                        <Label /> <!-- label di spacing -->
+                        <Button text="Modifica Paziente" maxWidth="Infinity" onAction="#handleModificaPaziente" styleClass="add-paziente"/>
+
+
+            <!-- sezione della legenda -->
+            <TextFlow>
+                <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
+                <Text text="*" styleClass="required"/>
+                <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey" />
+            </TextFlow>
+
+            </VBox>
+        </VBox>
+    </center>
+
+
+</BorderPane>

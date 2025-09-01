@@ -3,7 +3,7 @@ package com.dashapp.diabeticsystem.models;
 import com.dashapp.diabeticsystem.utility.Utility;
 
 
-public abstract class Persona implements UpdatePersona {
+public abstract class Persona  {
     private String nome;
     private String cognome;
     private String email;
@@ -88,9 +88,5 @@ public abstract class Persona implements UpdatePersona {
         this.sesso = sesso;
     }
 
-    public abstract boolean updatePersona(Persona p);
-
-    @Override
-    public abstract boolean updatePassword(String password) ;
 
 }

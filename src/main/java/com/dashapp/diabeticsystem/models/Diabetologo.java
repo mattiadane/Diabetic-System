@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Diabetologo extends Persona implements UpdatePersona {
+public class Diabetologo extends Persona  {
 
     /**
      * Id del diabetologo che ha effettuato il login
@@ -65,15 +65,7 @@ public class Diabetologo extends Persona implements UpdatePersona {
 
     }
 
-    /**
-     * Funzione che permette di aggiornare la password del diabetologo
-     * @param password nuova password da inserire a database
-     * @return <code>true</code> se la query va a buon fine, <code>false</code> altrimenti.
-     */
-    @Override
-    public boolean updatePassword(String password) {
-        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_diabetologo  = ?",password,id_diabetologo);
-    }
+
 
     /**
      * Funzione che permette di modificare i dati di una terapia a database
@@ -137,24 +129,13 @@ public class Diabetologo extends Persona implements UpdatePersona {
         return success;
     }
 
-    /**
-     * Funzione che permette di avere tutti i pazienti associati al diabetologo
-     * @return oggetto <code>ObservableList</code> con tutti i pazienti associati
-     */
-    public ObservableList<Paziente> getAllPatients() {
-       if(pazienti.isEmpty()){
-           pazienti = loadAllPatients();
-       }
-       return pazienti;
-    }
-
 
 
     /**
      * Funzione che permette di caricare tutti i pazienti associati al diabetologo
      * @return oggetto <code>ObservableList</code> con tutti i pazienti associati
      */
-    private ObservableList<Paziente> loadAllPatients() {
+    public ObservableList<Paziente> loadAllPatients() {
         pazienti.clear();
         Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso FROM paziente WHERE id_diabetologo = ?",
                rs -> {
@@ -277,6 +258,15 @@ public class Diabetologo extends Persona implements UpdatePersona {
         }
 
         return pazienti;
+    }
+
+    public boolean modificaPaziente(Paziente p){
+        if(p == null) return false;
+
+        return Main.getDbManager().updateQuery("UPDATE paziente SET nome = ?,cognome = ?,codice_fiscale = ?," +
+                "data_nascita = ?,email = ?,sesso = ? WHERE id_paziente = ?",p.getNome(),p.getCognome(),p.getCodice_fiscale(),p.getDataNascita(),p.getEmail(),p.getSesso(),p.getId_paziente());
+
+
     }
 
 
