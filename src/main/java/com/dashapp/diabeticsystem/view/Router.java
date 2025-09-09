@@ -24,7 +24,6 @@ public class Router {
     private static Login authenticatedUser = null;
 
     private static Node chatPazienteView;
-    private static Node chatDiabetologoView;
 
     /**
      * Imposta il controller principale dell'applicazione. Questo controller
@@ -89,8 +88,7 @@ public class Router {
             }
 
         } catch (IOException e) {
-           // System.err.println("Error loading content view: " + fxml + " - " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error loading content view: " + fxml + " - " + e.getMessage());
         }
     }
 
@@ -182,7 +180,6 @@ public class Router {
         // Resetta le viste e i controller della chat al logout
         // in modo che vengano ricaricate da zero alla prossima sessione.
         chatPazienteView = null;
-        chatDiabetologoView = null;
 
     }
 

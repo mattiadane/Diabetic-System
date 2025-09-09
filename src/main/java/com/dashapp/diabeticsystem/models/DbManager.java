@@ -4,12 +4,14 @@ import java.sql.*;
 
 
 public class DbManager {
+
+    private static DbManager dbManager;
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/progetto_ing?useSSL=false";
     private static final String DATABASE_USERNAME = "admin";
     private static final String DATABASE_PASSWORD = "admin";
 
 
-    public DbManager()  {
+    private DbManager()  {
         try(Connection ignored = getConnection()){
 
             System.out.println("Connessione avvenuta con successo");
@@ -18,6 +20,13 @@ public class DbManager {
         } catch (SQLException e) {
             System.err.println("Errore di connessione al database");
         }
+    }
+
+    public static DbManager connect(){
+        if(dbManager == null){
+            dbManager = new DbManager();
+        }
+        return dbManager;
     }
 
 

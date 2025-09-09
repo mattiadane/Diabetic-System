@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Main extends Application {
-    private static final DbManager dbManager = new DbManager();
+    private static final DbManager dbManager = DbManager.connect();
     private static Stage primaryStage; // Keep a reference to the primary stage
 
     @Override
