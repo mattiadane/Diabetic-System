@@ -4,7 +4,6 @@ import com.dashapp.diabeticsystem.DAO.interfcaes.LoginDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Login;
 
-import java.sql.SQLException;
 
 public class LoginDaoImpl implements LoginDao {
 
@@ -35,22 +34,23 @@ public class LoginDaoImpl implements LoginDao {
      * @return <code>true</code> se l'operazione è andata a buon fine <code>false</code> altrimenti
      */
     @Override
-    public boolean insertLogin(Login login) throws SQLException {
+    public boolean insertLogin(Login login)  {
         if(login == null) {
             return false;
         }
 
-        if(login.getId_paziente() != 0 && login.getId_diabetologo() == null) {
+        if(login.getId_paziente() != null  && login.getId_diabetologo() == null) {
             return Main.getDbManager().updateQuery(
                     "INSERT INTO login(id_paziente,id_diabetologo,username,password_hash) VALUES(?,?,?,?)",
                     login.getId_paziente(),null,login.getUsername(),login.getPassword());
 
-        } else {
+        } else if(login.getId_diabetologo() != null && login.getId_paziente() == null) {
             return Main.getDbManager().updateQuery(
                     "INSERT INTO login(id_paziente,id_diabetologo,username,password_hash) VALUES(?,?,?,?)",
                     null,login.getId_diabetologo(),login.getUsername(),login.getPassword()
                     );
         }
+        return false;
 
     }
 

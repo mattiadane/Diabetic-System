@@ -21,7 +21,7 @@ public class DashboardDiabetologoController {
 
 
     private final DiabetologoDaoImpl  diabetologoDao = new DiabetologoDaoImpl();
-    private final Diabetologo diabetologo = diabetologoDao.getDiabetologoById(Session.getCurrentUser().getId_diabetologo()) ;
+    private final Diabetologo diabetologo = diabetologoDao.getDiabetologistById(Session.getCurrentUser().getId_diabetologo()) ;
     private final PazienteDaoImpl pazienteDao = new PazienteDaoImpl();
     private final LoginDaoImpl loginDao = new LoginDaoImpl();
     private final InformazionPazienteDaoImpl informazionPazienteDao = new InformazionPazienteDaoImpl();
@@ -121,11 +121,11 @@ public class DashboardDiabetologoController {
                         textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue(),sesso,diabetologo
                 )
         );
-        System.out.println("id_paziente: " + id_paziente);
+
+
         if(id_paziente > 0){
 
             CredentialsGenerator c = new CredentialsGenerator(id_paziente,0,textNome.getText(),textCognome.getText());
-            System.out.println(c.createUsername() + " " + " "  +  c.generatePassword());
             success = loginDao.insertLogin(
                     new Login(
                             c.createUsername(),c.generatePassword(),id_paziente,null

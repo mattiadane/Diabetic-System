@@ -1,6 +1,6 @@
 package com.dashapp.diabeticsystem.controllers.admin;
 
-import com.dashapp.diabeticsystem.models.Admin;
+import com.dashapp.diabeticsystem.DAO.implementations.DiabetologoDaoImpl;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
@@ -12,6 +12,9 @@ import java.util.Optional;
 
 public class ListaDiabetologiController {
 
+    private final DiabetologoDaoImpl diabetologoDao = new DiabetologoDaoImpl();
+
+
     @FXML
     private TableView<Diabetologo> tabellaDiabetologo ;
     @FXML private TableColumn<Diabetologo, String> nomeDiabetologo;
@@ -20,10 +23,11 @@ public class ListaDiabetologiController {
     @FXML private TableColumn<Diabetologo, Void> azioniColonna;
 
     public void initialize(){
-        Admin admin = new Admin();
+
         this.nomeDiabetologo.setCellValueFactory(new PropertyValueFactory<>("nome"));
         this.cognomeDiabetologo.setCellValueFactory(new PropertyValueFactory<>("cognome"));
         this.cfDiabetologo.setCellValueFactory(new PropertyValueFactory<>("codice_fiscale"));
+        this.tabellaDiabetologo.setItems(diabetologoDao.getAllDiabetologists());
 
         Callback<TableColumn<Diabetologo, Void>, TableCell<Diabetologo, Void>> cellFactoryElimina = new Callback<>() {
             @Override
@@ -36,10 +40,13 @@ public class ListaDiabetologiController {
                         btn.setOnAction(event -> {
                             Optional<ButtonType> result = Utility.createAlert(Alert.AlertType.CONFIRMATION,"Sei sicuro di voler rimuovere il diabetologo?");
                             if(result.isPresent()  && result.get().getText().equals("Si")){
-                                boolean success = admin.rimuoviDiabetologo(getTableView().getItems().get(getIndex()));
+                                boolean success = diabetologoDao.removeDiabetologist(getTableView().getItems().get(getIndex()).getId_diabetologo());
+
                                 if(!success){
                                     Utility.createAlert(Alert.AlertType.ERROR,"Errore nella rimozione del diabetologo");
                                 }
+                                getTableView().getItems().remove(getIndex());
+
 
                             }
 
@@ -61,7 +68,6 @@ public class ListaDiabetologiController {
 
         };
         this.azioniColonna.setCellFactory(cellFactoryElimina);
-        this.tabellaDiabetologo.setItems(admin.getDiabetologi());
     }
 
 }
