@@ -1,4 +1,4 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.paziente;
 
 import com.dashapp.diabeticsystem.enums.PERIODO;
 import com.dashapp.diabeticsystem.models.Insulina;

@@ -1,4 +1,4 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.paziente;
 
 import com.dashapp.diabeticsystem.models.Chat;
 import com.dashapp.diabeticsystem.models.Login;
@@ -17,6 +17,8 @@ import javafx.scene.layout.VBox;
 
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
+
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -33,6 +35,9 @@ public class ChatPazienteController {
     Paziente p = new Paziente();
     private final Login mittente = Session.getCurrentUser();
     private final int id_destinatario = mittente.getid_loginDibaetologo(p.getMyDiabetologo());
+
+    public ChatPazienteController() throws SQLException {
+    }
 
     public void initialize(){
         contatto.setText(p.getMyDiabetologo().toString());

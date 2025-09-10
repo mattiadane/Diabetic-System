@@ -1,9 +1,8 @@
-package com.dashapp.diabeticsystem.controllers.dashboards;
+package com.dashapp.diabeticsystem.controllers.paziente;
 
 import com.dashapp.diabeticsystem.controllers.SettingsController;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
-import com.mysql.cj.util.Util;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

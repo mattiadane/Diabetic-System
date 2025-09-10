@@ -26,17 +26,7 @@ public class Diabetologo extends Persona  {
     private ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
 
     public Diabetologo() {
-        Main.getDbManager().selectQuery("SELECT nome,cognome,email,sesso FROM diabetologo WHERE id_diabetologo = ?",
-                rs -> {
-                    if (rs.next()){
 
-                        setNome(rs.getString("nome"));
-                        setCognome(rs.getString("cognome"));
-                        setEmail(rs.getString("email"));
-                        setSesso(rs.getString("sesso"));
-                    }
-                    return null;
-        },id_diabetologo);
         pazienti = loadAllPatients();
     }
 
@@ -46,7 +36,6 @@ public class Diabetologo extends Persona  {
     public Diabetologo(int id_diabetologo, String  nome, String cognome, String email,String codice_fiscale,String sesso){
         this(nome,cognome,email,codice_fiscale,sesso);
         this.id_diabetologo = id_diabetologo;
-
     }
 
 
@@ -73,45 +62,6 @@ public class Diabetologo extends Persona  {
                         WHERE (id_terapia = ?)""",
         terapia.getFarmaco().getId_farmaco(), terapia.getDosaggio_quantita(), terapia.getDosaggio_unita(), terapia.getQuanto(), terapia.getPeriodicita().toString(), terapia.getData_inizio(), terapia.getData_fine(), terapia.getDescrizione(), terapia.getId_terapia()
                 );
-    }
-
-    /**
-     * Funzione che permette di inserire all'interno della tabella 'paziente' il nuovo paziente che viene assegnato al dottore
-     * @param paziente oggetto di tipo <code>Paziente</code> da inserire nella tabella
-     * @return valore di tipo <code>boolean</code> per controllare che l'inserimento è andato a buon fine.
-     */
-    public boolean inserisciPaziente(Paziente paziente, InformazioniPaziente info){
-        boolean success = false;
-        if(paziente == null)
-            return false;
-
-
-        // eseguo l'inserimento del nuovo paziente a database assegnandolo direttamente al diabetologo che ha assegnto il login
-        int  last_id =  Main.getDbManager().insertAndGetGeneratedId(
-                "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo) VALUES (?,?,?,?,?,?)",
-                paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodice_fiscale(),paziente.getDataNascita(), id_diabetologo
-                );
-
-        // eseguo l'inserimento del nuovo utente, considerandolo come nuova utenza per il login
-        if (last_id >  0){
-            paziente.setId_paziente(last_id);
-            pazienti.add(paziente);
-            success = Main.getDbManager().updateQuery(
-                    "INSERT INTO login(id_paziente,id_diabetologo,username,password_hash) VALUES(?,?,?,?)",
-                    paziente.getId_paziente(),null,new CredentialsGenerator(last_id,0,paziente.getNome(),paziente.getCognome()).createUsername(),
-                    new CredentialsGenerator(last_id,0,paziente.getNome(), paziente.getCognome()).generatePassword()
-            );
-            if(success){
-                success = Main.getDbManager().updateQuery(
-                        "INSERT INTO informazione_paziente(id_paziente, fattori_rischio, commorbità, patologie_pregresse, patologie_in_concomitanza) VALUES (?, ?, ?, ?, ?)",
-                        paziente.getId_paziente(), info.getFattoriRischio(), info.getCommorbita(), info.getPatologiePreg(), info.getPatologieAtt()
-                );
-            }
-
-
-        }
-
-        return success;
     }
 
 

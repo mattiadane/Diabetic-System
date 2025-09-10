@@ -1,5 +1,6 @@
 package com.dashapp.diabeticsystem.controllers;
 
+import com.dashapp.diabeticsystem.DAO.implementations.LoginDaoImpl;
 import com.dashapp.diabeticsystem.models.Login;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ public class SettingsController {
     @FXML private PasswordField textNewPassword;
     @FXML private PasswordField textConfirmPassword;
     private static Login persona;
+    private final LoginDaoImpl login =  new LoginDaoImpl();
 
     public static void setLogin(Login persona) {
         SettingsController.persona = persona;
@@ -39,8 +41,8 @@ public class SettingsController {
             return;
         }
 
-        boolean succes = persona.updatePassword(textNewPassword.getText());
-        if(!succes){
+        boolean success = login.updateLogin(persona,textNewPassword.getText());
+        if(!success){
             Utility.createAlert(Alert.AlertType.ERROR,"Errore nell'aggiornamento della nuova password");
             return ;
         }

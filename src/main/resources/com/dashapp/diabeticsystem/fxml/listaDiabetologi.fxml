@@ -9,7 +9,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dashapp.diabeticsystem.controllers.ListaDiabetologiController"
+            fx:controller="com.dashapp.diabeticsystem.controllers.admin.ListaDiabetologiController"
             prefHeight="400.0" prefWidth="600.0">
 
     <padding>

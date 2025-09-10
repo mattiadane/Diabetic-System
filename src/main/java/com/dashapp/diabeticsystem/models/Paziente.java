@@ -11,12 +11,28 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Paziente extends Persona {
+    private Diabetologo diabetologo;
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
     private LocalDate dataNascita;
     private InformazioniPaziente info;
 
     private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
     private ObservableList<AssunzioneFarmaco> assunzioni = FXCollections.observableArrayList();
+
+    public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo) {
+        super(nome,cognome,email,codiceFiscale,sesso);
+        this.dataNascita = dataNascita;
+        this.diabetologo = diabetologo;
+        terapie = loadAllTerapie();
+        assunzioni = loadAllAssunzioni();
+    }
+    public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo) {
+        this(nome, cognome, email, codiceFiscale, dataNascita,sesso,diabetologo);
+        this.id_paziente = id_paziente;
+        terapie = loadAllTerapie();
+        assunzioni = loadAllAssunzioni();
+    }
+
 
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso) {
         super(nome,cognome,email,codiceFiscale,sesso);
@@ -31,6 +47,7 @@ public class Paziente extends Persona {
         terapie = loadAllTerapie();
         assunzioni = loadAllAssunzioni();
     }
+
 
 
     public Paziente(){
@@ -50,8 +67,9 @@ public class Paziente extends Persona {
 
     }
 
-
-
+    public Diabetologo getDiabetologo() {
+        return diabetologo;
+    }
 
     public void updateTerapia(Terapia t){
         terapie.removeIf(tt -> tt.getId_terapia() == t.getId_terapia());

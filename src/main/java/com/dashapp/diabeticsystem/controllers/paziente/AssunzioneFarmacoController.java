@@ -1,6 +1,5 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.paziente;
 
-import com.dashapp.diabeticsystem.enums.PERIODICITA;
 import com.dashapp.diabeticsystem.models.AssunzioneFarmaco;
 import com.dashapp.diabeticsystem.models.Farmaco;
 import com.dashapp.diabeticsystem.models.Paziente;

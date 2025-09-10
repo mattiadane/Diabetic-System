@@ -1,21 +1,30 @@
-package com.dashapp.diabeticsystem.controllers.dashboards;
+package com.dashapp.diabeticsystem.controllers.diabetologo;
 
+import com.dashapp.diabeticsystem.DAO.implementations.DiabetologoDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.InformazionPazienteDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.LoginDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
 import com.dashapp.diabeticsystem.controllers.SettingsController;
 import com.dashapp.diabeticsystem.enums.GRAVITA;
 import com.dashapp.diabeticsystem.models.*;
+import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
-import java.net.ServerSocket;
+import java.sql.SQLException;
 import java.util.*;
 
 public class DashboardDiabetologoController {
 
-    private final Diabetologo diabetologo = new Diabetologo();
 
+    private final DiabetologoDaoImpl  diabetologoDao = new DiabetologoDaoImpl();
+    private final Diabetologo diabetologo = diabetologoDao.getDiabetologoById(Session.getCurrentUser().getId_diabetologo()) ;
+    private final PazienteDaoImpl pazienteDao = new PazienteDaoImpl();
+    private final LoginDaoImpl loginDao = new LoginDaoImpl();
+    private final InformazionPazienteDaoImpl informazionPazienteDao = new InformazionPazienteDaoImpl();
 
     // componenti effettivi della dashboard
     @FXML private Pane borderPane;
@@ -94,11 +103,7 @@ public class DashboardDiabetologoController {
      * Funzione per controllare l'evento della registrazione del nuovo paziente assegnato direttamente dal dottore.
      * 
      */
-    public void handleNuovoPaziente(){
-        // controllo della validità dei campi inseriti dal dottore
-
-
-
+    public void handleNuovoPaziente() throws SQLException, InterruptedException {
 
         if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscale.getText()) || !Utility.checkObj(gruppoSesso.getSelectedToggle())
             || !Utility.checkDateNascita(this.dataNascitaPicker.getValue())
@@ -110,23 +115,44 @@ public class DashboardDiabetologoController {
 
 
         String sesso =  (String) ((RadioButton)gruppoSesso.getSelectedToggle()).getUserData();
-        InformazioniPaziente info = new InformazioniPaziente(this.textFattoriRischio.getText(), this.textCommorbita.getText(), this.textPatologiePregresse.getText(), this.textPatologieConcomitanza.getText());
-
-        // eseguo la query di inserimento del nuovo paziente a database
-        boolean success = diabetologo.inserisciPaziente(
+        boolean success = false;
+        int id_paziente = pazienteDao.insertPatient(
                 new Paziente(
-                        textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue(),sesso
-                ),
-                info
+                        textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue(),sesso,diabetologo
+                )
         );
+        System.out.println("id_paziente: " + id_paziente);
+        if(id_paziente > 0){
 
-        // controllo dell'esito dell'inserimento del nuovo paziente a database e mostro un Alert dedicato
-        if(!success){
+            CredentialsGenerator c = new CredentialsGenerator(id_paziente,0,textNome.getText(),textCognome.getText());
+            System.out.println(c.createUsername() + " " + " "  +  c.generatePassword());
+            success = loginDao.insertLogin(
+                    new Login(
+                            c.createUsername(),c.generatePassword(),id_paziente,null
+                    )
+            );
+
+
+            if(success){
+
+                success = informazionPazienteDao.insertInformation(id_paziente,
+                        new InformazioniPaziente(
+                                this.textFattoriRischio.getText(), this.textCommorbita.getText(), this.textPatologiePregresse.getText(), this.textPatologieConcomitanza.getText()
+                        ));
+            }
+        }
+
+        if(id_paziente <= 0 || !success){
             Utility.createAlert(Alert.AlertType.ERROR, "Errore nella creazione del paziente");
             return;
         }
 
         Utility.createAlert(Alert.AlertType.INFORMATION, "Nuovo paziente aggiunto ");
         Utility.resetField(borderPane);
+
+
+
+
+
     }
 }

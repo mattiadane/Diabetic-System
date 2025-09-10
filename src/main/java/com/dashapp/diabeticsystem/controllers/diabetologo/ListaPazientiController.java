@@ -1,4 +1,4 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.diabetologo;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;

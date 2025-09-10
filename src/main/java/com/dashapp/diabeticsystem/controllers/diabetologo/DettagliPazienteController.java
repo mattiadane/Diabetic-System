@@ -1,4 +1,4 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.diabetologo;
 
 
 import java.time.format.DateTimeFormatter;

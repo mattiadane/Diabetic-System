@@ -1,4 +1,4 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.diabetologo;
 
 import com.dashapp.diabeticsystem.models.Chat;
 import com.dashapp.diabeticsystem.models.Login;
@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -104,6 +105,7 @@ public class ChatDiabetologoController {
                 chatHeaderLabel.setText(newVal.getNome() + " " + newVal.getCognome());
 
                 messageContainer.getChildren().clear();
+
 
                 id_destinatario = mittente.getid_loginPaziente(newVal);
 

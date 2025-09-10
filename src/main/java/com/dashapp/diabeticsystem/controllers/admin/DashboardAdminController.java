@@ -1,4 +1,4 @@
-package com.dashapp.diabeticsystem.controllers.dashboards;
+package com.dashapp.diabeticsystem.controllers.admin;
 
 
 import com.dashapp.diabeticsystem.models.Admin;

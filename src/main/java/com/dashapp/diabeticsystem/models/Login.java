@@ -9,41 +9,26 @@ import javafx.collections.ObservableMap;
 
 public class Login {
     private final String username;
-    private final int id_paziente;
-    private final int id_diabetologo;
-    private final int id_login;
+    private final String password;
+    private final Integer id_paziente;
+    private final Integer id_diabetologo;
+    private int id_login;
 
     private final ObservableList<Chat> chat = FXCollections.observableArrayList();
 
 
-    public Login(int id_login,String username ,int id_paziente , int id_diabetologo ) {
+    public Login(int id_login,String username ,String password,Integer id_paziente , Integer id_diabetologo ) {
+        this(username,password,id_paziente,id_diabetologo);
         this.id_login = id_login;
+
+    }
+
+    public Login(String username ,String password,Integer id_paziente , Integer id_diabetologo){
         this.username = username;
+        this.password = password;
         this.id_paziente = id_paziente;
         this.id_diabetologo = id_diabetologo;
     }
-
-
-
-    /**
-     * Funzione che permette di eseguire l'autenticazione degli utenti una volta eseguito il submit nel form
-     * @param username username inserito nel form di login
-     * @param password password inserita nel form di login
-     * @return l'oggetto Login
-     */
-    public static Login autenticate(String username, String password) {
-         return  Main.getDbManager().selectQuery("SELECT  id_login,id_paziente,id_diabetologo, username FROM login WHERE username  = ? AND password_hash = ?",
-                 rs -> {
-                    if(rs.next()) {
-                        return new Login(rs.getInt("id_login"),rs.getString("username"),rs.getInt("id_paziente"),rs.getInt("id_diabetologo"));
-                    }
-                     return null;
-                 }
-
-                 ,username,password);
-
-    }
-
 
 
 
@@ -58,16 +43,47 @@ public class Login {
         return ROLE.ADMIN;
     }
 
-    public final int getId_diabetologo() {
+
+    /**
+     * Funzione che permette di restituire l'id del diabetologo associata a questa utenza
+     * @return id_diabetologo
+     */
+    public final Integer getId_diabetologo() {
         return id_diabetologo;
     }
 
-    public int getId_paziente() {
+    /**
+     * Funzione che permette di restituire l'id del paziente associato a questa utenza
+     * @return id_paziente
+     */
+    public Integer getId_paziente() {
         return id_paziente;
     }
 
+
+    /**
+     * Funzione che permette di restituire l'id di questa utenza
+     * @return id_login
+     */
     public int getId_login() {
         return id_login;
+    }
+
+
+    /**
+     * Funzione che permette di restituire l'username di questa utenza
+     * @return username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Funzione che permette di restituire la password  di questa utenza
+     * @return password
+     */
+    public String getPassword() {
+        return password;
     }
 
     @Override
@@ -75,9 +91,6 @@ public class Login {
         return id_login + " " + id_paziente + " " + id_diabetologo + " " + username;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
     public int getid_loginDibaetologo(Diabetologo diabetologo){
         return Main.getDbManager().selectQuery("SELECT id_login FROM login WHERE id_diabetologo = ?",
@@ -131,16 +144,6 @@ public class Login {
     }
 
 
-    /**
-     * Funzione che permette di aggiornare la password degli utenti
-     * @param password nuova password da inserire a database
-     * @return <code>true</code> se la query va a buon fine, <code>false</code> altrimenti.
-     */
-
-    public boolean updatePassword(String password) {
-        return Main.getDbManager().updateQuery("UPDATE login SET password_hash = ? WHERE id_login  = ?",password,id_login);
-    }
-
 
     public void inviaMessaggio(Chat chat) {
         Main.getDbManager().updateQuery("INSERT INTO chat(id_mittente_login,id_destinatario_login,messaggio) VALUES(?,?,?)",
@@ -176,7 +179,7 @@ public class Login {
                         pazientiChat.put(
                                 new Paziente(rs.getInt("p.id_paziente"),rs.getString("p.nome"),
                                         rs.getString("p.cognome"),rs.getString("p.email"),rs.getString("p.codice_fiscale"),
-                                        rs.getDate("p.data_nascita").toLocalDate(),rs.getString("p.sesso")),c
+                                        rs.getDate("p.data_nascita").toLocalDate(),rs.getString("p.sesso"),null),c
                         );
                     }
                     return null;
