@@ -1,6 +1,7 @@
 package com.dashapp.diabeticsystem.models;
 
 public class InformazioniPaziente {
+    private int id_informazione;
     private String fattoriRischio;
     private String commorbita;
     private String patologiePreg;
@@ -23,6 +24,13 @@ public class InformazioniPaziente {
         this.patologieAtt = patologieAtt;
         this.patologiePreg = patologiePreg;
     }
+
+    public InformazioniPaziente(String fattoriRischio, String commorbita, String patologiePreg, String patologieAtt,int id_informazione) {
+        this(fattoriRischio, commorbita, patologiePreg, patologieAtt);
+        this.id_informazione = id_informazione;
+    }
+
+
 
     /**
      * Crea un oggetto di tipo <code>InformazioniPaziente</code> con tutti i valori impostati come stringhe vuote
@@ -107,4 +115,11 @@ public class InformazioniPaziente {
         return patologieAtt;
     }
 
+    public void setId_informazione(int id_informazione) {
+        this.id_informazione = id_informazione;
+    }
+
+    public int getId_informazione() {
+        return id_informazione;
+    }
 }

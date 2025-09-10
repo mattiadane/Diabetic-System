@@ -13,6 +13,12 @@ public interface PazienteDao {
      */
     int insertPatient(Paziente paziente);
 
+
+    /**
+     * Funzione che permette di modifcare i dati anagrafici di un paziente
+     * @param paziente da modificare
+     * @return <code>true</code> se l'operazione è andata a buon fine <code>false</code> altrimenti
+     */
     boolean updatePatient(Paziente paziente);
 
     /**
@@ -22,7 +28,13 @@ public interface PazienteDao {
      */
     boolean deletePatient(int id_paziente);
 
-    Paziente loadPazienteById(int id);
+
+    /**
+     * Funzione che permette di ricercare un paziente tramite codice fiscale
+     * @param cf codice_fiscale del paziente da cercare
+     * @return L'oggetto paziente se trovato altrimenti null
+     */
+    Paziente getPatientByCf(String cf);
 
     /**
      * Funzione che permette di recuperare tutti i pazienti associati ad un diabetologo

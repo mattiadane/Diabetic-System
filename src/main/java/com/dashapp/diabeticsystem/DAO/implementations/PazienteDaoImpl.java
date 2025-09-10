@@ -1,25 +1,40 @@
 package com.dashapp.diabeticsystem.DAO.implementations;
 
+import com.dashapp.diabeticsystem.DAO.interfcaes.DiabetologoDao;
+import com.dashapp.diabeticsystem.DAO.interfcaes.InformazionePazienteDao;
 import com.dashapp.diabeticsystem.DAO.interfcaes.PazienteDao;
 import com.dashapp.diabeticsystem.Main;
+import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.models.InformazioniPaziente;
 import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class PazienteDaoImpl implements PazienteDao {
+
+    DiabetologoDao diabetologoDao = new DiabetologoDaoImpl();
+    InformazionePazienteDao informazionePazienteDao = new InformazionPazienteDaoImpl();
 
     @Override
     public int insertPatient(Paziente paziente) {
+        if(paziente == null) return -1;
+
         return Main.getDbManager().insertAndGetGeneratedId(
-                "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo) VALUES (?,?,?,?,?,?)",
-                paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodice_fiscale(),paziente.getDataNascita(),paziente.getDiabetologo().getId_diabetologo()
+                "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo,id_informazione_paziente) VALUES (?,?,?,?,?,?,?)",
+                paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodice_fiscale(),paziente.getDataNascita(),paziente.getDiabetologo().getId_diabetologo(),paziente.getInfo().getId_informazione()
         );
 
     }
 
     @Override
     public boolean updatePatient(Paziente paziente) {
-        return false;
+        if(paziente == null) return false;
+
+        return Main.getDbManager().updateQuery("UPDATE paziente SET nome = ?,cognome = ?,codice_fiscale = ?," +
+                "data_nascita = ?,email = ?,sesso = ? WHERE id_paziente = ?",paziente.getNome(),paziente.getCognome(),paziente.getCodice_fiscale(),paziente.getDataNascita(),paziente.getEmail(),paziente.getSesso(),paziente.getId_paziente());
+
     }
 
     @Override
@@ -28,9 +43,22 @@ public class PazienteDaoImpl implements PazienteDao {
     }
 
     @Override
-    public Paziente loadPazienteById(int id) {
-        return null;
+    public Paziente getPatientByCf(String cf) {
+        AtomicReference<Paziente> paziente = new AtomicReference<>();
+        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso,id_diabetologo,id_informazione_paziente FROM paziente WHERE codice_fiscale = ?",
+                rs -> {
+                    if (rs.next()){
+                        Diabetologo d = diabetologoDao.getDiabetologistById(rs.getInt("id_diabetologo"));
+                        InformazioniPaziente info = informazionePazienteDao.getInformationById(rs.getInt("id_informazione_paziente"));
+                        paziente.set(new Paziente(rs.getInt("id_paziente"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("codice_fiscale"), rs.getDate("data_nascita").toLocalDate(), rs.getString("sesso"),d,info));
+
+                    }
+                    return null;
+                } ,cf);
+
+        return paziente.get();
     }
+
 
     @Override
     public ObservableList<Paziente> getAllPatientsByDiabetologist(int id_diabetologo) {

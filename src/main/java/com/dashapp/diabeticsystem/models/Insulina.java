@@ -2,7 +2,7 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.enums.GRAVITA;
 import com.dashapp.diabeticsystem.enums.PERIODO;
-import com.sun.source.tree.ReturnTree;
+
 
 import java.time.LocalDateTime;
 
@@ -11,6 +11,7 @@ public class  Insulina {
     private  PERIODO periodo;
     private  LocalDateTime orario;
     private GRAVITA gravita ;
+    private Paziente paziente;
 
     public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario) {
         this.livello_insulina = livello_insulina;
@@ -18,7 +19,10 @@ public class  Insulina {
         this.orario = orario;
     }
 
-    public Insulina(){}
+    public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario,Paziente paziente) {
+        this(livello_insulina, periodo, orario);
+        this.paziente = paziente;
+    }
 
     public int getLivello_insulina() {
         return livello_insulina;

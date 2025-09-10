@@ -41,7 +41,7 @@ public class ChatDiabetologoController {
     private Map<Paziente, Chat> pazienteChatMap;
 
     public void initialize() {
-        pazienteChatMap = mittente.pazienteEUltimoMessaggioDellaChat();
+        //pazienteChatMap = mittente.pazienteEUltimoMessaggioDellaChat();
 
         List<Paziente> p = new ArrayList<>(pazienteChatMap.keySet().stream().toList());
 

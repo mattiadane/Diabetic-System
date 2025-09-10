@@ -19,17 +19,18 @@ public class Paziente extends Persona {
     private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
     private ObservableList<AssunzioneFarmaco> assunzioni = FXCollections.observableArrayList();
 
-    public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo) {
+    public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo,InformazioniPaziente info) {
         super(nome,cognome,email,codiceFiscale,sesso);
         this.dataNascita = dataNascita;
         this.diabetologo = diabetologo;
-        terapie = loadAllTerapie();
+        this.info = info;
+
         assunzioni = loadAllAssunzioni();
     }
-    public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo) {
-        this(nome, cognome, email, codiceFiscale, dataNascita,sesso,diabetologo);
+    public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo,InformazioniPaziente info) {
+        this(nome, cognome, email, codiceFiscale, dataNascita,sesso,diabetologo,info);
         this.id_paziente = id_paziente;
-        terapie = loadAllTerapie();
+
         assunzioni = loadAllAssunzioni();
     }
 
@@ -37,14 +38,14 @@ public class Paziente extends Persona {
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso) {
         super(nome,cognome,email,codiceFiscale,sesso);
         this.dataNascita = dataNascita;
-        terapie = loadAllTerapie();
+
         assunzioni = loadAllAssunzioni();
     }
 
     public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso) {
         this(nome, cognome, email, codiceFiscale, dataNascita,sesso);
         this.id_paziente = id_paziente;
-        terapie = loadAllTerapie();
+
         assunzioni = loadAllAssunzioni();
     }
 
@@ -62,7 +63,7 @@ public class Paziente extends Persona {
                     }
                     return null;
                 },id_paziente);
-        terapie = loadAllTerapie();
+
         assunzioni = loadAllAssunzioni();
 
     }
@@ -71,37 +72,13 @@ public class Paziente extends Persona {
         return diabetologo;
     }
 
-    public void updateTerapia(Terapia t){
-        terapie.removeIf(tt -> tt.getId_terapia() == t.getId_terapia());
-        terapie.add(t);
-    }
 
-    public ObservableList<Terapia> loadAllTerapie() {
-        if(terapie.isEmpty()){
-
-            Main.getDbManager().selectQuery("SELECT f.nome,t.id_terapia,t.dosaggio_quantità,t.dosaggio_unità,t.quanto,t.periodicità,t.data_inizio_terapia,t.data_fine_terapia,t.descrizione FROM terapia t\n" +
-                    "INNER JOIN farmaco f ON t.id_farmaco = f.id_farmaco WHERE id_paziente = ?; ",
-                    rs -> {
-                        while(rs.next()){
-                            Terapia t = new Terapia(
-
-                                    rs.getInt("t.quanto"),PERIODICITA.valueOf(rs.getString("t.periodicità").toUpperCase()),
-                                    rs.getDouble("t.dosaggio_quantità"),rs.getString("t.dosaggio_unità"),rs.getDate("t.data_inizio_terapia").toLocalDate()
-                                    ,rs.getDate("t.data_fine_terapia").toLocalDate(),rs.getString("t.descrizione")
-                            );
-                            t.setId_terapia(rs.getInt("t.id_terapia"));
-                            t.setFarmaco(t.getFarmacoByName(rs.getString("f.nome")));
-                            terapie.add(t);
-                        }
-                        return null;
-                    }
-                    ,id_paziente);
-
-        }
-        return terapie;
+    public void setInfo(InformazioniPaziente info) {
+        this.info = info;
     }
 
     public ObservableList<AssunzioneFarmaco> loadAllAssunzioni(){
+        /*
         if(assunzioni.isEmpty()){
             Main.getDbManager().selectQuery("SELECT id_farmaco,dosaggio_quantità,dosaggio_unità,sintomi,data_assunzione FROM assunzione_farmaco WHERE id_paziente = ?",
                     rs -> {
@@ -120,6 +97,8 @@ public class Paziente extends Persona {
 
         }
         return assunzioni;
+        */
+         return null;
     }
 
     public ObservableList<Farmaco> loadFarmaciByPaziente() {
@@ -130,18 +109,13 @@ public class Paziente extends Persona {
         return farmaci;
     }
 
-    public void inserisciTerapia(Terapia t) { terapie.add(t);}
-
-    public void rimuoviTerapie(Terapia t) {
-        terapie.remove(t);
-    }
 
     /**
      * Funzione che restituisce tutte le terapie caricate nel paziente. Se non sono già caricate, tento di caricarle dal database.
      * @return <code>ObservableList</code> con le terapie del paziente, <code>null</code> altrimenti.
      */
     public ObservableList<Terapia> getAllTerapie() {
-        if(terapie.isEmpty()) return loadAllTerapie();
+        if(terapie.isEmpty()) return null;
         return this.terapie;
     }
 
@@ -211,23 +185,6 @@ public class Paziente extends Persona {
         return list;
     }
 
-    public ObservableList<Insulina> getInsulinaByDate(LocalDateTime inizio, LocalDateTime fine) {
-        ObservableList<Insulina> list = FXCollections.observableArrayList();
-
-        Main.getDbManager().selectQuery("SELECT * FROM insulina WHERE id_paziente = ? AND orario BETWEEN ? AND ?",
-                rs -> {
-                    while (rs.next()) {
-                        list.add(
-                                new Insulina(rs.getInt("valore_glicemia"), PERIODO.fromDescrizione(rs.getString("periodo")),rs.getTimestamp("orario").toLocalDateTime())
-                        );
-                    }
-                    return null;
-                },
-                this.id_paziente,inizio,fine
-        );
-
-        return list;
-    }
 
     public int countInsulinaGiornaliero(){
         return getInsulina(null,1).size();
@@ -282,30 +239,6 @@ public class Paziente extends Persona {
 
     }
   
-      /**
-     * Recupera le informazioni del paziente. Se le informazioni non sono già caricate,
-     * recupera i dati dal database e inizializza l'oggetto contenente le informazioni del paziente.
-     *
-     * @return un'istanza di {@code InformazioniPaziente} contenente le informazioni del paziente.
-     */
-    public InformazioniPaziente getInfo(){
-        if(info != null) return this.info;
-
-        this.info = new InformazioniPaziente();
-        Main.getDbManager().selectQuery("SELECT fattori_rischio, commorbità, patologie_pregresse, patologie_in_concomitanza FROM informazione_paziente WHERE id_paziente = ?;",
-                rs -> {
-                    if(rs.next()){
-                        this.info.setFattoriRischio(rs.getString("fattori_rischio"));
-                        this.info.setCommorbita(rs.getString("commorbità"));
-                        this.info.setPatologiePreg(rs.getString("patologie_pregresse"));
-                        this.info.setPatologieAtt(rs.getString("patologie_in_concomitanza"));
-                    }
-                    return null;
-                },
-                this.id_paziente);
-
-        return this.info;
-    }
 
     public Diabetologo getMyDiabetologo(){
         return Main.getDbManager().selectQuery("SELECT d.id_diabetologo,d.nome,d.cognome,d.email,d.codice_fiscale,d.sesso FROM paziente p " +
@@ -334,4 +267,7 @@ public class Paziente extends Persona {
         return count;
     }
 
+    public InformazioniPaziente getInfo() {
+        return info;
+    }
 }

@@ -9,6 +9,7 @@ module com.dashapp.diabeticsystem {
     requires java.desktop;
     requires javafx.graphics;
     requires jdk.compiler;
+    requires javafx.base;
 
 
     opens com.dashapp.diabeticsystem to javafx.fxml;

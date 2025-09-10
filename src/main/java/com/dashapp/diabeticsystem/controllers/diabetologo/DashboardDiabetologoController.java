@@ -48,6 +48,7 @@ public class DashboardDiabetologoController {
 
         SettingsController.setLogin(Session.getCurrentUser());
         benvenuto.setText("Bentornat" + (diabetologo.getSesso().equals("M") ? "o" : "a") + " " + diabetologo);
+        /*
         Platform.runLater(() -> {
             Map<Paziente, List<Insulina>> mappa = diabetologo.notifyBloodSugar();
 
@@ -95,7 +96,7 @@ public class DashboardDiabetologoController {
                 Utility.createAlert(Alert.AlertType.WARNING,pazientiSbadati + " è 3 giorni che non " + (pazientiSbadati.size() > 1 ? "assumono "  : "assume " ) +  "medicine ");
 
 
-        });
+        });*/
 
     }
 
@@ -103,7 +104,7 @@ public class DashboardDiabetologoController {
      * Funzione per controllare l'evento della registrazione del nuovo paziente assegnato direttamente dal dottore.
      * 
      */
-    public void handleNuovoPaziente() throws SQLException, InterruptedException {
+    public void handleNuovoPaziente()   {
 
         if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscale.getText()) || !Utility.checkObj(gruppoSesso.getSelectedToggle())
             || !Utility.checkDateNascita(this.dataNascitaPicker.getValue())
@@ -113,36 +114,39 @@ public class DashboardDiabetologoController {
             return;
         }
 
-
-        String sesso =  (String) ((RadioButton)gruppoSesso.getSelectedToggle()).getUserData();
         boolean success = false;
-        int id_paziente = pazienteDao.insertPatient(
-                new Paziente(
-                        textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue(),sesso,diabetologo
-                )
+        String sesso =  (String) ((RadioButton)gruppoSesso.getSelectedToggle()).getUserData();
+        InformazioniPaziente info =  new InformazioniPaziente(
+                this.textFattoriRischio.getText(), this.textCommorbita.getText(), this.textPatologiePregresse.getText(), this.textPatologieConcomitanza.getText()
         );
 
+        int id_informazione = informazionPazienteDao.insertInformation(info);
 
-        if(id_paziente > 0){
 
-            CredentialsGenerator c = new CredentialsGenerator(id_paziente,0,textNome.getText(),textCognome.getText());
-            success = loginDao.insertLogin(
-                    new Login(
-                            c.createUsername(),c.generatePassword(),id_paziente,null
+        if(id_informazione > 0){
+            info.setId_informazione(id_informazione);
+            int id_paziente = pazienteDao.insertPatient(
+                    new Paziente(
+                            textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue(),sesso,diabetologo,info
                     )
             );
 
+            if(id_paziente > 0){
 
-            if(success){
-
-                success = informazionPazienteDao.insertInformation(id_paziente,
-                        new InformazioniPaziente(
-                                this.textFattoriRischio.getText(), this.textCommorbita.getText(), this.textPatologiePregresse.getText(), this.textPatologieConcomitanza.getText()
-                        ));
+                CredentialsGenerator c = new CredentialsGenerator(id_paziente,0,textNome.getText(),textCognome.getText());
+                success = loginDao.insertLogin(
+                        new Login(
+                                c.createUsername(),c.generatePassword(),id_paziente,null
+                        )
+                );
             }
         }
 
-        if(id_paziente <= 0 || !success){
+
+
+
+
+        if(!success){
             Utility.createAlert(Alert.AlertType.ERROR, "Errore nella creazione del paziente");
             return;
         }

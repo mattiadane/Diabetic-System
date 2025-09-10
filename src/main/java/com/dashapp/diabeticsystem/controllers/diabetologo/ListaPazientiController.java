@@ -1,6 +1,8 @@
 package com.dashapp.diabeticsystem.controllers.diabetologo;
 
+import com.dashapp.diabeticsystem.DAO.implementations.InformazionPazienteDaoImpl;
 import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
+import com.dashapp.diabeticsystem.DAO.interfcaes.InformazionePazienteDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Session;
@@ -22,6 +24,7 @@ public class ListaPazientiController {
 
     private final int id_diabetologo = Session.getCurrentUser().getId_diabetologo();
     private final PazienteDaoImpl  pazienteDao = new PazienteDaoImpl();
+    private final InformazionePazienteDao informazionePazienteDao = new InformazionPazienteDaoImpl();
 
     @FXML private TextField codice_fiscale ;
     @FXML private TableView<Paziente> tabellaPazienti ;
@@ -162,6 +165,9 @@ public class ListaPazientiController {
             Parent root = loader.load();
 
             if(fxml.equals("fxml/dettagliPaziente.fxml")){
+                paziente.setInfo(
+                        informazionePazienteDao.getInformationByPatient(paziente)
+                );
                 DettagliPazienteController dettagliPazienteController = loader.getController();
                 dettagliPazienteController.loadTerapie(paziente);
                 dettagliPazienteController.setTextFields(paziente);

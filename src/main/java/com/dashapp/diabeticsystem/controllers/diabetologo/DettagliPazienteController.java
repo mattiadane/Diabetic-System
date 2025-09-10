@@ -2,6 +2,13 @@ package com.dashapp.diabeticsystem.controllers.diabetologo;
 
 
 import java.time.format.DateTimeFormatter;
+
+import com.dashapp.diabeticsystem.DAO.implementations.InformazionPazienteDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.InsulinaDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.TerapiaDaoImpl;
+import com.dashapp.diabeticsystem.DAO.interfcaes.InformazionePazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfcaes.InsulinaDao;
+import com.dashapp.diabeticsystem.DAO.interfcaes.TerapiaDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
@@ -30,6 +37,13 @@ import java.util.Optional;
 
 public class DettagliPazienteController {
 
+    private final InformazionePazienteDao informazionePazienteDao = new InformazionPazienteDaoImpl();
+    private final TerapiaDao terapiaDao = new TerapiaDaoImpl();
+    private final InsulinaDao insulinaDao = new InsulinaDaoImpl();
+    private  Paziente paziente;
+    private InformazioniPaziente informazioniPaziente;
+
+
     @FXML private TableView<Terapia> tabella_terapie;
     @FXML private TableColumn<Terapia, String> col_nome;
     @FXML private TableColumn<Terapia, String> col_dosaggio;
@@ -46,18 +60,16 @@ public class DettagliPazienteController {
 
     @FXML private LineChart<String, Number> chart;
     @FXML private DatePicker settimana;
-    private  Paziente paziente;
-    private Diabetologo diabetologo;
 
     public void loadTerapie(Paziente paziente) {
         this.paziente = paziente;
-        tabella_terapie.setItems(paziente.loadAllTerapie());
+        tabella_terapie.setItems(terapiaDao.getAllTherapyByPatient(paziente));
+        this.informazioniPaziente = paziente.getInfo();
 
     }
 
 
     public void initialize(){
-        this.diabetologo = new Diabetologo();
 
         this.col_nome.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getFarmaco().getNome()));
@@ -87,11 +99,11 @@ public class DettagliPazienteController {
                         btn.setOnAction(event -> {
                             Optional<ButtonType> result = Utility.createAlert(Alert.AlertType.CONFIRMATION,"Sei sicuro di voler rimuovere la terapia?");
                             if( result.isPresent() && result.get().getText().equals("Si")){
-                                boolean success = diabetologo.rimuoviTerapia(getTableView().getItems().get(getIndex()));
+                                boolean success = terapiaDao.removeTherapy(getTableView().getItems().get(getIndex()).getId_terapia());
                                 if(!success){
                                     return;
                                 }
-                                paziente.rimuoviTerapie(getTableView().getItems().get(getIndex()));
+                                getTableView().getItems().remove(getIndex());
 
                             }
 
@@ -122,7 +134,7 @@ public class DettagliPazienteController {
                     {
                         btn.getStyleClass().add("btn-modifica");
                         btn.setOnAction(event ->
-                            modificaSchedaTerapia(getTableView().getItems().get(getIndex()),paziente)
+                            modificaSchedaTerapia(getTableView().getItems().get(getIndex()))
                         );
 
                     }
@@ -146,28 +158,29 @@ public class DettagliPazienteController {
     }
 
     public void setTextFields(Paziente p) {
-        InformazioniPaziente temp = p.getInfo();
-
-        this.textFattori.setText(temp.getFattoriRischio());
-        this.textCommorbita.setText(temp.getCommorbita());
-        this.textPatologiePreg.setText(temp.getPatologiePreg());
-        this.textPatologieAtt.setText(temp.getPatologieAtt());
+        this.textFattori.setText(p.getInfo().getFattoriRischio());
+        this.textCommorbita.setText(p.getInfo().getCommorbita());
+        this.textPatologiePreg.setText(p.getInfo().getPatologiePreg());
+        this.textPatologieAtt.setText(p.getInfo().getPatologieAtt());
 
     }
 
     /**
      * Funzione che permette di aprire la scheda del paziente selezionato.
      * @param terapia terapia da visualizzare
-     * @param paziente paziente a cui appartiene la terapia.
      */
-    private void modificaSchedaTerapia(Terapia terapia,Paziente paziente){
+    private void modificaSchedaTerapia(Terapia terapia){
         try{
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/modificaTerapia.fxml"));
 
             Parent root = loader.load();
 
             ModificaTerapiaController modificaTerapiaController = loader.getController();
-            modificaTerapiaController.loadData(terapia,paziente);
+            modificaTerapiaController.loadData(terapia);
+
+            modificaTerapiaController.setDettagliPazienteController(this);
+
+
 
             Stage schedaTerapia = new Stage();
             Scene newScene = new Scene(root, 600, 700);
@@ -193,7 +206,7 @@ public class DettagliPazienteController {
     public void initChart(Paziente paziente,LocalDateTime inizio,LocalDateTime fine){
         chart.getData().clear();
 
-        ObservableList<Insulina> data = paziente.getInsulinaByDate(inizio, fine);
+        ObservableList<Insulina> data = insulinaDao.getInsulinaByDateAndByPatients(inizio, fine,paziente);
         if (data.isEmpty()) {
             Utility.createAlert(Alert.AlertType.WARNING, "Non ci sono registrazioni di insulina per questo paziente nella settimana selezionata");
             return;
@@ -246,13 +259,19 @@ public class DettagliPazienteController {
         }
     }
 
+    public void refreshTable() {
+        tabella_terapie.setItems(terapiaDao.getAllTherapyByPatient(paziente));
+    }
+
     /**
      * Funzione che permette di aggiornare i dati relativi alle informazioni aggiuntive sul paziente
      */
     public void handleUpdateInfo(){
-        InformazioniPaziente temp = new InformazioniPaziente(this.textFattori.getText(), this.textCommorbita.getText(), this.textPatologiePreg.getText(),this.textPatologieAtt.getText());
+        informazioniPaziente = new InformazioniPaziente(this.textFattori.getText(), this.textCommorbita.getText(), this.textPatologiePreg.getText(),this.textPatologieAtt.getText(),this.informazioniPaziente.getId_informazione());
 
-        if(diabetologo.updateInfo(paziente, temp)) Utility.createAlert(Alert.AlertType.INFORMATION,"Informazioni aggiornate con successo");
+
+        if(informazionePazienteDao.updateInformation(informazioniPaziente))
+            Utility.createAlert(Alert.AlertType.INFORMATION,"Informazioni aggiornate con successo");
         else Utility.createAlert(Alert.AlertType.ERROR,"Errore durante l'aggiornamento delle informazioni");
     }
 }

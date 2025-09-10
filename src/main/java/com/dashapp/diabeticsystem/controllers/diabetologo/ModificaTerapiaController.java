@@ -1,5 +1,9 @@
 package com.dashapp.diabeticsystem.controllers.diabetologo;
 
+import com.dashapp.diabeticsystem.DAO.implementations.FarmacoDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.TerapiaDaoImpl;
+import com.dashapp.diabeticsystem.DAO.interfcaes.FarmacoDao;
+import com.dashapp.diabeticsystem.DAO.interfcaes.TerapiaDao;
 import com.dashapp.diabeticsystem.enums.PERIODICITA;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
@@ -8,10 +12,14 @@ import javafx.fxml.FXML;
 
 public class ModificaTerapiaController {
 
-    private Terapia terapia;
-    private Diabetologo diabetologo;
-    private Paziente paziente;
 
+    private DettagliPazienteController dettagliPazienteController;
+
+    private final FarmacoDao farmacoDao = new FarmacoDaoImpl();
+
+    private final TerapiaDao terapiaDao = new TerapiaDaoImpl();
+
+    private Terapia terapia;
 
     @FXML private ComboBox<Farmaco> medicinale;
     @FXML private TextField quantita;
@@ -23,8 +31,8 @@ public class ModificaTerapiaController {
     @FXML private TextArea descrizione;
 
     public void initialize(){
-        diabetologo = new Diabetologo();
-        medicinale.setItems(Terapia.getAllDrug());
+
+        medicinale.setItems(farmacoDao.getAllDrugs());
         periodicita.getItems().addAll(PERIODICITA.values());
         periodicita.getSelectionModel().selectFirst();
 
@@ -35,10 +43,8 @@ public class ModificaTerapiaController {
      * Funzione che permette di caricare i dati quando viene aperta la finestra dei dettagli della terapia
      * @param t terapia da controllare
      */
-    public void loadData(Terapia t,Paziente p){
+    public void loadData(Terapia t){
         this.terapia = t;
-        this.paziente = p;
-
 
         medicinale.setValue(terapia.getFarmaco());
         quantita.setText(String.valueOf(terapia.getDosaggio_quantita()));
@@ -64,19 +70,22 @@ public class ModificaTerapiaController {
 
         Terapia newTerapia = new Terapia(
                 Integer.parseInt(quanto.getText()), periodicita.getValue(), Double.parseDouble(quantita.getText()), unita.getText(),
-                data_inizio.getValue(), data_fine.getValue(), descrizione.getText()
+                data_inizio.getValue(), data_fine.getValue(), descrizione.getText(),medicinale.getValue(),this.terapia.getId_terapia()
         );
 
-        newTerapia.setId_terapia(this.terapia.getId_terapia());
-        newTerapia.setFarmaco(medicinale.getValue());
 
-        if(!this.diabetologo.updateTerapia(newTerapia)){
+        if(!terapiaDao.updateTherapy(newTerapia)){
             Utility.createAlert(Alert.AlertType.ERROR, "Errore nella modifica dei dati della terapia.");
             return;
         }
-        Utility.createAlert(Alert.AlertType.INFORMATION, "Dati della terapia modificati correttamente.");
-        paziente.updateTerapia(newTerapia);
 
+        if (this.dettagliPazienteController != null) {
+            this.dettagliPazienteController.refreshTable();
+        }
+        Utility.createAlert(Alert.AlertType.INFORMATION, "Dati della terapia modificati correttamente.");
     }
 
+    public void setDettagliPazienteController(DettagliPazienteController dettagliPazienteController) {
+        this.dettagliPazienteController = dettagliPazienteController;
+    }
 }

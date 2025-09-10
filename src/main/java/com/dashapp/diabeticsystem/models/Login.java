@@ -150,6 +150,7 @@ public class Login {
                 chat.getId_mittente(),chat.getId_destinatario(),chat.getMessaggio());
     }
 
+    /*
     public ObservableMap<Paziente,Chat> pazienteEUltimoMessaggioDellaChat(){
         ObservableMap<Paziente,Chat> pazientiChat = FXCollections.observableHashMap();
         Main.getDbManager().selectQuery(
@@ -186,5 +187,5 @@ public class Login {
                 }
                 ,id_diabetologo);
         return pazientiChat;
-    }
+    }*/
 }
