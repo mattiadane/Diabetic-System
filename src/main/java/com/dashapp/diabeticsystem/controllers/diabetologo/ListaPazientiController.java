@@ -1,8 +1,9 @@
 package com.dashapp.diabeticsystem.controllers.diabetologo;
 
+import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
 import com.dashapp.diabeticsystem.Main;
-import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.models.Session;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,8 @@ import java.util.Optional;
 
 public class ListaPazientiController {
 
+    private final int id_diabetologo = Session.getCurrentUser().getId_diabetologo();
+    private final PazienteDaoImpl  pazienteDao = new PazienteDaoImpl();
 
     @FXML private TextField codice_fiscale ;
     @FXML private TableView<Paziente> tabellaPazienti ;
@@ -31,10 +34,10 @@ public class ListaPazientiController {
 
 
 
-    private Diabetologo diabetologo;
+
 
     public void initialize(){
-        this.diabetologo = new Diabetologo();
+
         this.nomePaziente.setCellValueFactory(new PropertyValueFactory<>("nome"));
         this.cognomePaziente.setCellValueFactory(new PropertyValueFactory<>("cognome"));
         this.cfPaziente.setCellValueFactory(new PropertyValueFactory<>("codice_fiscale"));
@@ -82,10 +85,12 @@ public class ListaPazientiController {
                         btn.setOnAction(event -> {
                             Optional<ButtonType> result = Utility.createAlert(Alert.AlertType.CONFIRMATION, "Sei sicuro di voler rimuovere il diabetologo?");
                             if (result.isPresent() && result.get().getText().equals("Si")) {
-                                boolean success = diabetologo.rimuoviPaziente(getTableView().getItems().get(getIndex()));
+                                boolean success = pazienteDao.deletePatient(getTableView().getItems().get(getIndex()).getId_paziente());
                                 if (!success) {
                                     Utility.createAlert(Alert.AlertType.ERROR, "Errore nella rimozione del diabetologo");
                                 }
+
+                                getTableView().getItems().remove(getIndex());
 
                             }
                         });
@@ -202,12 +207,12 @@ public class ListaPazientiController {
      * Funzione che permette di cercare un paziente in base al codice fiscale inserito.
      */
     public void searchInput() {
-        tabellaPazienti.setItems(diabetologo.getPazientiResearch(codice_fiscale.getText()));
+        tabellaPazienti.setItems(pazienteDao.getPazientiResearch(codice_fiscale.getText()));
 
     }
 
     public void aggiornaTabella(){
-        tabellaPazienti.setItems(diabetologo.loadAllPatients());
+        tabellaPazienti.setItems(pazienteDao.getAllPatientsByDiabetologist(id_diabetologo));
     }
 
 }

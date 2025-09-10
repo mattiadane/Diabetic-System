@@ -27,7 +27,7 @@ public class Diabetologo extends Persona  {
 
     public Diabetologo() {
 
-        pazienti = loadAllPatients();
+
     }
 
     public Diabetologo(String nome, String cognome, String email,String codice_fiscale,String sesso){
@@ -65,26 +65,6 @@ public class Diabetologo extends Persona  {
     }
 
 
-
-    /**
-     * Funzione che permette di caricare tutti i pazienti associati al diabetologo
-     * @return oggetto <code>ObservableList</code> con tutti i pazienti associati
-     */
-    public ObservableList<Paziente> loadAllPatients() {
-        pazienti.clear();
-        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso FROM paziente WHERE id_diabetologo = ?",
-               rs -> {
-                    while (rs.next()){
-
-                        pazienti.add(
-                                new Paziente(rs.getInt("id_paziente"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate(),rs.getString("sesso"))
-                        );
-                    }
-                    return null;
-               } ,id_diabetologo);
-        
-        return pazienti;
-    }
     public Paziente getPazienteByCf(String codice_fiscale){
 
         for(Paziente paziente : pazienti){
@@ -95,34 +75,8 @@ public class Diabetologo extends Persona  {
         return null;
     }
 
-    /**
-     * Funzione che permette di cercare un paziente all'interno della lista dei pazienti associati al diabetologo.
-     * @param search oggetto ti tipo <code>String</code> che contiene il codice fiscale del paziente da cercare.
-     * @return oggetto di tipo <code>ObservableList</code> con i pazienti che hanno il codice fiscale che inizia con il parametro passato.
-     */
-    public ObservableList<Paziente> getPazientiResearch(String search){
-        ObservableList<Paziente> pazientiResearch = FXCollections.observableArrayList();
-        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso FROM paziente WHERE codice_fiscale LIKE ? ",
-                rs -> {
-                    while (rs.next()){
-                        pazientiResearch.add(
-                          new Paziente(rs.getInt("id_paziente"),rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("codice_fiscale"),rs.getDate("data_nascita").toLocalDate(),rs.getString("sesso"))
 
-                        );
-                    }
-                    return null;
-                },search + "%");
-        return pazientiResearch;
 
-    }
-    public boolean rimuoviPaziente(Paziente paziente){
-        boolean success =  Main.getDbManager().updateQuery("DELETE FROM paziente WHERE id_paziente = ?",paziente.getId_paziente());
-
-        if(success)
-            pazienti.remove(paziente);
-
-        return success;
-    }
 
     /**
      * Funzione che permette di inserire una nuova terapia a database
