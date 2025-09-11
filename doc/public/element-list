@@ -1,0 +1,9 @@
+module:com.dashapp.diabeticsystem
+com.dashapp.diabeticsystem
+com.dashapp.diabeticsystem.controllers
+com.dashapp.diabeticsystem.controllers.components
+com.dashapp.diabeticsystem.controllers.dashboards
+com.dashapp.diabeticsystem.enums
+com.dashapp.diabeticsystem.models
+com.dashapp.diabeticsystem.utility
+com.dashapp.diabeticsystem.view

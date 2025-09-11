@@ -161,7 +161,7 @@ public class Paziente extends Persona {
     /**
      * Funzione che permette di eseguire una chiamata a database per fare in modo di prendersi tutti i livelli di insulina da lui registrati
      * @param limit limite per il numero di registrazioni da prendere. <code>null</code> per non avere restrizioni, un valore <code>int</code> per mettere un limite
-     * @return un oggetto <code>ObservableList<Insulina></code>
+     * @return un oggetto <code>ObservableList</code> di <code>Insulina</code>
      */
     public ObservableList<Insulina> getInsulina(Integer limit,int option) {
         if(limit == null) limit = Integer.MAX_VALUE;

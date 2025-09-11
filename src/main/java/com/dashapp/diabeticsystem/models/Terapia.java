@@ -35,7 +35,7 @@ public class Terapia {
 
     /**
      * Funzione che permette, tramite chiamata a database, di prendere tutti i farmaci registrati.
-     * @return oggetto <code>ObservableList<Farmaco></code> di tutti i farmarci presenti nel database
+     * @return oggetto <code>ObservableList</code> di tutti i farmarci presenti nel database
      */
     public static ObservableList<Farmaco> getAllDrug() {
         if(farmaci.isEmpty()){
