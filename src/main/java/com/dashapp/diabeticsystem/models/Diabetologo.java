@@ -1,34 +1,13 @@
 package com.dashapp.diabeticsystem.models;
 
-import com.dashapp.diabeticsystem.Main;
-import com.dashapp.diabeticsystem.enums.GRAVITA;
-import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Diabetologo extends Persona  {
 
     /**
      * Id del diabetologo che ha effettuato il login
      */
-    private int id_diabetologo = Session.getCurrentUser().getId_diabetologo();
+    private int id_diabetologo ;
 
-    /**
-     * Lista di tipo <code>ObservableList</code> che contiene i pazienti associati al diabetologo
-     */
-    private ObservableList<Paziente> pazienti = FXCollections.observableArrayList();
-
-    public Diabetologo() {
-
-
-    }
 
     public Diabetologo(String nome, String cognome, String email,String codice_fiscale,String sesso){
         super(nome,cognome,email,codice_fiscale,sesso);
@@ -40,23 +19,11 @@ public class Diabetologo extends Persona  {
 
 
 
-    public Paziente getPazienteByCf(String codice_fiscale){
-
-        for(Paziente paziente : pazienti){
-            if(paziente.getCodice_fiscale().equals(codice_fiscale)){
-                return paziente;
-            }
-        }
-        return null;
-    }
 
 
 
 
-
-
-
-
+/*
     public List<Paziente> notifyPatient(){
         List<Paziente> pazienti = new  ArrayList<>();
         for(Paziente paziente : this.pazienti){
@@ -75,7 +42,7 @@ public class Diabetologo extends Persona  {
         }
 
         return pazienti;
-    }
+    }*/
 
 /*
     public Map<Paziente,List<Insulina>> notifyBloodSugar(){

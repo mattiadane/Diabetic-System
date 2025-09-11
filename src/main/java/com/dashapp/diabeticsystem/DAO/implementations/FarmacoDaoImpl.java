@@ -3,6 +3,7 @@ package com.dashapp.diabeticsystem.DAO.implementations;
 import com.dashapp.diabeticsystem.DAO.interfcaes.FarmacoDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Farmaco;
+import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -50,5 +51,22 @@ public class FarmacoDaoImpl implements FarmacoDao {
                 }
                 ,id_farmaco);
         return farmaco.get();
+    }
+
+    @Override
+    public ObservableList<Farmaco> getAllDrugsByPaziente(Paziente paziente) {
+        ObservableList<Farmaco> drugs = FXCollections.observableArrayList();
+         Main.getDbManager().selectQuery("SELECT f.id_farmaco,f.nome,f.descrizione FROM farmaco f\n" +
+                "INNER JOIN terapia t ON f.id_farmaco = t.id_farmaco WHERE id_paziente = ?",
+                 rs -> {
+                    while(rs.next()){
+                        drugs.add(new Farmaco(
+                                rs.getInt("f.id_farmaco"),rs.getString("f.nome"),rs.getString("f.descrizione")
+                        ));
+                    }
+                    return null;
+                 }
+                 ,paziente.getId_paziente());
+         return   drugs;
     }
 }

@@ -34,4 +34,13 @@ public interface TerapiaDao {
      * @return lista di terapie associate al paziente se presenti
      */
     ObservableList<Terapia> getAllTherapyByPatient(Paziente paziente);
+
+
+    /**
+     * Funzionche che permette di prendere la taerpia di un paziente con il rispettivo farmaco
+     * @param farmaco presente nella terapia
+     * @param paziente che risulta nella terapia
+     * @return la terapia desiderata se presente nel database
+     */
+    Terapia getTherapyByFarmacoIdAndPatient(Paziente paziente,Farmaco farmaco);
 }

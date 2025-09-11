@@ -2,9 +2,6 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.enums.ROLE;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
 
 public class Login {
@@ -14,7 +11,6 @@ public class Login {
     private final Integer id_diabetologo;
     private int id_login;
 
-    private final ObservableList<Chat> chat = FXCollections.observableArrayList();
 
 
     public Login(int id_login,String username ,String password,Integer id_paziente , Integer id_diabetologo ) {
@@ -92,16 +88,6 @@ public class Login {
     }
 
 
-    public int getid_loginDibaetologo(Diabetologo diabetologo){
-        return Main.getDbManager().selectQuery("SELECT id_login FROM login WHERE id_diabetologo = ?",
-                rs -> {
-                    if(rs.next()) {
-                        return rs.getInt("id_login");
-                    }
-                    return null;
-                }
-                ,diabetologo.getId_diabetologo());
-    }
 
     public int getid_loginPaziente(Paziente paziente){
         return Main.getDbManager().selectQuery("SELECT id_login FROM login WHERE id_paziente = ?",
@@ -119,36 +105,8 @@ public class Login {
 
 
 
-    public ObservableList<Chat> chatDiabetologoPaziente(int id_mittente,int id_destinatario){
-
-        chat.clear();
-
-        Main.getDbManager().selectQuery("SELECT id_mittente_login,id_destinatario_login,messaggio,data_invio FROM chat " +
-                "WHERE (id_mittente_login = ? AND id_destinatario_login = ?) OR (id_mittente_login = ? AND id_destinatario_login = ?) ORDER BY data_invio ASC ",
-                    rs -> {
-                        while(rs.next()){
-                            chat.add(
-                                    new Chat(
-                                           rs.getInt("id_mittente_login"),
-                                           rs.getInt("id_destinatario_login"),
-                                           rs.getString("messaggio"),
-                                           rs.getTimestamp("data_invio").toLocalDateTime()
-                                    )
-                            );
-
-                        }
-                        return null;
-                    }
-                ,id_mittente,id_destinatario,id_destinatario,id_mittente);
-        return chat;
-    }
 
 
-
-    public void inviaMessaggio(Chat chat) {
-        Main.getDbManager().updateQuery("INSERT INTO chat(id_mittente_login,id_destinatario_login,messaggio) VALUES(?,?,?)",
-                chat.getId_mittente(),chat.getId_destinatario(),chat.getMessaggio());
-    }
 
     /*
     public ObservableMap<Paziente,Chat> pazienteEUltimoMessaggioDellaChat(){

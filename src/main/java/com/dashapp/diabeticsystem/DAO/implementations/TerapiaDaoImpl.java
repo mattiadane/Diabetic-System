@@ -76,4 +76,23 @@ public class TerapiaDaoImpl implements TerapiaDao {
 
     }
 
+    @Override
+    public Terapia getTherapyByFarmacoIdAndPatient(Paziente paziente, Farmaco farmaco) {
+
+        if(paziente == null || farmaco == null) return null;
+
+        return Main.getDbManager().selectQuery("SELECT * FROM terapia WHERE id_farmaco = ? AND id_paziente = ?",
+                rs -> {
+                    if(rs.next()){
+                        return new Terapia(rs.getInt("quanto"),PERIODICITA.fromDescrizione(rs.getString("periodicità")),rs.getDouble("dosaggio_quantità"),
+                                rs.getString("dosaggio_unità"),rs.getDate("data_inizio_terapia").toLocalDate(),rs.getDate("data_fine_terapia").toLocalDate(),
+                                rs.getString("descrizione"),farmaco,rs.getInt("id_terapia")
+                                );
+                    }
+                    return null;
+                }
+                ,farmaco.getId_farmaco(),paziente.getId_paziente());
+
+    }
+
 }

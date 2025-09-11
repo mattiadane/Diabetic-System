@@ -3,6 +3,7 @@ package com.dashapp.diabeticsystem.DAO.implementations;
 import com.dashapp.diabeticsystem.DAO.interfcaes.DiabetologoDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

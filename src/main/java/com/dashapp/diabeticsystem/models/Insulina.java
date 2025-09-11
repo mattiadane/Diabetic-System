@@ -36,6 +36,9 @@ public class  Insulina {
     }
 
 
+    public Paziente getPaziente() {
+        return paziente;
+    }
 
     @Override
     public String toString() {

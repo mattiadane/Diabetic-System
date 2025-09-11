@@ -2,18 +2,14 @@ package com.dashapp.diabeticsystem.models;
 
 
 import com.dashapp.diabeticsystem.Main;
-import com.dashapp.diabeticsystem.enums.PERIODICITA;
-import com.dashapp.diabeticsystem.enums.PERIODO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class Paziente extends Persona {
     private Diabetologo diabetologo;
     private int id_paziente = Session.getCurrentUser().getId_paziente() ;
-    private LocalDate dataNascita;
+    private final LocalDate dataNascita;
     private InformazioniPaziente info;
 
     private ObservableList<Terapia> terapie = FXCollections.observableArrayList();
@@ -51,23 +47,6 @@ public class Paziente extends Persona {
 
 
 
-    public Paziente(){
-        Main.getDbManager().selectQuery("SELECT nome,cognome,email,sesso FROM paziente WHERE id_paziente = ?",
-                rs -> {
-                    if (rs.next()){
-
-                        setNome(rs.getString("nome"));
-                        setCognome(rs.getString("cognome"));
-                        setEmail(rs.getString("email"));
-                        setSesso(rs.getString("sesso"));
-                    }
-                    return null;
-                },id_paziente);
-
-        assunzioni = loadAllAssunzioni();
-
-    }
-
     public Diabetologo getDiabetologo() {
         return diabetologo;
     }
@@ -101,23 +80,8 @@ public class Paziente extends Persona {
          return null;
     }
 
-    public ObservableList<Farmaco> loadFarmaciByPaziente() {
-        ObservableList<Farmaco> farmaci = FXCollections.observableArrayList();
-        for(Terapia t : terapie) {
-            if(!farmaci.contains(t.getFarmaco())) farmaci.add(t.getFarmaco());
-        }
-        return farmaci;
-    }
 
 
-    /**
-     * Funzione che restituisce tutte le terapie caricate nel paziente. Se non sono già caricate, tento di caricarle dal database.
-     * @return <code>ObservableList</code> con le terapie del paziente, <code>null</code> altrimenti.
-     */
-    public ObservableList<Terapia> getAllTerapie() {
-        if(terapie.isEmpty()) return null;
-        return this.terapie;
-    }
 
     /**
      * Funzione per prendere la data di nascita del paziente
@@ -145,99 +109,11 @@ public class Paziente extends Persona {
 
 
 
-    public boolean aggiungiLivelloInsulina(Insulina insulina) {
-        return Main.getDbManager().updateQuery("INSERT INTO insulina(id_paziente,valore_glicemia,orario,periodo) VALUES(?,?,?,?)",
-                id_paziente,insulina.getLivello_insulina(),insulina.getOrario(),insulina.getPeriodo().toString());
-    }
-
-    /**
-     * Funzione che permette di eseguire una chiamata a database per fare in modo di prendersi tutti i livelli di insulina da lui registrati
-     * @param limit limite per il numero di registrazioni da prendere. <code>null</code> per non avere restrizioni, un valore <code>int</code> per mettere un limite
-     * @return un oggetto <code>ObservableList<Insulina></code>
-     */
-    public ObservableList<Insulina> getInsulina(Integer limit,int option) {
-        if(limit == null) limit = Integer.MAX_VALUE;
-
-        ObservableList<Insulina> list = FXCollections.observableArrayList();
-
-        String baseQuery = "SELECT * FROM (SELECT * FROM insulina WHERE id_paziente = ? ORDER BY id_glicemia DESC LIMIT " + limit  + " ) AS sub";
-
-        if(option != 0){
-            baseQuery += " WHERE Date(orario) = " + "'" + LocalDate.now() + "'";
-        }
 
 
 
-        baseQuery += " ORDER BY orario ASC";
-
-        Main.getDbManager().selectQuery(baseQuery,
-                rs -> {
-                    while (rs.next()) {
-                        list.add(
-                                new Insulina(rs.getInt("valore_glicemia"), PERIODO.fromDescrizione(rs.getString("periodo")),rs.getTimestamp("orario").toLocalDateTime())
-                        );
-                    }
-                    return null;
-                },
-                this.id_paziente
-        );
-
-        return list;
-    }
 
 
-    public int countInsulinaGiornaliero(){
-        return getInsulina(null,1).size();
-    }
-
-    public boolean inserisciAssunzioneFarmaco (AssunzioneFarmaco assunzioneFarmaco){
-        if(assunzioneFarmaco == null) return false;
-
-        boolean success =  Main.getDbManager().updateQuery("INSERT INTO assunzione_farmaco(id_paziente,id_farmaco,dosaggio_quantità,dosaggio_unità,data_assunzione,sintomi) " +
-                "VALUES(?,?,?,?,?,?)",id_paziente,assunzioneFarmaco.getFarmaco().getId_farmaco(),assunzioneFarmaco.getDosaggio_quantita(),assunzioneFarmaco.getDosaggio_unita(),assunzioneFarmaco.getData_assunzione(),assunzioneFarmaco.getSintomi());
-        if(success){
-            assunzioni.add(assunzioneFarmaco);
-
-        }
-        return success;
-    }
-
-    public Terapia loadTeriapiaByFarmaco(Farmaco f){
-        if(f == null) return null;
-
-        return terapie.stream().filter(tf -> tf.getFarmaco().getId_farmaco() == f.getId_farmaco()).findFirst().orElse(null);
-
-    }
-
-    public double sommaDosaggioTerapia(Farmaco f){
-
-        Terapia t = loadTeriapiaByFarmaco(f);
-
-        return t.getQuanto() * t.getDosaggio_quantita();
-
-
-    }
-
-    public double sommaDosaggioAssunzioneFarmaco(Farmaco f,LocalDateTime date){
-        Terapia t = loadTeriapiaByFarmaco(f);
-
-        LocalDateTime inizio = null ,fine = null ;
-        String query = "SELECT SUM(dosaggio_quantità) AS sum FROM assunzione_farmaco WHERE id_paziente = ? AND id_farmaco = ? AND data_assunzione BETWEEN ? AND ?";
-        if(t.getPeriodicita().toString().equals("giorno")){
-            inizio = date.toLocalDate().atStartOfDay();
-            fine = date.toLocalDate().atTime(LocalTime.MAX);
-        }
-
-        return Main.getDbManager().selectQuery(query,
-                rs -> {
-                    if(rs.next()){
-                        return rs.getDouble("sum");
-
-                    }
-                    return null;
-                },id_paziente,t.getFarmaco().getId_farmaco(),inizio,fine);
-
-    }
   
 
     public Diabetologo getMyDiabetologo(){
@@ -252,19 +128,6 @@ public class Paziente extends Persona {
                     return null;
                 },id_paziente);
 
-    }
-    public int numberDailyTakingMedicine(LocalDate data){
-
-        int count = 0;
-
-        for (AssunzioneFarmaco as : assunzioni ){
-            LocalDate as_date_without_time = LocalDate.from(as.getData_assunzione());
-            if(as_date_without_time.isEqual(data)){
-                count++;
-            }
-        }
-
-        return count;
     }
 
     public InformazioniPaziente getInfo() {

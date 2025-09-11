@@ -1,6 +1,7 @@
 package com.dashapp.diabeticsystem.DAO.interfcaes;
 
 import com.dashapp.diabeticsystem.models.Farmaco;
+import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.ObservableList;
 
 public interface FarmacoDao {
@@ -23,4 +24,12 @@ public interface FarmacoDao {
      * @return <code>null</code> se la lista dei farmaci è vuota oppure non è presente nella lista, oggetto <code>Farmaco</code> altrimenti.
      */
     Farmaco getDrugById(int id_farmaco);
+
+
+    /**
+     * Funzione che permette di recuperare tutti i farmaci che un determinato paziente deve assumere
+     * @param paziente che si vogliono conoscere tutti i suoi farmaci delle sue terapie
+     * @return lista di farmaci se presenti altrimenti null
+     */
+    ObservableList<Farmaco> getAllDrugsByPaziente(Paziente paziente);
 }

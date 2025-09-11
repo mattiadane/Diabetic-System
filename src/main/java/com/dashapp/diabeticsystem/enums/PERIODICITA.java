@@ -13,4 +13,14 @@ public enum PERIODICITA {
     public String toString() {
         return descrizione;
     }
+
+
+    public static PERIODICITA fromDescrizione(String s) {
+        for (PERIODICITA value : PERIODICITA.values()) {
+            if(value.descrizione.equalsIgnoreCase(s)){
+                return value;
+            }
+        }
+        return null;
+    }
 }

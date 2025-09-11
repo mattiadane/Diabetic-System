@@ -1,6 +1,7 @@
 package com.dashapp.diabeticsystem.DAO.interfcaes;
 
 import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.ObservableList;
 
 public interface DiabetologoDao {
@@ -33,6 +34,7 @@ public interface DiabetologoDao {
      * @return <code>true</code> se l'operazione va a buon fine <code>false</code> altrimenti
      */
     boolean removeDiabetologist(int id_diabetologo);
+
 
 
 }

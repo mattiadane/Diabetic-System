@@ -49,4 +49,12 @@ public interface PazienteDao {
      * @return oggetto di tipo <code>ObservableList</code> con i pazienti che hanno il codice fiscale che inizia con il parametro passato.
      */
     ObservableList<Paziente> getPazientiResearch(String search);
+
+
+    /**
+     * Funzione che permette di ricerca un paziente con l'id
+     * @param id_paziente da ricercare
+     * @return Il paziente se presente altrimenti null
+     */
+    Paziente getPatientById(int id_paziente);
 }

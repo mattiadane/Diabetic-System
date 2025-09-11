@@ -1,5 +1,13 @@
 package com.dashapp.diabeticsystem.controllers.paziente;
 
+import com.dashapp.diabeticsystem.DAO.implementations.AssunzioneFarmacoDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.InsulinaDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.TerapiaDaoImpl;
+import com.dashapp.diabeticsystem.DAO.interfcaes.AssunzioneFarmacoDao;
+import com.dashapp.diabeticsystem.DAO.interfcaes.InsulinaDao;
+import com.dashapp.diabeticsystem.DAO.interfcaes.PazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfcaes.TerapiaDao;
 import com.dashapp.diabeticsystem.controllers.SettingsController;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
@@ -12,16 +20,22 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class DashboardPazienteController   {
+
+    private final InsulinaDao insulinaDao = new InsulinaDaoImpl();
+    private final TerapiaDao terapiaDao = new TerapiaDaoImpl();
+    private final AssunzioneFarmacoDao assunzioneFarmacoDao = new AssunzioneFarmacoDaoImpl();
+    private final PazienteDao pazienteDao = new PazienteDaoImpl();
+    private final Paziente paziente = pazienteDao.getPatientById(Session.getCurrentUser().getId_paziente()) ;
+
+
 
     @FXML private Label benvenuto;
     @FXML private ListView<Terapia> listaTerapie;
     @FXML private LineChart<String, Number> chart;
 
-    private final Paziente paziente = new Paziente();
 
 
 
@@ -33,7 +47,7 @@ public class DashboardPazienteController   {
         createTerapieList();
         initChart();
         Platform.runLater(() -> {
-            if (paziente.numberDailyTakingMedicine(LocalDate.now()) == 0) {
+            if (assunzioneFarmacoDao.totalDailyDosageTakingDrug(paziente,null, LocalDateTime.now()) == 0) {
                 Utility.createAlert(Alert.AlertType.WARNING, "Ricordati di assumere i farmaci, oggi non hai ancora assunto nessun farmaco");
             }
         });
@@ -44,7 +58,8 @@ public class DashboardPazienteController   {
      * Funzione che permette di popolare la lista delle terapie associate al paziente.
      */
     private void createTerapieList() {
-        listaTerapie.setItems(paziente.getAllTerapie());
+
+        listaTerapie.setItems(terapiaDao.getAllTherapyByPatient(paziente));
 
         listaTerapie.setCellFactory(lv -> new ListCell<>() {
             @Override
@@ -66,7 +81,7 @@ public class DashboardPazienteController   {
 
         series.setName("Insulina");
 
-        ObservableList<Insulina> data = paziente.getInsulina(10,0);
+        ObservableList<Insulina> data = insulinaDao.getInsulina(paziente,10,0) ;
         for(Insulina reg : data){
             String day = reg.getOrario().toLocalDate().toString() + " " + reg.getOrario().toLocalTime().toString();
             int value = reg.getLivello_insulina();

@@ -92,4 +92,21 @@ public class PazienteDaoImpl implements PazienteDao {
                 },search + "%");
         return pazientiResearch;
     }
+
+    @Override
+    public Paziente getPatientById(int id_paziente) {
+        AtomicReference<Paziente> paziente = new AtomicReference<>();
+        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso,id_diabetologo,id_informazione_paziente FROM paziente WHERE id_paziente = ?",
+                rs -> {
+                    if (rs.next()){
+                        Diabetologo d = diabetologoDao.getDiabetologistById(rs.getInt("id_diabetologo"));
+                        InformazioniPaziente info = informazionePazienteDao.getInformationById(rs.getInt("id_informazione_paziente"));
+                        paziente.set(new Paziente(rs.getInt("id_paziente"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("codice_fiscale"), rs.getDate("data_nascita").toLocalDate(), rs.getString("sesso"),d,info));
+
+                    }
+                    return null;
+                } ,id_paziente);
+
+        return paziente.get();
+    }
 }

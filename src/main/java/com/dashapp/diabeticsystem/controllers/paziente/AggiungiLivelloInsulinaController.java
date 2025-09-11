@@ -1,8 +1,13 @@
 package com.dashapp.diabeticsystem.controllers.paziente;
 
+import com.dashapp.diabeticsystem.DAO.implementations.InsulinaDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
+import com.dashapp.diabeticsystem.DAO.interfcaes.InsulinaDao;
+import com.dashapp.diabeticsystem.DAO.interfcaes.PazienteDao;
 import com.dashapp.diabeticsystem.enums.PERIODO;
 import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.models.Session;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,16 +18,18 @@ import java.time.LocalTime;
 
 public class AggiungiLivelloInsulinaController {
 
+    private final InsulinaDao insulinaDao = new InsulinaDaoImpl();
+    private final PazienteDao pazienteDao =  new PazienteDaoImpl();
+    private final Paziente paziente = pazienteDao.getPatientById(Session.getCurrentUser().getId_paziente());
+
     @FXML BorderPane borderpane;
     @FXML private ComboBox<PERIODO> comboBoxMomento;
     @FXML private TextField textLivello;
     @FXML private TextField timeText;
-    private Paziente paziente;
 
 
 
     public void initialize(){
-        this.paziente = new Paziente();
         comboBoxMomento.getItems().setAll(PERIODO.values());
     }
 
@@ -30,7 +37,7 @@ public class AggiungiLivelloInsulinaController {
      * Funzione che permette di controllare l'evento di aggiunta del livello di insulina.
      */
     public void handleAggiungiLivello(){
-        if(paziente.countInsulinaGiornaliero() > 5){
+        if(insulinaDao.countDailyInsulinaByPatient(paziente) > 5){
             Utility.createAlert(Alert.AlertType.ERROR, "Hai già inserito tutte le misurazioni giornaliere");
             Utility.resetField(borderpane);
             return;
@@ -45,7 +52,9 @@ public class AggiungiLivelloInsulinaController {
         }
 
         LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(),LocalTime.parse(timeText.getText()));
-        boolean success = paziente.aggiungiLivelloInsulina(new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime));
+        boolean success = insulinaDao.insertInsulina(
+                new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime,paziente)
+        );
 
         if(!success){
             Utility.createAlert(Alert.AlertType.ERROR, "Errore nell'inserimento dell'indice glicemico");

@@ -1,9 +1,10 @@
 package com.dashapp.diabeticsystem.controllers.diabetologo;
 
-import com.dashapp.diabeticsystem.models.Chat;
-import com.dashapp.diabeticsystem.models.Login;
-import com.dashapp.diabeticsystem.models.Paziente;
-import com.dashapp.diabeticsystem.models.Session;
+import com.dashapp.diabeticsystem.DAO.implementations.ChatDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.DiabetologoDaoImpl;
+import com.dashapp.diabeticsystem.DAO.interfcaes.ChatDao;
+import com.dashapp.diabeticsystem.DAO.interfcaes.DiabetologoDao;
+import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,8 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,7 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ChatDiabetologoController {
-
+    /*
+    private final ChatDao chatDao = new ChatDaoImpl();
+    private final DiabetologoDao diabetologoDao = new DiabetologoDaoImpl();
+    private final Diabetologo mittente = diabetologoDao.getDiabetologistById(Session.getCurrentUser().getId_diabetologo());
     @FXML
     private ListView<Paziente> chatListView;
     @FXML
@@ -36,7 +38,6 @@ public class ChatDiabetologoController {
     private TextField messageInput;
 
 
-    private final Login mittente = Session.getCurrentUser();
     private int id_destinatario  ;
     private Map<Paziente, Chat> pazienteChatMap;
 
@@ -171,5 +172,5 @@ public class ChatDiabetologoController {
         addMessage(c);
         messageInput.clear();
 
-    }
+    }*/
 }
