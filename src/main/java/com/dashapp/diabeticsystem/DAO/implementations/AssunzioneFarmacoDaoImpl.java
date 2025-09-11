@@ -1,14 +1,21 @@
 package com.dashapp.diabeticsystem.DAO.implementations;
 
 import com.dashapp.diabeticsystem.DAO.interfaces.AssunzioneFarmacoDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.PazienteDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.AssunzioneFarmaco;
+import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Farmaco;
 import com.dashapp.diabeticsystem.models.Paziente;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class AssunzioneFarmacoDaoImpl implements AssunzioneFarmacoDao {
+    PazienteDao pazienteDao = new PazienteDaoImpl();
 
     @Override
     public boolean insertTakingDrug(AssunzioneFarmaco assunzioneFarmaco) {
@@ -39,5 +46,30 @@ public class AssunzioneFarmacoDaoImpl implements AssunzioneFarmacoDao {
                     }
                     return null;
                 },paziente.getId_paziente(),inizio,fine);
+    }
+
+    public ObservableList<Paziente> listPatientNoTakingDrugForThreeDaysConsecutiv(Diabetologo diabetologo){
+        LocalDateTime startDate = LocalDate.now().minusDays(2).atStartOfDay();
+        LocalDateTime endDate = LocalDate.now().atTime(23, 59, 59);
+
+
+        ObservableList<Paziente> list = FXCollections.observableArrayList();
+        Main.getDbManager().selectQuery(
+            "SELECT COUNT(af.id_assunzione) AS count,p.id_paziente FROM paziente p\n" +
+                    "LEFT JOIN assunzione_farmaco af ON p.id_paziente = af.id_paziente AND af.data_assunzione BETWEEN ? AND ?\n" +
+                    "WHERE p.id_diabetologo = ? \n" +
+                    "GROUP BY p.id_paziente",
+                rs -> {
+                    while(rs.next()){
+
+                        if(rs.getInt("count") == 0){
+                            list.add( pazienteDao.getPatientById(rs.getInt("p.id_paziente")));
+                        }
+                    }
+                    return null;
+                }
+                ,startDate,endDate,diabetologo.getId_diabetologo()
+        );
+        return list;
     }
 }

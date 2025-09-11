@@ -2,8 +2,11 @@ package com.dashapp.diabeticsystem.controllers.paziente;
 
 import com.dashapp.diabeticsystem.DAO.implementations.ChatDaoImpl;
 import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.TerapiaDaoImpl;
 import com.dashapp.diabeticsystem.DAO.interfaces.ChatDao;
 import com.dashapp.diabeticsystem.DAO.interfaces.PazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.TerapiaDao;
+import com.dashapp.diabeticsystem.enums.ROLE;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
@@ -24,6 +27,7 @@ public class ChatPazienteController {
 
     private final ChatDao chatDao = new ChatDaoImpl();
     private final PazienteDao pazienteDao = new PazienteDaoImpl();
+    private final TerapiaDao terapiaDao = new TerapiaDaoImpl();
     private final Paziente mittente = pazienteDao.getPatientById(Session.getCurrentUser().getId_paziente());
     private final Diabetologo destinatario = mittente.getDiabetologo();
 
@@ -67,7 +71,7 @@ public class ChatPazienteController {
         messageLabel.setWrapText(true);
         messageLabel.setMaxWidth(250);
 
-        String sender = msg.getRuolo().equals("paziente") ? "Mittente" : "Destinatario";
+        String sender = msg.getRuolo().toString().equals("paziente") ? "Mittente" : "Destinatario";
 
         // Stile del messaggio in base al mittente
         if (sender.equals("Mittente")) {
@@ -98,7 +102,7 @@ public class ChatPazienteController {
         if(!Utility.checkObj(messageInput.getText())){
             return;
         }
-        Chat chat = new Chat(mittente, destinatario, messageInput.getText(), LocalDateTime.now(),"paziente");
+        Chat chat = new Chat(mittente, destinatario, messageInput.getText(), LocalDateTime.now(), ROLE.PAZIENTE);
         if(!chatDao.sendMessage(chat))
             return;
         addMessage(chat);

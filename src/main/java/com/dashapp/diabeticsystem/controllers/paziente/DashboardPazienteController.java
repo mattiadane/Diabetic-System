@@ -47,9 +47,12 @@ public class DashboardPazienteController   {
         createTerapieList();
         initChart();
         Platform.runLater(() -> {
-            if (assunzioneFarmacoDao.totalDailyDosageTakingDrug(paziente,null, LocalDateTime.now()) == 0) {
-                Utility.createAlert(Alert.AlertType.WARNING, "Ricordati di assumere i farmaci, oggi non hai ancora assunto nessun farmaco");
+            if(!terapiaDao.getAllTherapyByPatient(paziente).isEmpty()){
+                if (assunzioneFarmacoDao.totalDailyDosageTakingDrug(paziente,null, LocalDateTime.now()) == 0) {
+                    Utility.createAlert(Alert.AlertType.WARNING, "Ricordati di assumere i farmaci, oggi non hai ancora assunto nessun farmaco");
+                }
             }
+
         });
 
     }

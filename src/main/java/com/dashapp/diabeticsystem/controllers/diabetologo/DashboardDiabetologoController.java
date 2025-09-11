@@ -1,28 +1,31 @@
 package com.dashapp.diabeticsystem.controllers.diabetologo;
 
-import com.dashapp.diabeticsystem.DAO.implementations.DiabetologoDaoImpl;
-import com.dashapp.diabeticsystem.DAO.implementations.InformazionPazienteDaoImpl;
-import com.dashapp.diabeticsystem.DAO.implementations.LoginDaoImpl;
-import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.*;
+import com.dashapp.diabeticsystem.DAO.interfaces.AssunzioneFarmacoDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.InsulinaDao;
 import com.dashapp.diabeticsystem.controllers.SettingsController;
 import com.dashapp.diabeticsystem.enums.GRAVITA;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
-import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class DashboardDiabetologoController {
 
 
     private final DiabetologoDaoImpl  diabetologoDao = new DiabetologoDaoImpl();
+    private final AssunzioneFarmacoDao assunzioneFarmacoDao = new AssunzioneFarmacoDaoImpl();
     private final Diabetologo diabetologo = diabetologoDao.getDiabetologistById(Session.getCurrentUser().getId_diabetologo()) ;
     private final PazienteDaoImpl pazienteDao = new PazienteDaoImpl();
+    private final InsulinaDao insulinaDao = new InsulinaDaoImpl();
     private final LoginDaoImpl loginDao = new LoginDaoImpl();
     private final InformazionPazienteDaoImpl informazionPazienteDao = new InformazionPazienteDaoImpl();
 
@@ -48,55 +51,45 @@ public class DashboardDiabetologoController {
 
         SettingsController.setLogin(Session.getCurrentUser());
         benvenuto.setText("Bentornat" + (diabetologo.getSesso().equals("M") ? "o" : "a") + " " + diabetologo);
-        /*
+
+        Set<Paziente> pazientiCritici = new HashSet<>();
+        Set<Paziente> pazientiLievi = new HashSet<>();
         Platform.runLater(() -> {
-            Map<Paziente, List<Insulina>> mappa = diabetologo.notifyBloodSugar();
+            for(Paziente paziente :  pazienteDao.getAllPatientsByDiabetologist(diabetologo.getId_diabetologo())) {
 
-            if (!mappa.isEmpty()) {
-
-                // Usa dei Set per memorizzare i pazienti unici per ogni livello di gravità
-                Set<Paziente> pazientiCritici = new HashSet<>();
-                Set<Paziente> pazientiLievi = new HashSet<>();
-
-                for (Map.Entry<Paziente, List<Insulina>> entry : mappa.entrySet()) {
-                    Paziente paziente = entry.getKey();
-                    List<Insulina> glicemieErrate = entry.getValue();
-
-                    for (Insulina insulina : glicemieErrate) {
-                        if (insulina.getGravita() == GRAVITA.CRITICA) {
-                            pazientiCritici.add(paziente);
-                        } else {
-                            pazientiLievi.add(paziente);
-                        }
+                for (Insulina insulina : insulinaDao.getInsulinaByDateAndByPatients(LocalDate.now().atStartOfDay(), LocalDate.now().atTime(23, 59, 59), paziente)) {
+                    if (insulina.getGravita() == GRAVITA.CRITICA) {
+                        pazientiCritici.add(paziente);
+                    } else if (insulina.getGravita() == GRAVITA.LIEVE) {
+                        pazientiLievi.add(paziente);
                     }
-                }
-
-                // Costruisci i messaggi finali solo se i Set non sono vuoti
-                if (!pazientiCritici.isEmpty()) {
-                    StringBuilder message1 = new StringBuilder("Pazienti con glicemie critiche: \n");
-                    for (Paziente p : pazientiCritici) {
-                        message1.append(p).append("\n");
-                    }
-                    Utility.createAlert(Alert.AlertType.ERROR, "" + message1);
-                }
-
-                if (!pazientiLievi.isEmpty()) {
-                    StringBuilder message2 = new StringBuilder("Pazienti con glicemie lievemente fuori norma: \n");
-                    for (Paziente p : pazientiLievi) {
-                        message2.append(p).append("\n");
-                    }
-                    Utility.createAlert(Alert.AlertType.WARNING, "" + message2);
                 }
             }
 
 
+            // Costruisci i messaggi finali solo se i Set non sono vuoti
+            if (!pazientiCritici.isEmpty()) {
+                StringBuilder message1 = new StringBuilder("Pazienti con glicemie critiche: \n");
+                for (Paziente p : pazientiCritici) {
+                    message1.append(p).append("\n");
+                }
+                Utility.createAlert(Alert.AlertType.ERROR, "" + message1);
+            }
 
-            List<Paziente> pazientiSbadati = diabetologo.notifyPatient();
+            if (!pazientiLievi.isEmpty()) {
+                StringBuilder message2 = new StringBuilder("Pazienti con glicemie lievemente fuori norma: \n");
+                for (Paziente p : pazientiLievi) {
+                    message2.append(p).append("\n");
+                }
+                Utility.createAlert(Alert.AlertType.WARNING, "" + message2);
+            }
+
+        ObservableList<Paziente> pazientiSbadati = assunzioneFarmacoDao.listPatientNoTakingDrugForThreeDaysConsecutiv(diabetologo);
             if(!pazientiSbadati.isEmpty())
                 Utility.createAlert(Alert.AlertType.WARNING,pazientiSbadati + " è 3 giorni che non " + (pazientiSbadati.size() > 1 ? "assumono "  : "assume " ) +  "medicine ");
 
 
-        });*/
+        });
 
     }
 

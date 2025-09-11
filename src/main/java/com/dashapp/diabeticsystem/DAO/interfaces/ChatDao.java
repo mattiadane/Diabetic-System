@@ -4,6 +4,7 @@ import com.dashapp.diabeticsystem.models.Chat;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 public interface ChatDao {
 
@@ -22,4 +23,11 @@ public interface ChatDao {
      * @return La lista di messaggi della chat se presenti altrimenti null
      */
     ObservableList<Chat> chats(Paziente paziente, Diabetologo diabetologo);
-}
+
+    /**
+     * Funzione che permette di prendere l'ultimo messagio di ogni paziente del diabetologo
+     * @param diabetologo  il diabetologo
+     * @return una mappa con chiave il paziente e set il suo ultimo messaggio
+     */
+    ObservableMap<Paziente,Chat> lastMessageEveryPatient(Diabetologo diabetologo);
+      }
