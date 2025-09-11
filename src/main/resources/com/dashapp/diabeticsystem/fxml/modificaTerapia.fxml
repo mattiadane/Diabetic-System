@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.text.Text?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dashapp.diabeticsystem.controllers.ModificaTerapiaController"
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.dashapp.diabeticsystem.controllers.diabetologo.ModificaTerapiaController"
             prefHeight="400.0" prefWidth="600.0">
-
-
     <center>
         <ScrollPane>
             <VBox spacing="10">
@@ -20,14 +15,12 @@
                     <Insets top="20" bottom="20" left="20" right="20"/>
                 </padding>
                 <Label text="Dettagli terapia" styleClass="title"/>
-
                 <TextFlow>
                     <Text text="Seleziona medicinale:" styleClass="field-label"/>
                     <Text text="*" styleClass="required"/>
                 </TextFlow>
                 <ComboBox fx:id="medicinale">
                 </ComboBox>
-
                 <TextFlow>
                     <Text text="Dosaggio quantità / unità" styleClass="field-label"/>
                     <Text text="*" styleClass="required"/>
@@ -37,7 +30,6 @@
                     <Label text="/" styleClass="field-label"/>
                     <TextField fx:id="unita"/>
                 </HBox>
-
                 <TextFlow>
                     <Text text="Assunzione:" styleClass="field-label" />
                     <Text text="*" styleClass="required" />
@@ -51,7 +43,6 @@
                     <ComboBox fx:id="periodicita">
                     </ComboBox>
                 </HBox>
-
                 <HBox spacing="10">
                     <VBox>
                         <TextFlow>
@@ -68,12 +59,9 @@
                         <DatePicker fx:id="data_fine"/>
                     </VBox>
                 </HBox>
-
                 <Label text="Descrizione aggiuntive " styleClass="field-label"/>
                 <TextArea fx:id="descrizione"/>
-
                 <Button onAction="#modificaTerapia" text="Modifica terapia" styleClass="primary-button"/>
-
                 <TextFlow>
                     <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey" />
                     <Text text="*" styleClass="required" />

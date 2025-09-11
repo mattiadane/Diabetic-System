@@ -9,14 +9,16 @@ public class AssunzioneFarmaco {
     private final double dosaggio_quantita;
     private final String sintomi;
     private final LocalDateTime data_assunzione;
+    private final Paziente paziente;
 
 
-    public AssunzioneFarmaco(Farmaco farmaco, String dosaggio_unita, double dosaggio_quantita, String sintomi, LocalDateTime data_assunzione) {
+    public AssunzioneFarmaco(Farmaco farmaco, String dosaggio_unita, double dosaggio_quantita, String sintomi, LocalDateTime data_assunzione, Paziente paziente) {
         this.farmaco = farmaco;
         this.dosaggio_unita = dosaggio_unita;
         this.dosaggio_quantita = dosaggio_quantita;
         this.sintomi = sintomi;
         this.data_assunzione = data_assunzione;
+        this.paziente = paziente;
     }
 
 
@@ -38,6 +40,10 @@ public class AssunzioneFarmaco {
 
     public String getDosaggio_unita() {
         return dosaggio_unita;
+    }
+
+    public Paziente getPaziente() {
+        return paziente;
     }
 
     @Override

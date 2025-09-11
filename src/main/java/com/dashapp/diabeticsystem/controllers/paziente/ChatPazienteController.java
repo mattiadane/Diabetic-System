@@ -1,11 +1,14 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.paziente;
 
-import com.dashapp.diabeticsystem.models.Chat;
-import com.dashapp.diabeticsystem.models.Login;
-import com.dashapp.diabeticsystem.models.Paziente;
-import com.dashapp.diabeticsystem.models.Session;
+import com.dashapp.diabeticsystem.DAO.implementations.ChatDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.TerapiaDaoImpl;
+import com.dashapp.diabeticsystem.DAO.interfaces.ChatDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.PazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.TerapiaDao;
+import com.dashapp.diabeticsystem.enums.ROLE;
+import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,13 +17,22 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ChatPazienteController {
+
+
+    private final ChatDao chatDao = new ChatDaoImpl();
+    private final PazienteDao pazienteDao = new PazienteDaoImpl();
+    private final TerapiaDao terapiaDao = new TerapiaDaoImpl();
+    private final Paziente mittente = pazienteDao.getPatientById(Session.getCurrentUser().getId_paziente());
+    private final Diabetologo destinatario = mittente.getDiabetologo();
+
+
+
     @FXML
     private Label contatto;
     @FXML
@@ -30,12 +42,10 @@ public class ChatPazienteController {
     @FXML
     private ScrollPane messageScrollPane;
 
-    Paziente p = new Paziente();
-    private final Login mittente = Session.getCurrentUser();
-    private final int id_destinatario = mittente.getid_loginDibaetologo(p.getMyDiabetologo());
+
 
     public void initialize(){
-        contatto.setText(p.getMyDiabetologo().toString());
+        contatto.setText(destinatario.toString());
 
         loadMessagesFromDatabase();
 
@@ -46,10 +56,9 @@ public class ChatPazienteController {
 
 
     private void loadMessagesFromDatabase() {
-        messageContainer.getChildren().clear(); // Questa è la riga che dovrebbe pulire
+        messageContainer.getChildren().clear();
 
-        ObservableList<Chat> messages = mittente.chatDiabetologoPaziente(id_destinatario, mittente.getId_login());
-        for (Chat msg : messages) {
+        for (Chat msg : chatDao.chats(mittente,destinatario)) {
             addMessage(msg);
         }
     }
@@ -59,24 +68,24 @@ public class ChatPazienteController {
         messageBox.setPadding(new Insets(5, 10, 5, 10));
 
         Label messageLabel = new Label(msg.getMessaggio());
-        messageLabel.setWrapText(true); // Permette al testo di andare a capo
-        messageLabel.setMaxWidth(250); // Limita la larghezza della bolla del messaggio
+        messageLabel.setWrapText(true);
+        messageLabel.setMaxWidth(250);
 
-        String sender = msg.getId_mittente() == mittente.getId_login() ? "Mittente" : "Destinatario";
+        String sender = msg.getRuolo().toString().equals("paziente") ? "Mittente" : "Destinatario";
 
         // Stile del messaggio in base al mittente
         if (sender.equals("Mittente")) {
-            messageBox.setAlignment(Pos.CENTER_RIGHT); // Allinea a destra per i messaggi inviati
+            messageBox.setAlignment(Pos.CENTER_RIGHT);
             messageLabel.setStyle("-fx-background-color: #DCF8C6; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 8;");
         } else {
-            messageBox.setAlignment(Pos.CENTER_LEFT); // Allinea a sinistra per i messaggi ricevuti
+            messageBox.setAlignment(Pos.CENTER_LEFT);
             messageLabel.setStyle("-fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 8; -fx-border-color: #ddd; -fx-border-width: 1;");
         }
         messageLabel.setFont(Font.font("Arial", 14));
 
-        // Data e ora del messaggio
+
         LocalDateTime now = msg.getData_invio();
-        // Formato italiano per data e ora
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm - dd/MM/yyyy");
         Label timeLabel = new Label(now.format(formatter));
         timeLabel.setFont(Font.font("Arial", 10));
@@ -93,9 +102,10 @@ public class ChatPazienteController {
         if(!Utility.checkObj(messageInput.getText())){
             return;
         }
-        Chat c = new Chat(mittente.getId_login(), id_destinatario, messageInput.getText(), LocalDateTime.now());
-        mittente.inviaMessaggio(c);
-        addMessage(c);
+        Chat chat = new Chat(mittente, destinatario, messageInput.getText(), LocalDateTime.now(), ROLE.PAZIENTE);
+        if(!chatDao.sendMessage(chat))
+            return;
+        addMessage(chat);
         messageInput.clear();
     }
 }

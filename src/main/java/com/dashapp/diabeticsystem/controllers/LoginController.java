@@ -1,5 +1,6 @@
 package com.dashapp.diabeticsystem.controllers;
 
+import com.dashapp.diabeticsystem.DAO.implementations.LoginDaoImpl;
 import com.dashapp.diabeticsystem.utility.Utility;
 import com.dashapp.diabeticsystem.view.Router;
 import com.dashapp.diabeticsystem.models.Login;
@@ -24,20 +25,18 @@ public class LoginController {
     @FXML
     protected void onClickLogin()  {
 
-        Login user = Login.autenticate(usernameField.getText(), passwordField.getText());
-        Session.setCurrentUser(user);
+        LoginDaoImpl  loginDao = new LoginDaoImpl();
+
+        Login user = loginDao.autenticate(usernameField.getText(), passwordField.getText());
 
         if(user == null){
             Utility.createAlert(Alert.AlertType.ERROR, "Username o password errati.");
             return;
         }
 
-
+        Session.setCurrentUser(user);
         Router.setAuthenticatedUser(user);
-
-
         Router.changeScene("mainView.fxml");
-
         Router.navigatetoDashboard();
 
     }

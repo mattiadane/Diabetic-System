@@ -16,7 +16,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="400.0" prefWidth="600.0"
-            fx:controller="com.dashapp.diabeticsystem.controllers.DettagliPazienteController">
+            fx:controller="com.dashapp.diabeticsystem.controllers.diabetologo.DettagliPazienteController">
 
     <center>
         <!-- ScrollPane che avvolge l'intero contenuto -->

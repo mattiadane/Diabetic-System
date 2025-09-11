@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dashapp.diabeticsystem.controllers.dashboards.DashboardDiabetologoController"
+            fx:controller="com.dashapp.diabeticsystem.controllers.diabetologo.DashboardDiabetologoController"
             prefHeight="700.0" prefWidth="1000.0" fx:id="borderPane">
 
     <center>

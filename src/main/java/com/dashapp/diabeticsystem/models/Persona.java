@@ -76,9 +76,6 @@ public abstract class Persona  {
         this.cognome = Utility.convertName(cognome);
     }
 
-    public void setEmail(String email) {
-        this.email = email.toLowerCase().trim();
-    }
 
     public String getSesso() {
         return sesso;

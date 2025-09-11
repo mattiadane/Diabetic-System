@@ -29,17 +29,17 @@ public enum PERIODO {
      */
     public static PERIODO fromDescrizione(String text) {
         if (text == null) {
-            // Puoi scegliere di restituire null, un valore di default, o lanciare un'eccezione
+
             throw new IllegalArgumentException("La descrizione del PERIODO non può essere null.");
         }
-        // Itera su tutte le costanti dell'enum
+
         for (PERIODO periodo : PERIODO.values()) {
-            // Confronta la descrizione dell'enum (ignorando maiuscole/minuscole e spazi)
+
             if (periodo.descrizione.equalsIgnoreCase(text.trim())) {
-                return periodo; // Trovata una corrispondenza, restituisci la costante
+                return periodo;
             }
         }
-        // Se non viene trovata alcuna corrispondenza, lancia un'eccezione
+
         throw new IllegalArgumentException("Nessun PERIODO trovato per la descrizione: '" + text + "'");
     }
 }

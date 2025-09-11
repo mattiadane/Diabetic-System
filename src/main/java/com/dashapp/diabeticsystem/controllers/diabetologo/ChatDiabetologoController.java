@@ -1,10 +1,16 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.diabetologo;
 
+import com.dashapp.diabeticsystem.DAO.implementations.ChatDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.DiabetologoDaoImpl;
+import com.dashapp.diabeticsystem.DAO.interfaces.ChatDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.DiabetologoDao;
+import com.dashapp.diabeticsystem.enums.ROLE;
 import com.dashapp.diabeticsystem.models.Chat;
-import com.dashapp.diabeticsystem.models.Login;
+import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Session;
 import com.dashapp.diabeticsystem.utility.Utility;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -14,7 +20,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,6 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ChatDiabetologoController {
+
+    private final ChatDao chatDao = new ChatDaoImpl();
+    private final DiabetologoDao diabetologoDao = new DiabetologoDaoImpl();
+    private final Diabetologo mittente = diabetologoDao.getDiabetologistById(Session.getCurrentUser().getId_diabetologo());
+    private  Paziente destinatario;
+    private Map<Paziente, Chat> pazienteChatMap;
 
     @FXML
     private ListView<Paziente> chatListView;
@@ -35,27 +46,9 @@ public class ChatDiabetologoController {
     private TextField messageInput;
 
 
-    private final Login mittente = Session.getCurrentUser();
-    private int id_destinatario  ;
-    private Map<Paziente, Chat> pazienteChatMap;
 
     public void initialize() {
-        pazienteChatMap = mittente.pazienteEUltimoMessaggioDellaChat();
-
-        List<Paziente> p = new ArrayList<>(pazienteChatMap.keySet().stream().toList());
-
-        p.sort((p1, p2) -> {
-            Chat c1 = pazienteChatMap.get(p1);
-            Chat c2 = pazienteChatMap.get(p2);
-
-            LocalDateTime data1 = (c1 != null) ? c1.getData_invio() : LocalDateTime.MIN;
-            LocalDateTime data2 = (c2 != null) ? c2.getData_invio() : LocalDateTime.MIN;
-
-
-            return data2.compareTo(data1);
-        });
-        chatListView.setItems(FXCollections.observableArrayList(p));
-
+       updateList();
 
         chatListView.setCellFactory(lv -> new ListCell<>() {
 
@@ -105,11 +98,12 @@ public class ChatDiabetologoController {
 
                 messageContainer.getChildren().clear();
 
-                id_destinatario = mittente.getid_loginPaziente(newVal);
+
+                destinatario = newVal;
 
 
 
-                for(Chat c : mittente.chatDiabetologoPaziente(mittente.getId_login(), id_destinatario)){
+                for(Chat c : chatDao.chats(destinatario,mittente)) {
                     addMessage(c);
                 }
 
@@ -132,7 +126,7 @@ public class ChatDiabetologoController {
         messageLabel.setWrapText(true); // Permette al testo di andare a capo
         messageLabel.setMaxWidth(250); // Limita la larghezza della bolla del messaggio
 
-        String sender = msg.getId_mittente() == mittente.getId_login() ? "Mittente" : "Destinatario";
+        String sender = msg.getRuolo().toString().equals("diabetologo") ? "Mittente" : "Destinatario";
 
         // Stile del messaggio in base al mittente
         if (sender.equals("Mittente")) {
@@ -157,6 +151,8 @@ public class ChatDiabetologoController {
 
         messageBox.getChildren().add(messageContent);
         messageContainer.getChildren().add(messageBox);
+
+
     }
 
     public void handleInvio() {
@@ -164,10 +160,31 @@ public class ChatDiabetologoController {
         if (!Utility.checkObj(messageInput.getText())) {
             return;
         }
-        Chat c = new Chat(mittente.getId_login(), id_destinatario, messageInput.getText(), LocalDateTime.now());
-        mittente.inviaMessaggio(c);
+        Chat c = new Chat(destinatario, mittente, messageInput.getText(), LocalDateTime.now(), ROLE.DIABETOLOGO);
+        if(!chatDao.sendMessage(c)) return ;
         addMessage(c);
         messageInput.clear();
+
+        Platform.runLater(this::updateList);
+
+    }
+
+    private void updateList(){
+        pazienteChatMap = chatDao.lastMessageEveryPatient(mittente);
+
+        List<Paziente> p = new ArrayList<>(pazienteChatMap.keySet().stream().toList());
+
+        p.sort((p1, p2) -> {
+            Chat c1 = pazienteChatMap.get(p1);
+            Chat c2 = pazienteChatMap.get(p2);
+
+            LocalDateTime data1 = (c1 != null) ? c1.getData_invio() : LocalDateTime.MIN;
+            LocalDateTime data2 = (c2 != null) ? c2.getData_invio() : LocalDateTime.MIN;
+
+
+            return data2.compareTo(data1);
+        });
+        chatListView.setItems(FXCollections.observableArrayList(p));
 
     }
 }

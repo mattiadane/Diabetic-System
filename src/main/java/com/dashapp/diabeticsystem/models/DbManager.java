@@ -5,6 +5,7 @@ import java.sql.*;
 
 public class DbManager {
 
+
     private static DbManager dbManager;
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/progetto_ing?useSSL=false";
     private static final String DATABASE_USERNAME = "admin";
@@ -12,8 +13,8 @@ public class DbManager {
 
 
     private DbManager()  {
-        try(Connection ignored = getConnection()){
-
+        try{
+            getConnection();
             System.out.println("Connessione avvenuta con successo");
 
 
@@ -28,6 +29,10 @@ public class DbManager {
         }
         return dbManager;
     }
+
+
+
+
 
 
     /*
@@ -53,6 +58,7 @@ public class DbManager {
             }
         } catch (SQLException e) {
             System.err.println("Error executing query" + e.getMessage());
+
 
 
         }
@@ -93,6 +99,7 @@ public class DbManager {
             try (ResultSet rs = ps.executeQuery()) {
                 return processor.process(rs);
             }
+
         } catch (SQLException e) {
             System.err.println("Error executing query" + e.getMessage());
             return null ;

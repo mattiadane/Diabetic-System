@@ -15,7 +15,7 @@
 <?import javafx.scene.control.ListView?>
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.dashapp.diabeticsystem.controllers.ChatDiabetologoController"
+            fx:controller="com.dashapp.diabeticsystem.controllers.diabetologo.ChatDiabetologoController"
             prefHeight="400.0" prefWidth="600.0">
 
 

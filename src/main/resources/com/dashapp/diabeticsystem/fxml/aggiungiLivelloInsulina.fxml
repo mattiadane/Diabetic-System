@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dashapp.diabeticsystem.controllers.AggiungiLivelloInsulinaController"
+            fx:controller="com.dashapp.diabeticsystem.controllers.paziente.AggiungiLivelloInsulinaController"
             prefHeight="400.0" prefWidth="600.0"
             fx:id="borderpane"
 >

@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dashapp.diabeticsystem.controllers.ListaPazientiController"
+            fx:controller="com.dashapp.diabeticsystem.controllers.diabetologo.ListaPazientiController"
             prefHeight="400.0" prefWidth="600.0">
 
     <padding>

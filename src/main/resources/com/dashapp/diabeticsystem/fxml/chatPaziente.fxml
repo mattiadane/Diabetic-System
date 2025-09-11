@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="600.0" prefWidth="400.0"  xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.diabeticsystem.controllers.ChatPazienteController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.diabeticsystem.controllers.paziente.ChatPazienteController">
      <top>
          <HBox alignment="CENTER_LEFT"
                style="-fx-background-color: #e0e0e0; -fx-border-color: #cccccc; -fx-border-width: 0 0 1 0;"

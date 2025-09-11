@@ -1,10 +1,14 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.paziente;
 
-import com.dashapp.diabeticsystem.enums.PERIODICITA;
-import com.dashapp.diabeticsystem.models.AssunzioneFarmaco;
-import com.dashapp.diabeticsystem.models.Farmaco;
-import com.dashapp.diabeticsystem.models.Paziente;
-import com.dashapp.diabeticsystem.models.Terapia;
+import com.dashapp.diabeticsystem.DAO.implementations.AssunzioneFarmacoDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.FarmacoDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
+import com.dashapp.diabeticsystem.DAO.implementations.TerapiaDaoImpl;
+import com.dashapp.diabeticsystem.DAO.interfaces.AssunzioneFarmacoDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.FarmacoDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.PazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.TerapiaDao;
+import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,6 +20,12 @@ import java.time.LocalTime;
 
 public class AssunzioneFarmacoController {
 
+    private final AssunzioneFarmacoDao assunzioneFarmacoDao = new AssunzioneFarmacoDaoImpl();
+    private final FarmacoDao farmacoDao = new FarmacoDaoImpl();
+    private final TerapiaDao terapiaDao = new TerapiaDaoImpl();
+    private final PazienteDao pazienteDao = new PazienteDaoImpl();
+    private final Paziente paziente = pazienteDao.getPatientById(Session.getCurrentUser().getId_paziente());
+
 
     @FXML private BorderPane pane;
     @FXML private DatePicker datePicker;
@@ -24,13 +34,12 @@ public class AssunzioneFarmacoController {
     @FXML private TextField unitaText;
     @FXML private TextArea sintomiArea;
     @FXML private TextField oraText;
-    private Paziente paziente;
+
 
 
 
     public void initialize(){
-        this.paziente = new Paziente();
-        medicinali.getItems().addAll(paziente.loadFarmaciByPaziente());
+        medicinali.getItems().addAll(farmacoDao.getAllDrugsByPaziente(paziente));
     }
 
 
@@ -49,16 +58,16 @@ public class AssunzioneFarmacoController {
 
 
         LocalDateTime date = LocalDateTime.of(datePicker.getValue(), LocalTime.parse(oraText.getText()));
+        Terapia t = terapiaDao.getTherapyByFarmacoIdAndPatient(paziente, medicinali.getValue());
 
-        Terapia t = paziente.loadTeriapiaByFarmaco(medicinali.getValue());
 
         LocalDate inizio = t.getData_inizio(),fine = t.getData_fine();
 
         if(Utility.checkDataIsCompresa(inizio,fine,datePicker.getValue()) && datePicker.getValue().isBefore(LocalDate.now().plusDays(1))) {
-            if(paziente.sommaDosaggioAssunzioneFarmaco(medicinali.getValue(),date) + Double.parseDouble(dosaggioText.getText()) <= paziente.sommaDosaggioTerapia(medicinali.getValue())) {
-                boolean success = paziente.inserisciAssunzioneFarmaco(
+            if(assunzioneFarmacoDao.totalDailyDosageTakingDrug(paziente,medicinali.getValue(),date) + Double.parseDouble(dosaggioText.getText()) <= (t.getQuanto() * t.getDosaggio_quantita())) {
+                boolean success = assunzioneFarmacoDao.insertTakingDrug(
                         new AssunzioneFarmaco(
-                                medicinali.getValue(),unitaText.getText(),Double.parseDouble(dosaggioText.getText()),sintomiArea.getText(),date
+                                medicinali.getValue(),unitaText.getText(),Double.parseDouble(dosaggioText.getText()),sintomiArea.getText(),date,paziente
                         )
                 );
 
@@ -71,7 +80,7 @@ public class AssunzioneFarmacoController {
                 Utility.createAlert(Alert.AlertType.INFORMATION, "Assunzione farmaco inserita correttamente");
 
             } else {
-                Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere un dosaggio maggiore di " + paziente.sommaDosaggioTerapia(medicinali.getValue()) + unitaText.getText()
+                Utility.createAlert(Alert.AlertType.ERROR, "Non puoi assumere un dosaggio maggiore di " + (t.getQuanto() * t.getDosaggio_quantita()) + " " + unitaText.getText()
                         + " nella terapia di " + medicinali.getValue().getNome() + " durante il " + t.getPeriodicita().toString()  );
                 return ;
             }

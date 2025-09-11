@@ -1,9 +1,6 @@
 package com.dashapp.diabeticsystem.models;
 
-import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.enums.PERIODICITA;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 
@@ -18,8 +15,8 @@ public class Terapia {
     private final String dosaggio_unita;
     private final String descrizione;
     private Farmaco farmaco;
-
-    private static ObservableList<Farmaco> farmaci = FXCollections.observableArrayList();
+    private Paziente paziente;
+    private Diabetologo diabetologo;
 
     public Terapia(int quanto,PERIODICITA periodicita,double dosaggio_quantita,String dosaggio_unita,LocalDate data_inizio,LocalDate data_fine,String descrizione) {
         this.quanto = quanto;
@@ -29,60 +26,35 @@ public class Terapia {
         this.data_inizio = data_inizio;
         this.data_fine = data_fine;
         this.descrizione = descrizione;
-        farmaci = getAllDrug();
 
     }
 
-    /**
-     * Funzione che permette, tramite chiamata a database, di prendere tutti i farmaci registrati.
-     * @return oggetto <code>ObservableList</code> di tutti i farmarci presenti nel database
-     */
-    public static ObservableList<Farmaco> getAllDrug() {
-        if(farmaci.isEmpty()){
-            Main.getDbManager().selectQuery("SELECT * FROM farmaco",
-                    rs -> {
-                        while (rs.next()) {
-                            farmaci.add(new Farmaco(rs.getInt("id_farmaco"),rs.getString("nome"),rs.getString("descrizione")));
-                        }
-                        return null;
-                    });
-        }
-        return farmaci;
+    public Terapia(int quanto,PERIODICITA periodicita,double dosaggio_quantita,String dosaggio_unita,LocalDate data_inizio,LocalDate data_fine,String descrizione,Farmaco farmaco) {
+        this(quanto,periodicita,dosaggio_quantita,dosaggio_unita,data_inizio,data_fine,descrizione);
+        this.farmaco = farmaco;
     }
 
-    /**
-     * Funzione che permette di prendere un determinato farmaco
-     * @param name nome del farmaco da cercare
-     * @return <code>null</code> se la lista dei farmaci è vuota oppure non è presente nella lista, oggetto <code>Farmaco</code> altrimenti.
-     */
-    public Farmaco getFarmacoByName(String name) {
+    public Terapia(int quanto,PERIODICITA periodicita,double dosaggio_quantita,String dosaggio_unita,LocalDate data_inizio,LocalDate data_fine,String descrizione,Farmaco farmaco,int id_terapia) {
+        this(quanto,periodicita,dosaggio_quantita,dosaggio_unita,data_inizio,data_fine,descrizione,farmaco);
+        this.id_terapia = id_terapia;
 
-        if(farmaci == null) return null;
-
-        for (Farmaco farmaco : farmaci) {
-            if(farmaco.toString().equals(name)){
-                return farmaco;
-            }
-        }
-        return null;
     }
 
 
-    /**
-     * Funzione che permette di prendere un determinato farmaco
-     * @param id id del farmaco da cercare
-     * @return <code>null</code> se la lista dei farmaci è vuota oppure non è presente nella lista, oggetto <code>Farmaco</code> altrimenti.
-     */
-    public static Farmaco getFarmacoById(int id) {
-        if(farmaci == null) return null;
-        for (Farmaco farmaco : farmaci) {
-            if(farmaco.getId_farmaco() == id){
-                return farmaco;
-            }
-        }
-        return null;
+
+
+
+    public Terapia(int quanto,PERIODICITA periodicita,double dosaggio_quantita,String dosaggio_unita,LocalDate data_inizio,LocalDate data_fine,String descrizione,Farmaco farmaco,Diabetologo diabetologo,Paziente paziente) {
+        this(quanto,periodicita,dosaggio_quantita,dosaggio_unita,data_inizio,data_fine,descrizione,farmaco);
+        this.diabetologo = diabetologo;
+        this.paziente = paziente;
+
     }
 
+
+    public Paziente getPaziente() {
+        return paziente;
+    }
 
     public Farmaco getFarmaco() {return farmaco; }
 
@@ -128,15 +100,15 @@ public class Terapia {
         return periodicita;
     }
 
-    public void setId_terapia(int id_terapia) {
-        this.id_terapia = id_terapia;
-    }
-
     public int getId_terapia() {
         return id_terapia;
     }
 
     public String toStringForList(){
         return  descrizione + " " + getDosaggio() + " " +  getAssunzioni() +  " di " + this.farmaco + getPeriodo();
+    }
+
+    public Diabetologo getDiabetologo() {
+        return diabetologo;
     }
 }

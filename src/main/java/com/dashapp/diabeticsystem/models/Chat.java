@@ -1,27 +1,35 @@
 package com.dashapp.diabeticsystem.models;
 
+import com.dashapp.diabeticsystem.enums.ROLE;
+
 import java.time.LocalDateTime;
 
 public class Chat  {
 
-    private final int id_mittente;
-    private final int id_destinatario;
+    private final Paziente paziente;
+    private final Diabetologo diabetologo;
     private final String messaggio;
     private final LocalDateTime data_invio;
+    private final ROLE ruolo;
 
-    public Chat(int id_mittente, int id_destinatario, String messaggio, LocalDateTime data_invio) {
-        this.id_mittente = id_mittente;
-        this.id_destinatario = id_destinatario;
+    public Chat(Paziente paziente, Diabetologo diabetologo, String messaggio, LocalDateTime data_invio,ROLE ruolo) {
+        if(!ruolo.toString().equals("paziente") && !ruolo.toString().equals("diabetologo")){
+            throw new IllegalArgumentException();
+        }
+        this.paziente = paziente;
+        this.diabetologo = diabetologo;
         this.messaggio = messaggio;
         this.data_invio = data_invio;
+        this.ruolo = ruolo;
+
     }
 
-    public int getId_mittente() {
-        return id_mittente;
+    public Paziente getPaziente() {
+        return paziente;
     }
 
-    public int getId_destinatario() {
-        return id_destinatario;
+    public Diabetologo getDiabetologo() {
+        return diabetologo;
     }
 
     public String getMessaggio() {
@@ -32,5 +40,7 @@ public class Chat  {
         return data_invio;
     }
 
-
+    public ROLE getRuolo() {
+        return ruolo;
+    }
 }

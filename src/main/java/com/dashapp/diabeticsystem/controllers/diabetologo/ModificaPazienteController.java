@@ -1,6 +1,6 @@
-package com.dashapp.diabeticsystem.controllers;
+package com.dashapp.diabeticsystem.controllers.diabetologo;
 
-import com.dashapp.diabeticsystem.models.Diabetologo;
+import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;
@@ -8,6 +8,10 @@ import javafx.scene.control.*;
 
 public class ModificaPazienteController {
 
+
+    private final PazienteDaoImpl pazienteDao = new PazienteDaoImpl();
+    private Paziente paziente;
+    private ListaPazientiController listaPazientiController ;
 
     @FXML
     private ToggleGroup gruppoSesso;
@@ -24,11 +28,6 @@ public class ModificaPazienteController {
     @FXML private TextField textCodiceFiscale;
     @FXML private DatePicker dataNascitaPicker;
 
-    private Paziente paziente;
-
-    private final Diabetologo diabetologo = new Diabetologo();
-
-    private ListaPazientiController listaPazientiController ;
 
 
     public void setPaziente(Paziente paziente) {
@@ -60,7 +59,7 @@ public class ModificaPazienteController {
 
         this.paziente = new Paziente(this.paziente.getId_paziente(),textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(),dataNascitaPicker.getValue(),sesso);
 
-        boolean success = diabetologo.modificaPaziente(this.paziente);
+        boolean success = pazienteDao.updatePatient(this.paziente);
 
         if(!success){
             Utility.createAlert(Alert.AlertType.ERROR, "Errore durante la modifica dei dati del paziente");
