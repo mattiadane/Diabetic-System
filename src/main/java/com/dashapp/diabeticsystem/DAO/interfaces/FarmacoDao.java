@@ -21,7 +21,7 @@ public interface FarmacoDao {
     /**
      * Funzione che permette di prendere un determinato farmaco
      * @param id_farmaco id del farmaco da cercare
-     * @return <code>null</code> se la lista dei farmaci è vuota oppure non è presente nella lista, oggetto <code>Farmaco</code> altrimenti.
+     * @return <code>null</code> se la lista dei farmaci è vuota oppure non è presente, oggetto <code>Farmaco</code> altrimenti.
      */
     Farmaco getDrugById(int id_farmaco);
 

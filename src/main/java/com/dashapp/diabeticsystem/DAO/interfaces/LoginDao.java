@@ -1,7 +1,6 @@
 package com.dashapp.diabeticsystem.DAO.interfaces;
 
 import com.dashapp.diabeticsystem.models.Login;
-
 import java.sql.SQLException;
 
 public interface LoginDao {
@@ -18,7 +17,7 @@ public interface LoginDao {
 
 
     /**
-     * Funzione che permette di inserire una nuova utenza nella tabell login del database
+     * Funzione che permette di inserire una nuova utenza nella tabella login del database
      * @param login utente che andrà inserito nel database
      * @return <code>true</code> se la query va a buon fine <code>false</code> altrimenti
      */

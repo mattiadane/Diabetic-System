@@ -16,9 +16,9 @@ public interface ChatDao {
 
 
     /**
-     * Funzione che permette di restituire la chat tra un determinato paziente e un determinato diabetologo
-     * @param paziente
-     * @param diabetologo
+     * Funzione che permette di restituire la chat tra un determinato paziente e diabetologo
+     * @param paziente oggetto <code>Paziente</code>
+     * @param diabetologo oggetto <code>Diabetologo</code>
      * @return La lista di messaggi della chat se presenti altrimenti null
      */
     ObservableList<Chat> chats(Paziente paziente, Diabetologo diabetologo);

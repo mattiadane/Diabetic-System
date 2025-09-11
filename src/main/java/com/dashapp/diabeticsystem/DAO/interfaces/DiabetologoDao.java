@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 
 public interface DiabetologoDao {
 
-
     /**
      * Funzione che permette di restituire il Dibaetologo attraverso l'id_diabetolgo
      * @param id_diabetologo del diabetologo di cui si volgiono i dati
@@ -19,7 +18,7 @@ public interface DiabetologoDao {
      * @param diabetologo che verrà inserito nel sistema
      * @return id del diabetologo appena inserito
      */
-    int insertDibetologist(Diabetologo diabetologo);
+    int insertDiabetologist(Diabetologo diabetologo);
 
     /**
      * Funzione che permette di recuperare tutti i diabetologi del sistema

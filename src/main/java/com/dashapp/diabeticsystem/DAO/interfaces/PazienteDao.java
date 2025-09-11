@@ -1,13 +1,12 @@
 package com.dashapp.diabeticsystem.DAO.interfaces;
 
-
 import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.ObservableList;
 
 public interface PazienteDao {
 
     /**
-     * funzione che permette di inserire un nuovo paziente nel database
+     * Funzione che permette di inserire un nuovo paziente nel database
      * @param paziente da inserire nel database
      * @return  l'id del paziente appena inserito
      */
@@ -37,7 +36,7 @@ public interface PazienteDao {
     Paziente getPatientByCf(String cf);
 
     /**
-     * Funzione che permette di recuperare tutti i pazienti associati ad un diabetologo
+     * Funzione che permette di recuperare tutti i pazienti associati a un diabetologo
      * @param id_diabetologo da ricercare
      * @return lista di tutti i pazienti associato a tale diabetologo
      */

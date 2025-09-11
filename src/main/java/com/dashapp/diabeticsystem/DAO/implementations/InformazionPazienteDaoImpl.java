@@ -6,6 +6,7 @@ import com.dashapp.diabeticsystem.models.InformazioniPaziente;
 import com.dashapp.diabeticsystem.models.Paziente;
 
 public class InformazionPazienteDaoImpl implements InformazionePazienteDao {
+
     @Override
     public int insertInformation(InformazioniPaziente info) {
         return Main.getDbManager().insertAndGetGeneratedId(

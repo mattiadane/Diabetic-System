@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 public class InsulinaDaoImpl implements InsulinaDao {
 
 
-
     @Override
     public ObservableList<Insulina> getInsulinaByDateAndByPatients(LocalDateTime inizio, LocalDateTime fine, Paziente paziente) {
         ObservableList<Insulina> list = FXCollections.observableArrayList();

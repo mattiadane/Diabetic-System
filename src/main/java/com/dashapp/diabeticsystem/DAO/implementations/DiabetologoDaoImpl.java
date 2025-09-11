@@ -5,7 +5,6 @@ import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.concurrent.atomic.AtomicReference;
 
 public class DiabetologoDaoImpl  implements DiabetologoDao {
@@ -28,7 +27,7 @@ public class DiabetologoDaoImpl  implements DiabetologoDao {
 
 
     @Override
-    public int insertDibetologist(Diabetologo diabetologo) {
+    public int insertDiabetologist(Diabetologo diabetologo) {
         return Main.getDbManager().insertAndGetGeneratedId(
                 "INSERT INTO diabetologo(nome,cognome,codice_fiscale,email,sesso) VALUES (?,?,?,?,?)",
                 diabetologo.getNome(),diabetologo.getCognome(),diabetologo.getCodice_fiscale(),diabetologo.getEmail(),diabetologo.getSesso()
