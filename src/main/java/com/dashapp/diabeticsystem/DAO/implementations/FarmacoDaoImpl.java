@@ -1,6 +1,6 @@
 package com.dashapp.diabeticsystem.DAO.implementations;
 
-import com.dashapp.diabeticsystem.DAO.interfcaes.FarmacoDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.FarmacoDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Farmaco;
 import com.dashapp.diabeticsystem.models.Paziente;

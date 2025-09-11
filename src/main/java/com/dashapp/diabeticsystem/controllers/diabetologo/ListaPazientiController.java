@@ -2,7 +2,7 @@ package com.dashapp.diabeticsystem.controllers.diabetologo;
 
 import com.dashapp.diabeticsystem.DAO.implementations.InformazionPazienteDaoImpl;
 import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
-import com.dashapp.diabeticsystem.DAO.interfcaes.InformazionePazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.InformazionePazienteDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Session;

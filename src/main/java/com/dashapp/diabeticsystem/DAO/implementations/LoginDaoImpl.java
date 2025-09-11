@@ -1,6 +1,6 @@
 package com.dashapp.diabeticsystem.DAO.implementations;
 
-import com.dashapp.diabeticsystem.DAO.interfcaes.LoginDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.LoginDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Login;
 

@@ -1,26 +1,5 @@
 package com.dashapp.diabeticsystem.controllers.diabetologo;
 
-import com.dashapp.diabeticsystem.DAO.implementations.ChatDaoImpl;
-import com.dashapp.diabeticsystem.DAO.implementations.DiabetologoDaoImpl;
-import com.dashapp.diabeticsystem.DAO.interfcaes.ChatDao;
-import com.dashapp.diabeticsystem.DAO.interfcaes.DiabetologoDao;
-import com.dashapp.diabeticsystem.models.*;
-import com.dashapp.diabeticsystem.utility.Utility;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 public class ChatDiabetologoController {
     /*
     private final ChatDao chatDao = new ChatDaoImpl();

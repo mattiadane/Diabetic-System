@@ -1,7 +1,7 @@
 package com.dashapp.diabeticsystem.DAO.implementations;
 
-import com.dashapp.diabeticsystem.DAO.interfcaes.FarmacoDao;
-import com.dashapp.diabeticsystem.DAO.interfcaes.TerapiaDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.FarmacoDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.TerapiaDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.enums.PERIODICITA;
 import com.dashapp.diabeticsystem.models.Farmaco;

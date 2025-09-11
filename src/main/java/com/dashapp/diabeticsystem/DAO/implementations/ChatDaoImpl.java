@@ -1,6 +1,6 @@
 package com.dashapp.diabeticsystem.DAO.implementations;
 
-import com.dashapp.diabeticsystem.DAO.interfcaes.ChatDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.ChatDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Chat;
 import com.dashapp.diabeticsystem.models.Diabetologo;

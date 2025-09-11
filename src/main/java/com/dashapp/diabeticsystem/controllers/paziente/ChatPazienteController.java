@@ -2,8 +2,8 @@ package com.dashapp.diabeticsystem.controllers.paziente;
 
 import com.dashapp.diabeticsystem.DAO.implementations.ChatDaoImpl;
 import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
-import com.dashapp.diabeticsystem.DAO.interfcaes.ChatDao;
-import com.dashapp.diabeticsystem.DAO.interfcaes.PazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.ChatDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.PazienteDao;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.fxml.FXML;

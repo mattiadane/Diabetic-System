@@ -1,4 +1,4 @@
-package com.dashapp.diabeticsystem.DAO.interfcaes;
+package com.dashapp.diabeticsystem.DAO.interfaces;
 
 import com.dashapp.diabeticsystem.models.AssunzioneFarmaco;
 import com.dashapp.diabeticsystem.models.Farmaco;

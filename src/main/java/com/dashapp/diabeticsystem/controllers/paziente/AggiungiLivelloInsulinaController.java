@@ -2,8 +2,8 @@ package com.dashapp.diabeticsystem.controllers.paziente;
 
 import com.dashapp.diabeticsystem.DAO.implementations.InsulinaDaoImpl;
 import com.dashapp.diabeticsystem.DAO.implementations.PazienteDaoImpl;
-import com.dashapp.diabeticsystem.DAO.interfcaes.InsulinaDao;
-import com.dashapp.diabeticsystem.DAO.interfcaes.PazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.InsulinaDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.PazienteDao;
 import com.dashapp.diabeticsystem.enums.PERIODO;
 import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;

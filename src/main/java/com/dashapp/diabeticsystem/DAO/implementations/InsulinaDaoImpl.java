@@ -1,6 +1,6 @@
 package com.dashapp.diabeticsystem.DAO.implementations;
 
-import com.dashapp.diabeticsystem.DAO.interfcaes.InsulinaDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.InsulinaDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.enums.PERIODO;
 import com.dashapp.diabeticsystem.models.Insulina;

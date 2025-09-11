@@ -1,6 +1,6 @@
 package com.dashapp.diabeticsystem.DAO.implementations;
 
-import com.dashapp.diabeticsystem.DAO.interfcaes.InformazionePazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.InformazionePazienteDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.InformazioniPaziente;
 import com.dashapp.diabeticsystem.models.Paziente;
