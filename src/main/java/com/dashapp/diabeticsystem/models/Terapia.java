@@ -32,7 +32,6 @@ public class Terapia {
     public Terapia(int quanto,PERIODICITA periodicita,double dosaggio_quantita,String dosaggio_unita,LocalDate data_inizio,LocalDate data_fine,String descrizione,Farmaco farmaco) {
         this(quanto,periodicita,dosaggio_quantita,dosaggio_unita,data_inizio,data_fine,descrizione);
         this.farmaco = farmaco;
-
     }
 
     public Terapia(int quanto,PERIODICITA periodicita,double dosaggio_quantita,String dosaggio_unita,LocalDate data_inizio,LocalDate data_fine,String descrizione,Farmaco farmaco,int id_terapia) {

@@ -147,7 +147,7 @@ public class Utility {
      *
      * @param type    tipo dell'alert.
      * @param message messaggio da mostrare all'utente.
-     * @return Option<ButtonType> nel caso in cui l'alert sia una conferma restituisce il bottone premuto altirmenti null
+     * @return Option di <code>ButtonType</code> nel caso in cui l'alert sia una conferma restituisce il bottone premuto altirmenti null
      */
     public static Optional<ButtonType> createAlert(Alert.AlertType type, String message) {
         Alert alert = new Alert(type);
