@@ -101,10 +101,6 @@ public class Terapia {
         return periodicita;
     }
 
-    public void setId_terapia(int id_terapia) {
-        this.id_terapia = id_terapia;
-    }
-
     public int getId_terapia() {
         return id_terapia;
     }

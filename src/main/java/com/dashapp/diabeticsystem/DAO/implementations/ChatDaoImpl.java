@@ -16,7 +16,7 @@ public class ChatDaoImpl  implements ChatDao {
     public boolean sendMessage(Chat chat) {
         if(chat == null) return false;
         return Main.getDbManager().updateQuery("INSERT INTO chat(id_paziente,id_diabetologo,messaggio,mittente) VALUES(?,?,?,?)",
-                chat.getPaziente().getId_paziente(),chat.getDiabetologo().getId_diabetologo(),chat.getMessaggio(),chat.getRuolo().toString());
+                chat.getPaziente().getId_paziente(), chat.getDiabetologo().getId_diabetologo(), chat.getMessaggio(), chat.getRuolo().toString());
 
     }
 

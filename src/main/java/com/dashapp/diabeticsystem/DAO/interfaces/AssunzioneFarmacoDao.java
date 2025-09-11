@@ -4,7 +4,6 @@ import com.dashapp.diabeticsystem.models.AssunzioneFarmaco;
 import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Farmaco;
 import com.dashapp.diabeticsystem.models.Paziente;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;

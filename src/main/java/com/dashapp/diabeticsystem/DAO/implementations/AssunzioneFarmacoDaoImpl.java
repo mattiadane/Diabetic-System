@@ -55,10 +55,11 @@ public class AssunzioneFarmacoDaoImpl implements AssunzioneFarmacoDao {
 
         ObservableList<Paziente> list = FXCollections.observableArrayList();
         Main.getDbManager().selectQuery(
-            "SELECT COUNT(af.id_assunzione) AS count,p.id_paziente FROM paziente p\n" +
-                    "LEFT JOIN assunzione_farmaco af ON p.id_paziente = af.id_paziente AND af.data_assunzione BETWEEN ? AND ?\n" +
-                    "WHERE p.id_diabetologo = ? \n" +
-                    "GROUP BY p.id_paziente",
+                """
+                        SELECT COUNT(af.id_assunzione) AS count,p.id_paziente FROM paziente p
+                        LEFT JOIN assunzione_farmaco af ON p.id_paziente = af.id_paziente AND af.data_assunzione BETWEEN ? AND ?
+                        WHERE p.id_diabetologo = ?\s
+                        GROUP BY p.id_paziente""",
                 rs -> {
                     while(rs.next()){
 

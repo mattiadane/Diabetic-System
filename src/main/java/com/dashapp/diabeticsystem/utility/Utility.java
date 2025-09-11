@@ -124,8 +124,8 @@ public class Utility {
     }
 
     /**
-     *
-     * @param name
+     * Funzione che permette di mettere maiuscolo le lettere del nome in caso di secondo nome anche il secondo nome avrà la prima lettera maiuscola
+     * @param name nome da convertire
      * @return String
      */
     public static String convertName(String name){

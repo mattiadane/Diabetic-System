@@ -67,13 +67,4 @@ public class LoginDaoImpl implements LoginDao {
 
     }
 
-    @Override
-    public Login findLoginIdByPazienteId(int id_paziente) {
-        return null;
-    }
-
-    @Override
-    public Login findLoginIdByDiabetologoId(int id_diabetologo) {
-        return null;
-    }
 }

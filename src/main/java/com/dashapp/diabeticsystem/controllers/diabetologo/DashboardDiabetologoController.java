@@ -13,9 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.*;
 
 public class DashboardDiabetologoController {

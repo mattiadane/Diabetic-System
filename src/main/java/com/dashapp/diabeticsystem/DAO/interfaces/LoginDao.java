@@ -31,19 +31,4 @@ public interface LoginDao {
      */
     boolean updateLogin(Login login,String newPassword);
 
-
-    /**
-     * Funzione che restituisce l'utenza associata a quel determinato paziente tramite l'id
-     * @param id_paziente id dell'paziente che verrà ristituita la propria utenza
-     * @return l'oggetto Login
-     */
-    Login findLoginIdByPazienteId(int id_paziente);
-
-
-    /**
-     * Funzione che restituisce l'utenza associata a quel determinato diabetologo tramite l'id
-     * @param id_diabetologo id dell'diabetologo che verrà ristituita la propria utenza
-     * @return l'oggetto Login
-     */
-    Login findLoginIdByDiabetologoId(int id_diabetologo);
 }
