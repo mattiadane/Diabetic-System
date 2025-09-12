@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 
 public class LoginController {
 
+    private final LoginDaoImpl  loginDao = new LoginDaoImpl();
 
     // TextFields
     @FXML private TextField usernameField;
@@ -25,7 +26,6 @@ public class LoginController {
     @FXML
     protected void onClickLogin()  {
 
-        LoginDaoImpl  loginDao = new LoginDaoImpl();
 
         Login user = loginDao.autenticate(usernameField.getText(), passwordField.getText());
 

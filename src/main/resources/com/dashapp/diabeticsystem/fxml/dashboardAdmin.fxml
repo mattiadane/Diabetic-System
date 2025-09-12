@@ -2,8 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
+
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.admin.DashboardAdminController"
@@ -19,30 +21,61 @@
             <Label text="Benvenuto admin" styleClass="title"/>
 
             <VBox>
-                <Label text="Nome del nuovo diabetologo:*" />
-                <TextField fx:id="textNome" />
+                <Label text="Crea Diabetologo" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
 
-                <Label text="Cognome del nuovo diabetologo:*" />
-                <TextField fx:id="textCognome" />
+                <HBox spacing="10">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <TextFlow>
+                            <Text text="Nome:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <TextField fx:id="textNome" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <TextFlow>
+                            <Text text="Cognome:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <TextField fx:id="textCognome" maxWidth="Infinity"/>
+                    </VBox>
+                </HBox>
+                <HBox spacing="10">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <TextFlow>
+                            <Text text="Email" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <TextField fx:id="textEmail" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <TextFlow>
+                            <Text text="Codice fiscale:" styleClass="field-label"/>
+                            <Text text="*" styleClass="required"/>
+                        </TextFlow>
+                        <TextField fx:id="textCf" maxWidth="Infinity"/>
+                    </VBox>
+                </HBox>
 
-                <Label text="Codice fiscale  del nuovo diabetologo:*" />
-                <TextField fx:id="textCf" />
+                <HBox spacing="10">
+                    <TextFlow>
+                        <Text text="Sesso:" styleClass="field-label"/>
+                        <Text text="*" styleClass="required"/>
+                    </TextFlow>
+                    <fx:define>
+                        <ToggleGroup fx:id="gruppoSesso" />
+                    </fx:define>
 
-                <Label text="Email del nuovo diabetologo:*" />
-                <TextField fx:id="textEmail" />
+                    <RadioButton text="Maschio" toggleGroup="$gruppoSesso"  selected="true" userData="M" />
+                    <RadioButton text="Femmina" toggleGroup="$gruppoSesso"  userData="F" />
 
-                <Label text="Sesso del nuovo diabetologo"/>
-                <fx:define>
-                    <ToggleGroup fx:id="gruppoSesso" />
-                </fx:define>
-
-                <RadioButton text="Maschio" toggleGroup="$gruppoSesso"  selected="true" userData="M" />
-                <RadioButton text="Femmina" toggleGroup="$gruppoSesso"  userData="F" />
+                </HBox>
 
                 <Button text="Crea nuovo diabetologo" onAction="#createNewDiabetologo" styleClass="loginButton"/>
-                <Label text="Legenda:" styleClass="title"/>
-                <Label text="I campi contrassegnati con il simbolo (*) sono obbligatori per il corretto inserimento dei dati."/>
-
+                <TextFlow>
+                    <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
+                    <Text text="*" styleClass="required"/>
+                    <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey" />
+                </TextFlow>
             </VBox>
         </VBox>
     </center>

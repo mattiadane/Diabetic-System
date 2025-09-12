@@ -2,20 +2,19 @@ package com.dashapp.diabeticsystem.DAO.implementations;
 
 import com.dashapp.diabeticsystem.DAO.interfaces.AssunzioneFarmacoDao;
 import com.dashapp.diabeticsystem.DAO.interfaces.PazienteDao;
+import com.dashapp.diabeticsystem.DAO.interfaces.TerapiaDao;
 import com.dashapp.diabeticsystem.Main;
-import com.dashapp.diabeticsystem.models.AssunzioneFarmaco;
-import com.dashapp.diabeticsystem.models.Diabetologo;
-import com.dashapp.diabeticsystem.models.Farmaco;
-import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 public class AssunzioneFarmacoDaoImpl implements AssunzioneFarmacoDao {
     PazienteDao pazienteDao = new PazienteDaoImpl();
+    TerapiaDao terapiaDao = new TerapiaDaoImpl();
 
     @Override
     public boolean insertTakingDrug(AssunzioneFarmaco assunzioneFarmaco) {
@@ -64,7 +63,17 @@ public class AssunzioneFarmacoDaoImpl implements AssunzioneFarmacoDao {
                     while(rs.next()){
 
                         if(rs.getInt("count") == 0){
-                            list.add( pazienteDao.getPatientById(rs.getInt("p.id_paziente")));
+                            Paziente paziente = pazienteDao.getPatientById(rs.getInt("p.id_paziente"));
+                            List<Terapia> terapie = terapiaDao.getAllTherapyByPatient(paziente);
+                            int count = 0;
+                            for(Terapia terapia : terapie){
+                                if(terapia.getData_inizio().isBefore(LocalDate.now().minusDays(2)))
+                                    count++;
+                            }
+                            if(count > 0)
+                                list.add(paziente);
+
+
                         }
                     }
                     return null;

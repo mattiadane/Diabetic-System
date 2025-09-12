@@ -28,7 +28,8 @@
                             <Text text="Nome:" styleClass="field-label"/>
                             <Text text="*" styleClass="required"/>
                         </TextFlow>
-                        <TextField fx:id="textNome" maxWidth="Infinity"/> </VBox>
+                        <TextField fx:id="textNome" maxWidth="Infinity"/>
+                    </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
                         <TextFlow>
                             <Text text="Cognome:" styleClass="field-label"/>

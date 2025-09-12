@@ -84,7 +84,9 @@ public class DashboardDiabetologoController {
             }
 
         ObservableList<Paziente> pazientiSbadati = assunzioneFarmacoDao.listPatientNoTakingDrugForThreeDaysConsecutiv(diabetologo);
+        for(Paziente paziente :  pazientiSbadati){}
             if(!pazientiSbadati.isEmpty())
+
                 Utility.createAlert(Alert.AlertType.WARNING,pazientiSbadati + " è 3 giorni che non " + (pazientiSbadati.size() > 1 ? "assumono "  : "assume " ) +  "medicine ");
 
 
