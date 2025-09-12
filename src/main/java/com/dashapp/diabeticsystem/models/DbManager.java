@@ -15,8 +15,6 @@ public class DbManager {
     private DbManager()  {
         try{
             getConnection();
-            System.out.println("Connessione avvenuta con successo");
-
 
         } catch (SQLException e) {
             System.err.println("Errore di connessione al database");
