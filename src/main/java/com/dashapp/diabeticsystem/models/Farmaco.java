@@ -3,12 +3,12 @@ package com.dashapp.diabeticsystem.models;
 public class Farmaco {
     private final int id_farmaco;
     private final String nome;
-    private final String descriziome;
+    private final String descrizione;
 
-    public Farmaco(int id_farmaco, String nome, String descriziome) {
+    public Farmaco(int id_farmaco, String nome, String descrizione) {
         this.id_farmaco = id_farmaco;
         this.nome = nome;
-        this.descriziome = descriziome;
+        this.descrizione = descrizione;
     }
 
     public int getId_farmaco() {
@@ -24,6 +24,6 @@ public class Farmaco {
     }
 
     public String getDescrizione() {
-        return descriziome;
+        return descrizione;
     }
 }

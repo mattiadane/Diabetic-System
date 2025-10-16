@@ -210,9 +210,8 @@ public class Utility {
 
 
     /**
-     * Funzione che permette di controllare che la data di inizio sia minore della data di fine  e che la data di fine sia maggiore o uguale ad oggi
-     * e la data di oggi sia maggiore di oggi
-
+     * Funzione che permette di controllare che la data di inizio sia minore della data di fine e che la data di fine sia maggiore o uguale a oggi
+     * e la data di oggi sia maggiore di oggi.
      */
     public static boolean checkDates(LocalDate data_inizio, LocalDate data_fine){
         if(!checkObj(data_inizio) || !checkObj(data_fine)) return false;
@@ -225,10 +224,10 @@ public class Utility {
 
     /**
      *
-     * @param data_inizio data  di inizio
+     * @param data_inizio data di inizio
      * @param data_fine data di fine
      * @param data_oggetto data da confrontare con data inizio e data fine
-     * @return true se la data è compresa tra data inizio e data fine , false altrimenti
+     * @return true se la data è compresa tra data inizio e data fine, false altrimenti
      */
     public static boolean checkDataIsCompresa(LocalDate data_inizio, LocalDate data_fine,LocalDate data_oggetto){
         if(!checkObj(data_inizio) || !checkObj(data_fine) || !checkObj(data_oggetto)) return false;
@@ -236,7 +235,4 @@ public class Utility {
         return (data_oggetto.isAfter(data_inizio) || data_oggetto.isEqual(data_inizio))
                 && (data_oggetto.isBefore(data_fine) || data_oggetto.isEqual(data_fine));
     }
-
-
-
 }

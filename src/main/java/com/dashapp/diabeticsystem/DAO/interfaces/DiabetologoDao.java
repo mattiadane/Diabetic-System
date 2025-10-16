@@ -33,6 +33,4 @@ public interface DiabetologoDao {
      */
     boolean removeDiabetologist(int id_diabetologo);
 
-
-
 }
