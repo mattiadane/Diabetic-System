@@ -33,4 +33,5 @@ module com.dashapp.diabeticsystem {
     exports com.dashapp.diabeticsystem.controllers.paziente;
     exports com.dashapp.diabeticsystem.controllers.diabetologo;
     exports com.dashapp.diabeticsystem.controllers.components;
+    exports com.dashapp.diabeticsystem.DAO.implementations;
 }

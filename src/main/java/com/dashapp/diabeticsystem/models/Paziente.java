@@ -4,7 +4,9 @@ import java.time.LocalDate;
 
 public class Paziente extends Persona {
     private Diabetologo diabetologo;
-    private int id_paziente = Session.getCurrentUser().getId_paziente() ;
+
+
+    private int id_paziente ;
     private final LocalDate dataNascita;
     private InformazioniPaziente info;
 
@@ -13,6 +15,9 @@ public class Paziente extends Persona {
         this.dataNascita = dataNascita;
         this.diabetologo = diabetologo;
         this.info = info;
+        if(Session.getCurrentUser() != null){
+            this.id_paziente = Session.getCurrentUser().getId_paziente();
+        }
     }
     public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo,InformazioniPaziente info) {
         this(nome, cognome, email, codiceFiscale, dataNascita,sesso,diabetologo,info);
@@ -24,6 +29,9 @@ public class Paziente extends Persona {
     public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso) {
         super(nome,cognome,email,codiceFiscale,sesso);
         this.dataNascita = dataNascita;
+        if(Session.getCurrentUser() != null){
+            this.id_paziente = Session.getCurrentUser().getId_paziente();
+        }
 
     }
 
