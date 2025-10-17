@@ -4,6 +4,7 @@ import com.dashapp.diabeticsystem.models.Diabetologo;
 import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 
@@ -50,6 +51,7 @@ class InsulinaTest {
     // ========== Test Costruttori ==========
 
     @Test
+    @Order(1)
     @DisplayName("Test costruttore senza paziente")
     void testCostruttoreSenzaPaziente() {
         Insulina insulina = new Insulina(100, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest);
@@ -62,6 +64,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("Test costruttore con paziente")
     void testCostruttoreConPaziente() {
         Insulina insulina = new Insulina(100, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest, pazienteTest);
@@ -76,6 +79,7 @@ class InsulinaTest {
     // ========== Test Getters ==========
 
     @Test
+    @Order(3)
     @DisplayName("Test getLivello_insulina")
     void testGetLivelloInsulina() {
         Insulina insulina = new Insulina(95, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest);
@@ -83,6 +87,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("Test getPeriodo")
     void testGetPeriodo() {
         Insulina insulina = new Insulina(100, PERIODO.DOPO_PRANZO, orarioTest);
@@ -90,6 +95,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(5)
     @DisplayName("Test getOrario")
     void testGetOrario() {
         LocalDateTime orario = LocalDateTime.of(2025, 10, 15, 14, 30);
@@ -98,6 +104,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(6)
     @DisplayName("Test getPaziente")
     void testGetPaziente() {
         Insulina insulina = new Insulina(100, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest, pazienteTest);
@@ -107,16 +114,18 @@ class InsulinaTest {
     // ========== Test toString ==========
 
     @Test
+    @Order(7)
     @DisplayName("Test toString")
     void testToString() {
         Insulina insulina = new Insulina(100, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest);
-        String expected = "100,prima colazione," + orarioTest;
+        String expected = "100,prima della colazione," + orarioTest;
         assertEquals(expected, insulina.toString());
     }
 
     // ========== Test getGravita - PRIMA dei pasti ==========
 
     @Test
+    @Order(8)
     @DisplayName("Test getGravita NORMALE - Prima colazione (80-130)")
     void testGravitaNormalePrimaColazione() {
         Insulina insulina1 = new Insulina(80, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest);
@@ -130,6 +139,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(9)
     @DisplayName("Test getGravita LIEVE - Prima colazione (55-79 o 131-180)")
     void testGravitaLievePrimaColazione() {
         // Limite inferiore
@@ -154,6 +164,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(10)
     @DisplayName("Test getGravita CRITICA - Prima colazione (<55 o >180)")
     void testGravitaCriticaPrimaColazione() {
         // Troppo basso
@@ -172,6 +183,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(11)
     @DisplayName("Test getGravita NORMALE - Prima pranzo (80-130)")
     void testGravitaNormalePrimaPranzo() {
         Insulina insulina1 = new Insulina(85, PERIODO.PRIMA_DEL_PRANZO, orarioTest);
@@ -185,6 +197,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(12)
     @DisplayName("Test getGravita NORMALE - Prima cena (80-130)")
     void testGravitaNormalePrimaCena() {
         Insulina insulina = new Insulina(110, PERIODO.PRIMA_DELLA_CENA, orarioTest);
@@ -194,6 +207,7 @@ class InsulinaTest {
     // ========== Test getGravita - DOPO i pasti ==========
 
     @Test
+    @Order(13)
     @DisplayName("Test getGravita CRITICA - Dopo pasti (<=70 o >=250)")
     void testGravitaCriticaDopoColazione() {
         // Troppo basso
@@ -212,6 +226,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(14)
     @DisplayName("Test getGravita LIEVE - Dopo pasti (>180)")
     void testGravitaLieveDopoColazione() {
         Insulina insulina1 = new Insulina(181, PERIODO.DOPO_LA_COLAZIONE, orarioTest);
@@ -225,6 +240,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(15)
     @DisplayName("Test getGravita NORMALE - Dopo pasti (71-180)")
     void testGravitaNormaleDopoColazione() {
         Insulina insulina1 = new Insulina(71, PERIODO.DOPO_LA_COLAZIONE, orarioTest);
@@ -238,6 +254,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(16)
     @DisplayName("Test getGravita NORMALE - Dopo pranzo (71-180)")
     void testGravitaNormaleDopoPranzo() {
         Insulina insulina = new Insulina(150, PERIODO.DOPO_PRANZO, orarioTest);
@@ -245,6 +262,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(17)
     @DisplayName("Test getGravita NORMALE - Dopo cena (71-180)")
     void testGravitaNormaleDopoCena() {
         Insulina insulina = new Insulina(140, PERIODO.DOPO_CENA, orarioTest);
@@ -252,6 +270,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(18)
     @DisplayName("Test getGravita CRITICA - Dopo pranzo (<=70)")
     void testGravitaCriticaDopoPranzo() {
         Insulina insulina = new Insulina(60, PERIODO.DOPO_PRANZO, orarioTest);
@@ -259,6 +278,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(19)
     @DisplayName("Test getGravita LIEVE - Dopo cena (>180)")
     void testGravitaLieveDopoCena() {
         Insulina insulina = new Insulina(220, PERIODO.DOPO_CENA, orarioTest);
@@ -268,6 +288,7 @@ class InsulinaTest {
     // ========== Test casi limite ==========
 
     @Test
+    @Order(20)
     @DisplayName("Test valori limite esatti - Prima colazione")
     void testValoriLimiteEsattiPrimaColazione() {
         // Esattamente sul confine normale/lieve inferiore
@@ -288,6 +309,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(21)
     @DisplayName("Test valori limite esatti - Dopo colazione")
     void testValoriLimiteEsattiDopoColazione() {
         // Esattamente sul confine critica/normale inferiore
@@ -304,6 +326,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(22)
     @DisplayName("Test valori estremi")
     void testValoriEstremi() {
         // Valori molto bassi
@@ -316,6 +339,7 @@ class InsulinaTest {
     }
 
     @Test
+    @Order(23)
     @DisplayName("Test tutti i periodi - coverage completo")
     void testTuttiIPeriodi() {
         PERIODO[] periodiPrima = {PERIODO.PRIMA_DELLA_COLAZIONE, PERIODO.PRIMA_DEL_PRANZO, PERIODO.PRIMA_DELLA_CENA};
