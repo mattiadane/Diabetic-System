@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Assicurarsi che il database sia configurato correttamente prima di eseguire i test.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TerapiaDaoImplTest {
+class   TerapiaDaoImplTest {
 
     private static TerapiaDaoImpl terapiaDao;
     private static Paziente pazienteTest;
@@ -31,21 +31,21 @@ class TerapiaDaoImplTest {
         // Setup diabetologo di test (deve esistere nel DB)
         diabetologoTest = new Diabetologo(
                 1, // ID esistente nel DB
-                "Mario",
-                "Rossi",
-                "mario.rossi@test.com",
-                "RSSMRA70A01H501Z",
+                "Mattia",
+                "Danese",
+                "mattia.danese@example.it",
+                "DNSMTT04L21I775D",
                 "M"
         );
 
         // Setup paziente di test (deve esistere nel DB)
         pazienteTest = new Paziente(
                 1, // ID esistente nel DB
-                "Luigi",
-                "Verdi",
-                "luigi.verdi@test.com",
-                "VRDLGU80A01H501W",
-                LocalDate.of(1980, 1, 1),
+                "Davide",
+                "Danese",
+                "davide.danese04@example.it",
+                "DNSDVD02L21I775D",
+                LocalDate.of(2025, 6, 10),
                 "M"
         );
 
@@ -53,8 +53,8 @@ class TerapiaDaoImplTest {
         // Nota: Farmaco ha campi final, quindi non possiamo usare setter
         farmacoTest = new Farmaco(
                 1, // ID esistente nel DB
-                "Insulina Glargine",
-                "Insulina ad azione prolungata"
+                "Glucophage",
+                "Classe: Biguanide (Principio Attivo: Metformina). Agisce riducendo la produzione di glucosio da parte del fegato e migliorando la sensibilità all'insulina. Si assume per via orale, tipicamente con o dopo i pasti."
         );
     }
 
