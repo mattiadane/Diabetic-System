@@ -67,7 +67,12 @@
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                 </padding>
                 <TextField fx:id="messageInput" HBox.hgrow="ALWAYS" promptText="Scrivi un messaggio..."/>
-                <Button fx:id="sendButton" onAction="#handleInvio" mnemonicParsing="false"  text="Invia"/>
+                <Button mnemonicParsing="false" onAction="#handleInvio" fx:id="sendButton"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Invia">
+                    <font>
+                        <Font name="Arial Bold" size="14.0"/>
+                    </font>
+                </Button>
             </HBox>
         </VBox>
     </center>

@@ -86,7 +86,7 @@ public class ListaPazientiController {
                     {
                         btn.getStyleClass().add("btn-elimina");
                         btn.setOnAction(event -> {
-                            Optional<ButtonType> result = Utility.createAlert(Alert.AlertType.CONFIRMATION, "Sei sicuro di voler rimuovere il diabetologo?");
+                            Optional<ButtonType> result = Utility.createAlert(Alert.AlertType.CONFIRMATION, "Sei sicuro di voler rimuovere il paziente?");
                             if (result.isPresent() && result.get().getText().equals("Si")) {
                                 boolean success = pazienteDao.deletePatient(getTableView().getItems().get(getIndex()).getId_paziente());
                                 if (!success) {
