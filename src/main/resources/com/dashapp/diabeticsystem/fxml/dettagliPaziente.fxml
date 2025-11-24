@@ -64,7 +64,7 @@
                 <Label text="Fattori di rischio:"/>
                 <ListView fx:id="fr" prefHeight="200" prefWidth="250"/>
 
-                <Label text="Commorbità:"/>
+                <Label text="Comorbità:"/>
                 <ListView fx:id="c" prefHeight="200" prefWidth="250"/>
 
                 <Label text="Patologie pregresse:"/>
