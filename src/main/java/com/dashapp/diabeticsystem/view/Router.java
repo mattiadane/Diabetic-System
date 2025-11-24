@@ -113,8 +113,8 @@ public class Router {
                 MainController mainController = (MainController) newMainController;
                 mainController.setCurrentUser(authenticatedUser);
                 Router.setMainController(mainController);
-                x = 1000;
-                y = 700;
+                x = 1100;
+                y = 800;
             } else {
                 // Dimensioni predefinite per altre scene (es. login)
                 x = 500;
@@ -135,6 +135,7 @@ public class Router {
                 newScene.getStylesheets().add(cssUrl.toExternalForm());
 
             stage.setScene(newScene);
+            stage.centerOnScreen();
             stage.setTitle("Diabetic System - Dashboard"); // Aggiorna il titolo dello stage
             stage.show();
 

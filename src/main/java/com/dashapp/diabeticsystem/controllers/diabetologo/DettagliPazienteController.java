@@ -13,9 +13,11 @@ import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.Utility;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
@@ -41,7 +43,6 @@ public class DettagliPazienteController {
     private final TerapiaDao terapiaDao = new TerapiaDaoImpl();
     private final InsulinaDao insulinaDao = new InsulinaDaoImpl();
     private  Paziente paziente;
-    private InformazioniPaziente informazioniPaziente;
 
 
     @FXML private TableView<Terapia> tabella_terapie;
@@ -53,10 +54,9 @@ public class DettagliPazienteController {
     @FXML private TableColumn<Terapia, Void> modifica;
     @FXML private TableColumn<Terapia, Void> elimina;
 
-    @FXML private TextField textFattori;
-    @FXML private TextField textCommorbita;
-    @FXML private TextField textPatologiePreg;
-    @FXML private TextField textPatologieAtt;
+    @FXML private ListView<FattoreRischio> fr;
+    @FXML private ListView<Comorbità>  c;
+    @FXML private ListView<PatologiaPregressa> pg;
 
     @FXML private LineChart<String, Number> chart;
     @FXML private DatePicker settimana;
@@ -64,7 +64,6 @@ public class DettagliPazienteController {
     public void loadTerapie(Paziente paziente) {
         this.paziente = paziente;
         tabella_terapie.setItems(terapiaDao.getAllTherapyByPatient(paziente));
-        this.informazioniPaziente = paziente.getInfo();
 
     }
 
@@ -157,11 +156,11 @@ public class DettagliPazienteController {
         elimina.setCellFactory(cellFactoryElimina);
     }
 
-    public void setTextFields(Paziente p) {
-        this.textFattori.setText(p.getInfo().getFattoriRischio());
-        this.textCommorbita.setText(p.getInfo().getCommorbita());
-        this.textPatologiePreg.setText(p.getInfo().getPatologiePreg());
-        this.textPatologieAtt.setText(p.getInfo().getPatologieAtt());
+    public void setListView(Paziente p) {
+        this.fr.setItems(FXCollections.observableArrayList(informazionePazienteDao.getFattoriRischio(p)));
+        this.c.setItems(FXCollections.observableArrayList(informazionePazienteDao.getComorbita(p)));
+        this.pg.setItems(FXCollections.observableArrayList(informazionePazienteDao.getPatologiePregresse(p)));
+
 
     }
 
@@ -230,21 +229,34 @@ public class DettagliPazienteController {
         DateTimeFormatter xAxisFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         data.sort(Comparator.comparing(Insulina::getOrario));
 
-        // per ogni dato presente, vado ad aggiungerlo alla serie da mostrare poi nel grafico
+
         for (Insulina reg : data) {
             String day = reg.getOrario().format(xAxisFormatter);
             int value = reg.getLivello_insulina();
-            series.getData().add(new XYChart.Data<>(day, value));
+            XYChart.Data<String, Number> dataPoint = new XYChart.Data<>(day, value);
+            series.getData().add(dataPoint);
+
             seriesSogliaBassa.getData().add(new XYChart.Data<>(day, 80));
             seriesSogliaMedia.getData().add(new XYChart.Data<>(day, 130));
             seriesSogliaAlta.getData().add(new XYChart.Data<>(day, 180));
-
         }
 
-        chart.getData().add(seriesSogliaBassa);
-        chart.getData().add(seriesSogliaMedia);
-        chart.getData().add(seriesSogliaAlta);
-        chart.getData().add(series);
+        chart.getData().addAll(seriesSogliaBassa, seriesSogliaMedia, seriesSogliaAlta, series);
+
+        for (int i = 0; i < series.getData().size(); i++) {
+            XYChart.Data<String, Number> dataPoint = series.getData().get(i);
+            Insulina reg = data.get(i); // Assumi che l'ordine sia lo stesso
+            String sintomi = reg.getSintomo().trim(); // Assicurati che esista
+            Tooltip tooltip = new Tooltip("Sintomi: " +  (!sintomi.isEmpty() ? sintomi : "Nessun sintomo registrato"));
+
+            Node node = dataPoint.getNode();
+            if (node != null) {
+                Tooltip.install(node, tooltip);
+                node.setOnMouseEntered(e -> node.setStyle("-fx-background-color: #ff6666;"));
+                node.setOnMouseExited(e -> node.setStyle(""));
+            }
+        }
+
     }
 
     public void handleSettimana() {
@@ -263,15 +275,4 @@ public class DettagliPazienteController {
         tabella_terapie.setItems(terapiaDao.getAllTherapyByPatient(paziente));
     }
 
-    /**
-     * Funzione che permette di aggiornare i dati relativi alle informazioni aggiuntive sul paziente
-     */
-    public void handleUpdateInfo(){
-        informazioniPaziente = new InformazioniPaziente(this.textFattori.getText(), this.textCommorbita.getText(), this.textPatologiePreg.getText(),this.textPatologieAtt.getText(),this.informazioniPaziente.getId_informazione());
-
-
-        if(informazionePazienteDao.updateInformation(informazioniPaziente))
-            Utility.createAlert(Alert.AlertType.INFORMATION,"Informazioni aggiornate con successo");
-        else Utility.createAlert(Alert.AlertType.ERROR,"Errore durante l'aggiornamento delle informazioni");
-    }
 }

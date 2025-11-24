@@ -1,86 +1,60 @@
 package com.dashapp.diabeticsystem.models;
 
 public class InformazioniPaziente {
-    private int id_informazione;
-    private final String fattoriRischio;
-    private final String commorbita;
-    private final String patologiePreg;
-    private final String patologieAtt;
+    private final Paziente paziente;
+    private final FattoreRischio fattoriRischio;
+    private final Comorbità commorbita;
+    private final PatologiaPregressa patologiePreg;
 
     /**
      * Costruttore della classe InformazioniPaziente. Inizializza i campi con i valori specificati.
      * Lancia un'eccezione IllegalArgumentException se uno dei parametri è null.
-     * @param fattoriRischio descrizione dei fattori di rischio associati al paziente; non può essere null, ma può essere una stringa vuota
-     * @param commorbita descrizione delle eventuali comorbidità del paziente; non può essere null, ma può essere una stringa vuota
-     * @param patologiePreg lista delle patologie pregresse del paziente; non può essere null, ma può essere una stringa vuota
-     * @param patologieAtt lista delle patologie attive del paziente; non può essere null, ma può essere una stringa vuota
+     * @param paziente a cui sono stati associate le informazioni
+     * @param fattoriRischio fattore di rischio associato al paziente
+     * @param commorbita  comorbidità del paziente
+     * @param patologiePreg  patologia pregressa  del paziente;
      */
-    public InformazioniPaziente(String fattoriRischio, String commorbita, String patologiePreg, String patologieAtt) {
-        if(fattoriRischio == null || commorbita == null || patologiePreg == null || patologieAtt == null)
-            throw new IllegalArgumentException("I valori passati non possono esser null. Almeno devono essere stringhe vuote");
-
+    public InformazioniPaziente( Paziente paziente ,FattoreRischio fattoriRischio, Comorbità commorbita, PatologiaPregressa patologiePreg) {
+        this.paziente = paziente;
         this.fattoriRischio = fattoriRischio;
         this.commorbita = commorbita;
-        this.patologieAtt = patologieAtt;
         this.patologiePreg = patologiePreg;
     }
 
-    public InformazioniPaziente(String fattoriRischio, String commorbita, String patologiePreg, String patologieAtt,int id_informazione) {
-        this(fattoriRischio, commorbita, patologiePreg, patologieAtt);
-        this.id_informazione = id_informazione;
-    }
-
-
 
     /**
-     * Crea un oggetto di tipo <code>InformazioniPaziente</code> con tutti i valori impostati come stringhe vuote
+     * Funzion che ritorno il paziente
+     * @return <code>Paziente</code> che verrà restituito
      */
-    public InformazioniPaziente(){
-        this("", "", "", "");
+    public Paziente getPaziente() {
+        return paziente;
     }
 
-
     /**
-     * Recupera i fattori di rischio associati al paziente.
+     * Recupera il fattore di rischio del paziente
      *
-     * @return una stringa che rappresenta i fattori di rischio del paziente.
+     * @return <code>FattoreRischio/code> del paziente
      */
-    public String getFattoriRischio(){
+    public FattoreRischio getFattoriRischio(){
         return fattoriRischio;
     }
 
     /**
-     * Recupera la descrizione delle comorbidità associate al paziente.
+     * Recupera la Comorbità del paziente
      *
-     * @return una stringa che rappresenta le comorbidità del paziente.
+     * @return <code>Comorbità</code> paziente.
      */
-    public String getCommorbita(){
+    public Comorbità getCommorbita(){
         return commorbita;
     }
 
     /**
-     * Recupera la lista delle patologie pregresse del paziente.
+     * Recupera  patologia pregresse del paziente.
      *
-     * @return una stringa che rappresenta le patologie pregresse del paziente.
+     * @return <code>PatologiaPregressa</code> del paziente
      */
-    public String getPatologiePreg(){
+    public PatologiaPregressa getPatologiePreg(){
         return patologiePreg;
     }
 
-    /**
-     * Recupera la lista delle patologie attive del paziente.
-     *
-     * @return una stringa che rappresenta le patologie attive del paziente.
-     */
-    public String getPatologieAtt(){
-        return patologieAtt;
-    }
-
-    public void setId_informazione(int id_informazione) {
-        this.id_informazione = id_informazione;
-    }
-
-    public int getId_informazione() {
-        return id_informazione;
-    }
 }

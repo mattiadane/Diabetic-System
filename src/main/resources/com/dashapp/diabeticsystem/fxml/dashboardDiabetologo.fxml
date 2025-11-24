@@ -13,111 +13,127 @@
 
     <center>
         <VBox spacing="20">
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
-        </padding>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
 
             <Label fx:id="benvenuto" styleClass="title" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-            <VBox spacing="10">
-                <Label text="Crea Paziente" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <TitledPane text="Crea Nuovo Paziente" expanded="true" collapsible="false">
+                <content>
+                    <VBox spacing="10" fx:id="pane">
+                        <HBox spacing="10">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <TextFlow>
+                                    <Text text="Nome:" styleClass="field-label"/>
+                                    <Text text="*" styleClass="required"/>
+                                </TextFlow>
+                                <TextField fx:id="textNome" maxWidth="Infinity"/>
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <TextFlow>
+                                    <Text text="Cognome:" styleClass="field-label"/>
+                                    <Text text="*" styleClass="required"/>
+                                </TextFlow>
+                                <TextField fx:id="textCognome" maxWidth="Infinity"/>
+                            </VBox>
+                        </HBox>
 
-                <HBox spacing="10">
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <TextFlow>
-                            <Text text="Nome:" styleClass="field-label"/>
-                            <Text text="*" styleClass="required"/>
-                        </TextFlow>
-                        <TextField fx:id="textNome" maxWidth="Infinity"/>
+                        <HBox spacing="10">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <TextFlow>
+                                    <Text text="Email" styleClass="field-label"/>
+                                    <Text text="*" styleClass="required"/>
+                                </TextFlow>
+                                <TextField fx:id="textEmail" maxWidth="Infinity"/>
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <TextFlow>
+                                    <Text text="Codice fiscale:" styleClass="field-label"/>
+                                    <Text text="*" styleClass="required"/>
+                                </TextFlow>
+                                <TextField fx:id="textCodiceFiscaleCreazione" maxWidth="Infinity"/>
+                            </VBox>
+                        </HBox>
+
+                        <HBox spacing="10">
+                            <TextFlow>
+                                <Text text="Sesso:" styleClass="field-label"/>
+                                <Text text="*" styleClass="required"/>
+                            </TextFlow>
+                            <fx:define>
+                                <ToggleGroup fx:id="gruppoSesso" />
+                            </fx:define>
+
+                            <RadioButton text="Maschio" toggleGroup="$gruppoSesso"  selected="true" userData="M" />
+                            <RadioButton text="Femmina" toggleGroup="$gruppoSesso"  userData="F" />
+                        </HBox>
+
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <TextFlow>
+                                    <Text text="Data di nascita:" styleClass="field-label"/>
+                                    <Text text="*" styleClass="required"/>
+                                </TextFlow>
+                                <DatePicker fx:id="dataNascitaPicker" maxWidth="Infinity"/>
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label /> <Button text="Crea Paziente" maxWidth="Infinity" onAction="#handleNuovoPaziente" styleClass="add-paziente"/>
+                            </VBox>
+                        </HBox>
                     </VBox>
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <TextFlow>
-                            <Text text="Cognome:" styleClass="field-label"/>
-                            <Text text="*" styleClass="required"/>
-                        </TextFlow>
-                        <TextField fx:id="textCognome" maxWidth="Infinity"/>
-                    </VBox>
-                </HBox>
+                </content>
 
-                <HBox spacing="10">
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <TextFlow>
-                            <Text text="Email" styleClass="field-label"/>
-                            <Text text="*" styleClass="required"/>
-                        </TextFlow>
-                        <TextField fx:id="textEmail" maxWidth="Infinity"/>
-                    </VBox>
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <TextFlow>
-                            <Text text="Codice fiscale:" styleClass="field-label"/>
-                            <Text text="*" styleClass="required"/>
-                        </TextFlow>
-                        <TextField fx:id="textCodiceFiscale" maxWidth="Infinity"/>
-                    </VBox>
-                </HBox>
-
-                <HBox spacing="10">
-                    <TextFlow>
-                        <Text text="Sesso:" styleClass="field-label"/>
-                        <Text text="*" styleClass="required"/>
-                    </TextFlow>
-                    <fx:define>
-                        <ToggleGroup fx:id="gruppoSesso" />
-                    </fx:define>
-
-                    <RadioButton text="Maschio" toggleGroup="$gruppoSesso"  selected="true" userData="M" />
-                    <RadioButton text="Femmina" toggleGroup="$gruppoSesso"  userData="F" />
-
-                </HBox>
-
-                <!-- campi di testo per fattori di rischio e commorbità -->
-                <HBox spacing="10">
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Fattori di rischio:" style="-fx-font-size: 14px;"/>
-                        <TextField fx:id="textFattoriRischio" maxWidth="Infinity"/>
-                    </VBox>
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Commorbità:" style="-fx-font-size: 14px;"/>
-                        <TextField fx:id="textCommorbita" maxWidth="Infinity"/>
-                    </VBox>
-                </HBox>
-
-                <!-- campi di testo per patologie pregresse e in concomitanza -->
-                <HBox spacing="10">
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Patologie pregresse:" style="-fx-font-size: 14px;"/>
-                        <TextField fx:id="textPatologiePregresse" maxWidth="Infinity"/>
-                    </VBox>
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label text="Patologie in concomitanza:" style="-fx-font-size: 14px;"/>
-                        <TextField fx:id="textPatologieConcomitanza" maxWidth="Infinity"/>
-                    </VBox>
-                </HBox>
-
-
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <TextFlow>
-                            <Text text="Data di nascita:" styleClass="field-label"/>
-                            <Text text="*" styleClass="required"/>
-                        </TextFlow>
-                        <DatePicker fx:id="dataNascitaPicker" maxWidth="Infinity"/>
-                    </VBox>
-                    <VBox spacing="5" HBox.hgrow="ALWAYS">
-                        <Label /> <!-- label di spacing -->
-                        <Button text="Crea Paziente" maxWidth="Infinity" onAction="#handleNuovoPaziente" styleClass="add-paziente"/>
-                    </VBox>
-
-
-                </HBox>
-            </VBox>
-
-            <!-- sezione della legenda -->
+            </TitledPane>
             <TextFlow>
                 <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
                 <Text text="*" styleClass="required"/>
-                <Text text=" sono obbligatori per il corretto inserimento dei dati." styleClass="text-grey" />
+                <Text text=" sono obbligatori per il corretto inserimento dei dati del paziente." styleClass="text-grey" />
             </TextFlow>
+            <TitledPane text="Aggiungi Informazioni Aggiuntive al Paziente" expanded="true" collapsible="false">
+            <content>
+                <VBox spacing="10" fx:id="pane2">
+                    <HBox spacing="10">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <TextFlow>
+                                <Text text="Codice fiscale del Paziente:" styleClass="field-label"/>
+                                <Text text="*" styleClass="required"/>
+                            </TextFlow>
+                            <TextField fx:id="textCodiceFiscaleInformazioni" maxWidth="Infinity"/>
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Patologie pregresse:" styleClass="field-label"/>
+                            <TextField fx:id="textPatologiePregresse" maxWidth="Infinity"/>
+                        </VBox>
+                    </HBox>
+                    <HBox spacing="10">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Fattori di rischio:" styleClass="field-label"/>
+                            <TextField fx:id="textFattoriRischio" maxWidth="Infinity"/>
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Comorbità:" styleClass="field-label"/>
+                            <TextField fx:id="textComorbita" maxWidth="Infinity"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Button text="Aggiungi Informazioni Paziente" maxWidth="Infinity" onAction="#handleInformazioni"  styleClass="add-paziente"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </content>
+
+        </TitledPane>
+            <TextFlow>
+                <Text text="I campi contrassegnati con il simbolo " styleClass="text-grey"/>
+                <Text text="*" styleClass="required"/>
+                <Text text=" sono obbligatori per il corretto inserimento dei dati delle informazioni del paziente." styleClass="text-grey" />
+                <Text text=" se viene inserito solo il codice fiscale senza uno degli altri 3 campi opzionali non verrà inserito nulla" styleClass="text-grey" />
+
+            </TextFlow>
+
 
         </VBox>
     </center>

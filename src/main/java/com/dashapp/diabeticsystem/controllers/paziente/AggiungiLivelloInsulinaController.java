@@ -26,6 +26,7 @@ public class AggiungiLivelloInsulinaController {
     @FXML private ComboBox<PERIODO> comboBoxMomento;
     @FXML private TextField textLivello;
     @FXML private TextField timeText;
+    @FXML private TextArea sintomiArea;
 
 
 
@@ -51,9 +52,16 @@ public class AggiungiLivelloInsulinaController {
             return;
         }
 
+
+        int c = insulinaDao.coundDailyMomentOfDay(comboBoxMomento.getValue(),paziente);
+        if(c == 1){
+            Utility.createAlert(Alert.AlertType.ERROR, "Puoi inserire solo 1 misurazione nel periodo : " + comboBoxMomento.getValue().toString());
+            return;
+        }
+
         LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(),LocalTime.parse(timeText.getText()));
         boolean success = insulinaDao.insertInsulina(
-                new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime,paziente)
+                new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime,sintomiArea.getText(),paziente)
         );
 
         if(!success){

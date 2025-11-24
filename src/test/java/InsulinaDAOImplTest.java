@@ -41,8 +41,7 @@ class InsulinaTest {
                 "DNSDVD02L21I775D",
                 LocalDate.of(2025, 6, 10),
                 "M",
-                diabetologoTest,
-                null
+                diabetologoTest
         );
 
         orarioTest = LocalDateTime.of(2025, 1, 15, 8, 0);
@@ -67,7 +66,7 @@ class InsulinaTest {
     @Order(2)
     @DisplayName("Test costruttore con paziente")
     void testCostruttoreConPaziente() {
-        Insulina insulina = new Insulina(100, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest, pazienteTest);
+        Insulina insulina = new Insulina(100, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest, null,pazienteTest);
 
         assertNotNull(insulina);
         assertEquals(100, insulina.getLivello_insulina());
@@ -107,7 +106,7 @@ class InsulinaTest {
     @Order(6)
     @DisplayName("Test getPaziente")
     void testGetPaziente() {
-        Insulina insulina = new Insulina(100, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest, pazienteTest);
+        Insulina insulina = new Insulina(100, PERIODO.PRIMA_DELLA_COLAZIONE, orarioTest,"Mal di testa" ,pazienteTest);
         assertEquals(pazienteTest, insulina.getPaziente());
     }
 

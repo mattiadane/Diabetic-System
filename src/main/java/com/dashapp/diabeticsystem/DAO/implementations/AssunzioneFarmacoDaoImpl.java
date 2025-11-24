@@ -20,8 +20,8 @@ public class AssunzioneFarmacoDaoImpl implements AssunzioneFarmacoDao {
     public boolean insertTakingDrug(AssunzioneFarmaco assunzioneFarmaco) {
         if(assunzioneFarmaco == null) return false;
 
-        return Main.getDbManager().updateQuery("INSERT INTO assunzione_farmaco(id_paziente,id_farmaco,dosaggio_quantità,dosaggio_unità,data_assunzione,sintomi) " +
-                "VALUES(?,?,?,?,?,?)",assunzioneFarmaco.getPaziente().getId_paziente(),assunzioneFarmaco.getFarmaco().getId_farmaco(),assunzioneFarmaco.getDosaggio_quantita(),assunzioneFarmaco.getDosaggio_unita(),assunzioneFarmaco.getData_assunzione(),assunzioneFarmaco.getSintomi());
+        return Main.getDbManager().updateQuery("INSERT INTO assunzione_farmaco(id_paziente,id_farmaco,dosaggio_quantità,dosaggio_unità,data_assunzione) " +
+                "VALUES(?,?,?,?,?)",assunzioneFarmaco.getPaziente().getId_paziente(),assunzioneFarmaco.getFarmaco().getId_farmaco(),assunzioneFarmaco.getDosaggio_quantita(),assunzioneFarmaco.getDosaggio_unita(),assunzioneFarmaco.getData_assunzione());
 
     }
 

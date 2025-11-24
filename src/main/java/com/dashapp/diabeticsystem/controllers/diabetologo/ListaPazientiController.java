@@ -90,7 +90,7 @@ public class ListaPazientiController {
                             if (result.isPresent() && result.get().getText().equals("Si")) {
                                 boolean success = pazienteDao.deletePatient(getTableView().getItems().get(getIndex()).getId_paziente());
                                 if (!success) {
-                                    Utility.createAlert(Alert.AlertType.ERROR, "Errore nella rimozione del diabetologo");
+                                    Utility.createAlert(Alert.AlertType.ERROR, "Errore nella rimozione del paziente");
                                 }
 
                                 getTableView().getItems().remove(getIndex());
@@ -165,12 +165,10 @@ public class ListaPazientiController {
             Parent root = loader.load();
 
             if(fxml.equals("fxml/dettagliPaziente.fxml")){
-                paziente.setInfo(
-                        informazionePazienteDao.getInformationByPatient(paziente)
-                );
+
                 DettagliPazienteController dettagliPazienteController = loader.getController();
                 dettagliPazienteController.loadTerapie(paziente);
-                dettagliPazienteController.setTextFields(paziente);
+                dettagliPazienteController.setListView(paziente);
 
             } else {
                 ModificaPazienteController modificaPazienteController = loader.getController();

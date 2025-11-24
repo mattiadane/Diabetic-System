@@ -8,6 +8,7 @@ import com.dashapp.diabeticsystem.enums.GRAVITA;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
 import com.dashapp.diabeticsystem.utility.Utility;
+import com.mysql.cj.util.Util;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -29,7 +30,9 @@ public class DashboardDiabetologoController {
     private final InformazionPazienteDaoImpl informazionPazienteDao = new InformazionPazienteDaoImpl();
 
     // componenti effettivi della dashboard
-    @FXML private Pane borderPane;
+    @FXML private Pane pane1;
+    @FXML private Pane pane2;
+
     @FXML private Label benvenuto ;
     @FXML private ToggleGroup gruppoSesso;
 
@@ -37,13 +40,13 @@ public class DashboardDiabetologoController {
     @FXML private TextField textNome;
     @FXML private TextField textCognome;
     @FXML private TextField textEmail;
-    @FXML private TextField textCodiceFiscale;
-    @FXML private TextField textFattoriRischio;
-    @FXML private TextField textCommorbita;
-    @FXML private TextField textPatologiePregresse;
-    @FXML private TextField textPatologieConcomitanza;
+    @FXML private TextField textCodiceFiscaleCreazione;
     @FXML private DatePicker dataNascitaPicker;
 
+    @FXML private TextField textCodiceFiscaleInformazioni;
+    @FXML private TextField textFattoriRischio;
+    @FXML private TextField textComorbita;
+    @FXML private TextField textPatologiePregresse;
 
     public void initialize() {
 
@@ -100,7 +103,7 @@ public class DashboardDiabetologoController {
      */
     public void handleNuovoPaziente()   {
 
-        if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscale.getText()) || !Utility.checkObj(gruppoSesso.getSelectedToggle())
+        if(!Utility.isEmailValid(this.textEmail.getText()) || !Utility.isCodiceFiscaleValid(this.textCodiceFiscaleCreazione.getText()) || !Utility.checkObj(gruppoSesso.getSelectedToggle())
             || !Utility.checkDateNascita(this.dataNascitaPicker.getValue())
             || !Utility.checkOnlyLetters(this.textNome.getText()) || !Utility.checkOnlyLetters(this.textCognome.getText())
         ){
@@ -110,34 +113,21 @@ public class DashboardDiabetologoController {
 
         boolean success = false;
         String sesso =  (String) ((RadioButton)gruppoSesso.getSelectedToggle()).getUserData();
-        InformazioniPaziente info =  new InformazioniPaziente(
-                this.textFattoriRischio.getText(), this.textCommorbita.getText(), this.textPatologiePregresse.getText(), this.textPatologieConcomitanza.getText()
+
+        int id_paziente = pazienteDao.insertPatient(
+                new Paziente(
+                        textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscaleCreazione.getText(), dataNascitaPicker.getValue(),sesso,diabetologo
+                )
         );
 
-        int id_informazione = informazionPazienteDao.insertInformation(info);
-
-
-        if(id_informazione > 0){
-            info.setId_informazione(id_informazione);
-            int id_paziente = pazienteDao.insertPatient(
-                    new Paziente(
-                            textNome.getText(),textCognome.getText(),textEmail.getText(),textCodiceFiscale.getText(), dataNascitaPicker.getValue(),sesso,diabetologo,info
+        if(id_paziente > 0){
+            CredentialsGenerator c = new CredentialsGenerator(id_paziente,0,textNome.getText(),textCognome.getText());
+            success = loginDao.insertLogin(
+                    new Login(
+                            c.createUsername(),c.generatePassword(),id_paziente,null
                     )
             );
-
-            if(id_paziente > 0){
-
-                CredentialsGenerator c = new CredentialsGenerator(id_paziente,0,textNome.getText(),textCognome.getText());
-                success = loginDao.insertLogin(
-                        new Login(
-                                c.createUsername(),c.generatePassword(),id_paziente,null
-                        )
-                );
-            }
         }
-
-
-
 
 
         if(!success){
@@ -146,9 +136,46 @@ public class DashboardDiabetologoController {
         }
 
         Utility.createAlert(Alert.AlertType.INFORMATION, "Nuovo paziente aggiunto ");
-        Utility.resetField(borderPane);
+        Utility.resetField(pane1);
 
 
+    }
+    public void handleInformazioni(){
+        FattoreRischio fr = null; Comorbità c = null; PatologiaPregressa pg = null;
+        if(!Utility.isCodiceFiscaleValid(this.textCodiceFiscaleInformazioni.getText())){
+            Utility.createAlert(Alert.AlertType.ERROR, "Codice fiscale non valido o non inserito");
+            return;
+        }
+
+        Paziente p = pazienteDao.getPatientByCf(textCodiceFiscaleInformazioni.getText().trim());
+        if(p == null){
+            Utility.createAlert(Alert.AlertType.ERROR, "Paziente non trovato");
+            return;
+        }
+
+        if(Utility.checkOnlyLetters(this.textFattoriRischio.getText().trim())){
+            fr = new FattoreRischio(textFattoriRischio.getText());
+        }
+
+        if(Utility.checkOnlyLetters(this.textComorbita.getText().trim())){
+            c = new Comorbità(textComorbita.getText());
+        }
+
+        if(Utility.checkOnlyLetters(this.textPatologiePregresse.getText().trim())){
+            pg = new PatologiaPregressa(textPatologiePregresse.getText());
+        }
+
+        InformazioniPaziente info = new InformazioniPaziente(p,fr,c,pg);
+
+        int id = informazionPazienteDao.insertInformation(info);
+
+        if(id <= 0) {
+            Utility.createAlert(Alert.AlertType.ERROR, "Errore nel inseirmento  dell informazioni del paziente : " + p);
+            return;
+        }
+
+        Utility.createAlert(Alert.AlertType.INFORMATION, "Informazioni aggiunte correttamente per il paziente : " + p);
+        Utility.resetField(pane2);
 
 
 

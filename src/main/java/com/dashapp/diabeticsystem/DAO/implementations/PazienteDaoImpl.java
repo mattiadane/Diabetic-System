@@ -1,11 +1,9 @@
 package com.dashapp.diabeticsystem.DAO.implementations;
 
 import com.dashapp.diabeticsystem.DAO.interfaces.DiabetologoDao;
-import com.dashapp.diabeticsystem.DAO.interfaces.InformazionePazienteDao;
 import com.dashapp.diabeticsystem.DAO.interfaces.PazienteDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.models.Diabetologo;
-import com.dashapp.diabeticsystem.models.InformazioniPaziente;
 import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,15 +13,14 @@ import java.util.concurrent.atomic.AtomicReference;
 public class PazienteDaoImpl implements PazienteDao {
 
     DiabetologoDao diabetologoDao = new DiabetologoDaoImpl();
-    InformazionePazienteDao informazionePazienteDao = new InformazionPazienteDaoImpl();
 
     @Override
     public int insertPatient(Paziente paziente) {
         if(paziente == null) return -1;
 
         return Main.getDbManager().insertAndGetGeneratedId(
-                "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo,id_informazione_paziente) VALUES (?,?,?,?,?,?,?)",
-                paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodice_fiscale(),paziente.getDataNascita(),paziente.getDiabetologo().getId_diabetologo(),paziente.getInfo().getId_informazione()
+                "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo) VALUES (?,?,?,?,?,?)",
+                paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodice_fiscale(),paziente.getDataNascita(),paziente.getDiabetologo().getId_diabetologo()
         );
 
     }
@@ -45,12 +42,11 @@ public class PazienteDaoImpl implements PazienteDao {
     @Override
     public Paziente getPatientByCf(String cf) {
         AtomicReference<Paziente> paziente = new AtomicReference<>();
-        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso,id_diabetologo,id_informazione_paziente FROM paziente WHERE codice_fiscale = ?",
+        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso,id_diabetologo FROM paziente WHERE codice_fiscale = ?",
                 rs -> {
                     if (rs.next()){
                         Diabetologo d = diabetologoDao.getDiabetologistById(rs.getInt("id_diabetologo"));
-                        InformazioniPaziente info = informazionePazienteDao.getInformationById(rs.getInt("id_informazione_paziente"));
-                        paziente.set(new Paziente(rs.getInt("id_paziente"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("codice_fiscale"), rs.getDate("data_nascita").toLocalDate(), rs.getString("sesso"),d,info));
+                        paziente.set(new Paziente(rs.getInt("id_paziente"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("codice_fiscale"), rs.getDate("data_nascita").toLocalDate(), rs.getString("sesso"),d));
 
                     }
                     return null;
@@ -96,12 +92,11 @@ public class PazienteDaoImpl implements PazienteDao {
     @Override
     public Paziente getPatientById(int id_paziente) {
         AtomicReference<Paziente> paziente = new AtomicReference<>();
-        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso,id_diabetologo,id_informazione_paziente FROM paziente WHERE id_paziente = ?",
+        Main.getDbManager().selectQuery("SELECT id_paziente,nome,cognome,codice_fiscale,data_nascita,email,sesso,id_diabetologo FROM paziente WHERE id_paziente = ?",
                 rs -> {
                     if (rs.next()){
                         Diabetologo d = diabetologoDao.getDiabetologistById(rs.getInt("id_diabetologo"));
-                        InformazioniPaziente info = informazionePazienteDao.getInformationById(rs.getInt("id_informazione_paziente"));
-                        paziente.set(new Paziente(rs.getInt("id_paziente"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("codice_fiscale"), rs.getDate("data_nascita").toLocalDate(), rs.getString("sesso"),d,info));
+                        paziente.set(new Paziente(rs.getInt("id_paziente"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("codice_fiscale"), rs.getDate("data_nascita").toLocalDate(), rs.getString("sesso"),d));
 
                     }
                     return null;

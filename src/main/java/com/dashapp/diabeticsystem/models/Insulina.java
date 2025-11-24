@@ -10,16 +10,25 @@ public class  Insulina {
     private final int livello_insulina;
     private final PERIODO periodo;
     private final LocalDateTime orario;
+    private String sintomi;
     private Paziente paziente;
+
 
     public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario) {
         this.livello_insulina = livello_insulina;
         this.periodo = periodo;
         this.orario = orario;
+
     }
 
-    public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario,Paziente paziente) {
-        this(livello_insulina, periodo, orario);
+    public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario,String sintomi) {
+        this(livello_insulina,periodo,orario);
+        this.sintomi = sintomi;
+
+    }
+
+    public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario,String sintomi,Paziente paziente) {
+        this(livello_insulina, periodo, orario,sintomi);
         this.paziente = paziente;
     }
 
@@ -45,6 +54,9 @@ public class  Insulina {
     }
 
 
+    public String getSintomo() {
+        return sintomi;
+    }
 
     public GRAVITA getGravita() {
         GRAVITA gravita;

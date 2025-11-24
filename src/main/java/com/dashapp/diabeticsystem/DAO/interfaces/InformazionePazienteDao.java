@@ -1,7 +1,8 @@
 package com.dashapp.diabeticsystem.DAO.interfaces;
 
-import com.dashapp.diabeticsystem.models.InformazioniPaziente;
-import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.models.*;
+
+import java.util.List;
 
 public interface InformazionePazienteDao {
 
@@ -12,25 +13,25 @@ public interface InformazionePazienteDao {
      */
     int insertInformation(InformazioniPaziente info);
 
-    /**
-     * Funzione che permette di prendere le informazioni tramite l'id
-     * @param id <code>int</code> dell'informazione da ricercare
-     * @return L'oggetto informazionePaziente se presente
-     */
-    InformazioniPaziente getInformationById(int id);
 
     /**
-     * Funzione che permette di modoficare le informzioni di un paziente
-     * @param info <code>InformazioniPaziente</code> nel quale verranno modificate le informazioni
-     * @return <code>true</code> se l'operazione è andata a buon fine <code>false</code> altrimenti
+     * @param paziente paziente di cui si volgiono sapere le comorbità
+     * @return lista di tutte le comorbità del paziente
      */
-    boolean updateInformation(InformazioniPaziente info);
+    List<Comorbità> getComorbita(Paziente paziente);
 
     /**
-     * Funzione che permette di recuperare le informazioni di un determinato paziente
-     * @param paziente <code>Paziente</code> che gli verrano recuperate le informazioni
-     * @return informzioni del paziente richiesto
+     * @param paziente paziente di cui si volgiono sapere i fattori di rischio
+     * @return lista di tutti i fattori di rischio del paziente
      */
-    InformazioniPaziente getInformationByPatient(Paziente paziente);
+    List<FattoreRischio> getFattoriRischio(Paziente paziente);
+
+
+    /**
+     * @param paziente paziente di cui si volgiono sapere le patologie pregresse
+     * @return lista di tutti le patologie pregresse  del paziente
+     */
+    List<PatologiaPregressa> getPatologiePregresse(Paziente paziente);
+
 
 }

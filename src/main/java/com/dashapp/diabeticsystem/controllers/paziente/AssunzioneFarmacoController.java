@@ -32,7 +32,6 @@ public class AssunzioneFarmacoController {
     @FXML private ComboBox<Farmaco> medicinali;
     @FXML private TextField dosaggioText;
     @FXML private TextField unitaText;
-    @FXML private TextArea sintomiArea;
     @FXML private TextField oraText;
 
 
@@ -67,7 +66,7 @@ public class AssunzioneFarmacoController {
             if(assunzioneFarmacoDao.totalDailyDosageTakingDrug(paziente,medicinali.getValue(),date) + Double.parseDouble(dosaggioText.getText()) <= (t.getQuanto() * t.getDosaggio_quantita())) {
                 boolean success = assunzioneFarmacoDao.insertTakingDrug(
                         new AssunzioneFarmaco(
-                                medicinali.getValue(),unitaText.getText(),Double.parseDouble(dosaggioText.getText()),sintomiArea.getText(),date,paziente
+                                medicinali.getValue(),unitaText.getText(),Double.parseDouble(dosaggioText.getText()),date,paziente
                         )
                 );
 

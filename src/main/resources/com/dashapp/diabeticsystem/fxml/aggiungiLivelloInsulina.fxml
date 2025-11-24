@@ -11,6 +11,8 @@
 
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextArea?>
+
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.dashapp.diabeticsystem.controllers.paziente.AggiungiLivelloInsulinaController"
@@ -30,6 +32,12 @@
                 <Text text="*" styleClass="required"/>
             </TextFlow>
             <TextField fx:id="textLivello" prefWidth="200"/>
+
+
+            <Text text="Sintomi:" styleClass="field-label"/>
+            <TextArea fx:id="sintomiArea"
+                      promptText="Inserisci eventuali sintomi riscontrati"/>
+
 
             <TextFlow>
                 <Text text="Momento del giorno:" styleClass="field-label"/>

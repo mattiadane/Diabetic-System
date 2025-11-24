@@ -40,10 +40,6 @@
                 </TextFlow>
                 <TextField fx:id="unitaText" promptText="ex: mg, ..."/>
 
-                <Text text="Sintomi:" styleClass="field-label"/>
-                <TextArea fx:id="sintomiArea"
-                          promptText="Inserisci eventuali sintomi riscontrati dopo l'assuzione della medicina"/>
-
                 <TextFlow>
                     <Text text="Giorno di assunzione:" styleClass="field-label"/>
                     <Text text="*" styleClass="required"/>

@@ -8,19 +8,17 @@ public class Paziente extends Persona {
 
     private int id_paziente ;
     private final LocalDate dataNascita;
-    private InformazioniPaziente info;
 
-    public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo,InformazioniPaziente info) {
+    public Paziente(String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo) {
         super(nome,cognome,email,codiceFiscale,sesso);
         this.dataNascita = dataNascita;
         this.diabetologo = diabetologo;
-        this.info = info;
         if(Session.getCurrentUser() != null){
             this.id_paziente = Session.getCurrentUser().getId_paziente();
         }
     }
-    public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo,InformazioniPaziente info) {
-        this(nome, cognome, email, codiceFiscale, dataNascita,sesso,diabetologo,info);
+    public Paziente(int id_paziente, String nome,String cognome,String email,String codiceFiscale,LocalDate dataNascita,String sesso,Diabetologo diabetologo) {
+        this(nome, cognome, email, codiceFiscale, dataNascita,sesso,diabetologo);
         this.id_paziente = id_paziente;
 
     }
@@ -44,11 +42,6 @@ public class Paziente extends Persona {
 
     public Diabetologo getDiabetologo() {
         return diabetologo;
-    }
-
-
-    public void setInfo(InformazioniPaziente info) {
-        this.info = info;
     }
 
     /**
@@ -75,8 +68,4 @@ public class Paziente extends Persona {
         this.id_paziente = id_paziente;
     }
 
-
-    public InformazioniPaziente getInfo() {
-        return info;
-    }
 }

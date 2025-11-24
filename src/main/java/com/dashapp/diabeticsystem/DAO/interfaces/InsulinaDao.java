@@ -1,5 +1,6 @@
 package com.dashapp.diabeticsystem.DAO.interfaces;
 
+import com.dashapp.diabeticsystem.enums.PERIODO;
 import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.ObservableList;
@@ -42,5 +43,14 @@ public interface InsulinaDao {
      * @return il numero di glicemie inserite durante un giorno
      */
     int countDailyInsulinaByPatient(Paziente paziente);
+
+
+
+    /**
+     * Funzione che permette di verifcare se nel sistema è già presente una registrazione di glicemia in quel momento della giornata(del giorno stesso) di un determinato paziente
+     * @param periodo periodo da controllare
+     * @param paziente  paziente di cui si vuole sapere se ha già effetuato l'inserimento dwlla glicemia in quel momento della giornata
+     */
+    int coundDailyMomentOfDay(PERIODO periodo , Paziente paziente);
 
 }

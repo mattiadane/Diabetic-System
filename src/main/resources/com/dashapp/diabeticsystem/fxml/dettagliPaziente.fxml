@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -60,18 +62,13 @@
                 <!-- Informazioni relative al paziente -->
                 <Label text="Informazioni sul paziente" styleClass="title"/>
                 <Label text="Fattori di rischio:"/>
-                <TextField fx:id="textFattori"/>
+                <ListView fx:id="fr" prefHeight="200" prefWidth="250"/>
 
                 <Label text="Commorbità:"/>
-                <TextField fx:id="textCommorbita"/>
+                <ListView fx:id="c" prefHeight="200" prefWidth="250"/>
 
                 <Label text="Patologie pregresse:"/>
-                <TextField fx:id="textPatologiePreg"/>
-
-                <Label text="Patologie in concomitanza:"/>
-                <TextField fx:id="textPatologieAtt"/>
-
-                <Button text="Aggiorna" styleClass="primary-button" onAction="#handleUpdateInfo"/>
+                <ListView fx:id="pg" prefHeight="200" prefWidth="250"/>
 
             </VBox>
         </ScrollPane>
