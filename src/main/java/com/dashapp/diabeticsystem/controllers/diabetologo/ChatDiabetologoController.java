@@ -157,6 +157,12 @@ public class ChatDiabetologoController {
 
     public void handleInvio() {
 
+
+        if(destinatario == null){
+            messageInput.setText("");
+            return;
+        }
+
         if (!Utility.checkObj(messageInput.getText())) {
             return;
         }
