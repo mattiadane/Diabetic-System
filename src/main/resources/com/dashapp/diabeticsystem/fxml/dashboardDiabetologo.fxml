@@ -21,7 +21,7 @@
 
             <TitledPane text="Crea Nuovo Paziente" expanded="true" collapsible="false">
                 <content>
-                    <VBox spacing="10" fx:id="pane">
+                    <VBox spacing="10" fx:id="pane1">
                         <HBox spacing="10">
                             <VBox spacing="5" HBox.hgrow="ALWAYS">
                                 <TextFlow>

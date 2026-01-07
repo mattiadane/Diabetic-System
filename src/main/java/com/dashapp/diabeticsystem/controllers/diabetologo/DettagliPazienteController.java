@@ -63,7 +63,8 @@ public class DettagliPazienteController {
 
     public void loadTerapie(Paziente paziente) {
         this.paziente = paziente;
-        tabella_terapie.setItems(terapiaDao.getAllTherapyByPatient(paziente));
+        ObservableList<Terapia> terapie = terapiaDao.getAllTherapyByPatient(paziente);
+        tabella_terapie.setItems(terapie);
 
     }
 
@@ -246,7 +247,9 @@ public class DettagliPazienteController {
         for (int i = 0; i < series.getData().size(); i++) {
             XYChart.Data<String, Number> dataPoint = series.getData().get(i);
             Insulina reg = data.get(i); // Assumi che l'ordine sia lo stesso
-            String sintomi = reg.getSintomo().trim(); // Assicurati che esista
+            String sintomi = "";
+            if(reg.getSintomo() != null)
+                sintomi = reg.getSintomo(); // Assicurati che esista
             Tooltip tooltip = new Tooltip("Sintomi: " +  (!sintomi.isEmpty() ? sintomi : "Nessun sintomo registrato"));
 
             Node node = dataPoint.getNode();

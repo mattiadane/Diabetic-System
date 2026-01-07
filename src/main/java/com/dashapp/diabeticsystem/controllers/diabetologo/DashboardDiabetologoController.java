@@ -8,7 +8,6 @@ import com.dashapp.diabeticsystem.enums.GRAVITA;
 import com.dashapp.diabeticsystem.models.*;
 import com.dashapp.diabeticsystem.utility.CredentialsGenerator;
 import com.dashapp.diabeticsystem.utility.Utility;
-import com.mysql.cj.util.Util;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
