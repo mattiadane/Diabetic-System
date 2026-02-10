@@ -3,6 +3,7 @@ package com.dashapp.diabeticsystem.DAO.implementations;
 import com.dashapp.diabeticsystem.DAO.interfaces.InsulinaDao;
 import com.dashapp.diabeticsystem.Main;
 import com.dashapp.diabeticsystem.enums.PERIODO;
+import com.dashapp.diabeticsystem.models.DbManager;
 import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.FXCollections;
@@ -15,11 +16,29 @@ import java.time.format.DateTimeFormatter;
 public class InsulinaDaoImpl implements InsulinaDao {
 
 
+    private final DbManager db;
+
+
+    /**
+     * Costruttore per software
+     */
+    public InsulinaDaoImpl(){
+        this(Main.getDbManager());
+    }
+
+    /**
+     * Costruttore solo per i test
+     * @param db DbManager da utilizzare
+     */
+    public InsulinaDaoImpl(DbManager db){
+        this.db = db;
+    }
+
     @Override
     public ObservableList<Insulina> getInsulinaByDateAndByPatients(LocalDateTime inizio, LocalDateTime fine, Paziente paziente) {
         ObservableList<Insulina> list = FXCollections.observableArrayList();
 
-        Main.getDbManager().selectQuery("SELECT * FROM insulina WHERE id_paziente = ? AND orario BETWEEN ? AND ?",
+        db.selectQuery("SELECT * FROM insulina WHERE id_paziente = ? AND orario BETWEEN ? AND ?",
                 rs -> {
                     while (rs.next()) {
                         list.add(
@@ -36,7 +55,7 @@ public class InsulinaDaoImpl implements InsulinaDao {
 
     @Override
     public boolean insertInsulina(Insulina insulina) {
-        return Main.getDbManager().updateQuery("INSERT INTO insulina(id_paziente,valore_glicemia,orario,periodo,sintomi) VALUES(?,?,?,?,?)",
+        return db.updateQuery("INSERT INTO insulina(id_paziente,valore_glicemia,orario,periodo,sintomi) VALUES(?,?,?,?,?)",
                 insulina.getPaziente().getId_paziente(),insulina.getLivello_insulina(),insulina.getOrario(),insulina.getPeriodo().toString(),insulina.getSintomo());
     }
 
@@ -56,7 +75,7 @@ public class InsulinaDaoImpl implements InsulinaDao {
 
         baseQuery += " ORDER BY orario ASC";
 
-        Main.getDbManager().selectQuery(baseQuery,
+        db.selectQuery(baseQuery,
                 rs -> {
                     while (rs.next()) {
                         list.add(
@@ -84,9 +103,9 @@ public class InsulinaDaoImpl implements InsulinaDao {
         LocalDateTime endOfDay = LocalDate.now().atTime(23, 59, 59);
         String endTime = endOfDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        return Main.getDbManager().selectQuery("\n" +
-                "SELECT COUNT(*) as c FROM insulina\n" +
-                "WHERE orario BETWEEN ? AND ? AND periodo = ?AND id_paziente = ?;",
+        return db.selectQuery("""
+                        SELECT COUNT(*) as c FROM insulina
+                        WHERE orario BETWEEN ? AND ? AND periodo = ?AND id_paziente = ?;""",
                 rs -> {
                     if (rs.next()) {
                         return rs.getInt("c");

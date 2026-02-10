@@ -7,13 +7,28 @@ public class DbManager {
 
 
     private static DbManager dbManager;
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/progetto_ing?useSSL=false";
-    private static final String DATABASE_USERNAME = "admin";
-    private static final String DATABASE_PASSWORD = "admin";
+    private String DATABASE_URL = "jdbc:mysql://localhost:3306/progetto_ing?useSSL=false";
+    private String DATABASE_USERNAME = "admin";
+    private String DATABASE_PASSWORD = "admin";
 
 
-    private DbManager()  {
-        try{
+    /**
+     * Costruttore utilizzato solo per i test
+     */
+    public DbManager(String url, String user, String pass, Connection sharedConn){
+        this.DATABASE_URL = url;
+        this.DATABASE_USERNAME = user;
+        this.DATABASE_PASSWORD = pass;
+        this.sharedConnection = sharedConn;
+    }
+
+
+
+    /**
+     * Costruttore utilizzato nel software
+     */
+    private DbManager() {
+        try {
             getConnection();
 
         } catch (SQLException e) {
@@ -21,8 +36,8 @@ public class DbManager {
         }
     }
 
-    public static DbManager connect(){
-        if(dbManager == null){
+    public static DbManager connect() {
+        if (dbManager == null) {
             dbManager = new DbManager();
         }
         return dbManager;
@@ -39,8 +54,10 @@ public class DbManager {
 
     public int insertAndGetGeneratedId(String sql, Object... params) {
         int generatedId = -1;
-        try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try {
+            Connection conn = getConnection();
+
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             for (int i = 0; i < params.length; i++) {
                 ps.setObject(i + 1, params[i]);
             }
@@ -58,7 +75,6 @@ public class DbManager {
             System.err.println("Error executing query" + e.getMessage());
 
 
-
         }
         return generatedId;
     }
@@ -67,12 +83,14 @@ public class DbManager {
     /*
     Method for execute query like insert, update,delete
      */
-    public boolean updateQuery(String sql,Object... params){
-        try(Connection conn = getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql))  {
+    public boolean updateQuery(String sql, Object... params) {
+        try {
+            Connection conn = getConnection();
 
-            for(int i=0; i<params.length; i++){
-                ps.setObject(i+1, params[i]);
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
             }
 
             ps.executeUpdate();
@@ -83,15 +101,19 @@ public class DbManager {
             return false;
         }
     }
+
     /*
     Method for execute select query
      */
-    public <T> T selectQuery(String sql, ResultSetProcessor<T> processor, Object... params){
-        try(Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql))  {
+    public <T> T selectQuery(String sql, ResultSetProcessor<T> processor, Object... params) {
+        try {
 
-            for(int i=0; i<params.length; i++){
-                ps.setObject(i+1, params[i]);
+            Connection conn = getConnection();
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
             }
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -100,7 +122,7 @@ public class DbManager {
 
         } catch (SQLException e) {
             System.err.println("Error executing query" + e.getMessage());
-            return null ;
+            return null;
         }
     }
 
@@ -108,8 +130,13 @@ public class DbManager {
         T process(ResultSet rs) throws SQLException;
     }
 
-    private static Connection getConnection() throws SQLException {
+    private Connection sharedConnection;
 
-        return DriverManager.getConnection(DATABASE_URL,DATABASE_USERNAME,DATABASE_PASSWORD);
+    private Connection getConnection() throws SQLException {
+        if (sharedConnection == null || sharedConnection.isClosed()) {
+            sharedConnection = DriverManager.getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
+        }
+        return sharedConnection;
     }
+
 }
