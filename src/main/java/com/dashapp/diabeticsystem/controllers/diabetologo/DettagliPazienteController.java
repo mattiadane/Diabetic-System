@@ -233,7 +233,7 @@ public class DettagliPazienteController {
 
         for (Insulina reg : data) {
             String day = reg.getOrario().format(xAxisFormatter);
-            int value = reg.getLivello_insulina();
+            float value = reg.getLivello_insulina();
             XYChart.Data<String, Number> dataPoint = new XYChart.Data<>(day, value);
             series.getData().add(dataPoint);
 

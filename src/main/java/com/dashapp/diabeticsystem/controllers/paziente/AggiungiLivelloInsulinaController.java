@@ -61,7 +61,7 @@ public class AggiungiLivelloInsulinaController {
 
         LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(),LocalTime.parse(timeText.getText()));
         boolean success = insulinaDao.insertInsulina(
-                new Insulina(Integer.parseInt(textLivello.getText()),comboBoxMomento.getValue(),localDateTime,sintomiArea.getText(),paziente)
+                new Insulina(Float.parseFloat(textLivello.getText()),comboBoxMomento.getValue(),localDateTime,sintomiArea.getText(),paziente)
         );
 
         if(!success){

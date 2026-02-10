@@ -7,32 +7,32 @@ import com.dashapp.diabeticsystem.enums.PERIODO;
 import java.time.LocalDateTime;
 
 public class  Insulina {
-    private final int livello_insulina;
+    private final float livello_insulina;
     private final PERIODO periodo;
     private final LocalDateTime orario;
     private String sintomi;
     private Paziente paziente;
 
 
-    public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario) {
+    public Insulina(float livello_insulina, PERIODO periodo, LocalDateTime orario) {
         this.livello_insulina = livello_insulina;
         this.periodo = periodo;
         this.orario = orario;
 
     }
 
-    public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario,String sintomi) {
+    public Insulina(float livello_insulina, PERIODO periodo, LocalDateTime orario,String sintomi) {
         this(livello_insulina,periodo,orario);
         this.sintomi = sintomi;
 
     }
 
-    public Insulina(int livello_insulina, PERIODO periodo, LocalDateTime orario,String sintomi,Paziente paziente) {
+    public Insulina(float livello_insulina, PERIODO periodo, LocalDateTime orario,String sintomi,Paziente paziente) {
         this(livello_insulina, periodo, orario,sintomi);
         this.paziente = paziente;
     }
 
-    public int getLivello_insulina() {
+    public float getLivello_insulina() {
         return livello_insulina;
     }
 

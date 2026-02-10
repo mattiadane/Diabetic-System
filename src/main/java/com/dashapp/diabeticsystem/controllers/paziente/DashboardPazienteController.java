@@ -87,7 +87,7 @@ public class DashboardPazienteController   {
         ObservableList<Insulina> data = insulinaDao.getInsulina(paziente,10,0) ;
         for(Insulina reg : data){
             String day = reg.getOrario().toLocalDate().toString() + " " + reg.getOrario().toLocalTime().toString();
-            int value = reg.getLivello_insulina();
+            float value = reg.getLivello_insulina();
 
             series.getData().add(new XYChart.Data<>(day, value));
         }
