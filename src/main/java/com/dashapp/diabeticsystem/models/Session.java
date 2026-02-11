@@ -1,8 +1,14 @@
 package com.dashapp.diabeticsystem.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Session {
 
     private static Login currentUser;
+
+
+
 
     /**
      * Funzione che permette di istanzare il nuovo utente che ha avvitato la sessione.
@@ -19,5 +25,6 @@ public class Session {
     public static Login getCurrentUser(){
         return currentUser;
     }
+
 
 }

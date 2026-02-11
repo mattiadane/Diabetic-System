@@ -36,6 +36,7 @@ CREATE TABLE insulina (
                           orario TIMESTAMP NOT NULL,
                           periodo VARCHAR(30) NOT NULL,
                           sintomi TEXT,
+                          notificata BOOLEAN,
                           FOREIGN KEY (id_paziente) REFERENCES paziente(id_paziente) ON DELETE CASCADE
 );
 

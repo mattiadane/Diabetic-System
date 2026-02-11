@@ -1,12 +1,11 @@
 package com.dashapp.diabeticsystem.DAO.interfaces;
 
-import com.dashapp.diabeticsystem.models.AssunzioneFarmaco;
-import com.dashapp.diabeticsystem.models.Diabetologo;
-import com.dashapp.diabeticsystem.models.Farmaco;
-import com.dashapp.diabeticsystem.models.Paziente;
+import com.dashapp.diabeticsystem.models.*;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 public interface AssunzioneFarmacoDao {
 
@@ -34,5 +33,5 @@ public interface AssunzioneFarmacoDao {
      * @param diabetologo di cui si vogliono sapere i pazienti
      * @return lista di pazienti che non assumono farmaci da 3 giorni
      */
-    ObservableList<Paziente> listPatientNoTakingDrugForThreeDaysConsecutiv(Diabetologo diabetologo );
+    Map<Paziente, List<Terapia>> listPatientNoTakingDrugForThreeDaysConsecutiv(Diabetologo diabetologo );
 }

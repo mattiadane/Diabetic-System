@@ -15,6 +15,10 @@ import java.util.regex.Pattern;
  */
 public class Utility {
 
+    public static boolean alertPaziente = false;
+    public static boolean alertDiabetologo2 = false;
+
+
     private static final Pattern TIME_PATTERN = Pattern.compile("^([01]\\d|2[0-3]):[0-5]\\d$");
     private static final Pattern ONLY_LETTERS = Pattern.compile("[a-zA-Z ]+");
     private static final Pattern ONLY_NUMBER_INT = Pattern.compile("\\d+");

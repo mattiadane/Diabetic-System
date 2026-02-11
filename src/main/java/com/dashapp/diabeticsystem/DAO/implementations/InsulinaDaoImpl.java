@@ -8,7 +8,6 @@ import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,8 +16,6 @@ public class InsulinaDaoImpl implements InsulinaDao {
 
 
     private final DbManager db;
-
-
     /**
      * Costruttore per software
      */
@@ -42,7 +39,8 @@ public class InsulinaDaoImpl implements InsulinaDao {
                 rs -> {
                     while (rs.next()) {
                         list.add(
-                                new Insulina(rs.getInt("valore_glicemia"), PERIODO.fromDescrizione(rs.getString("periodo")),rs.getTimestamp("orario").toLocalDateTime(),rs.getString("sintomi"))
+
+                                new Insulina(rs.getInt("valore_glicemia"), PERIODO.fromDescrizione(rs.getString("periodo")),rs.getTimestamp("orario").toLocalDateTime(),rs.getString("sintomi"),paziente,rs.getBoolean("notificata"),rs.getInt("id_glicemia"))
                         );
                     }
                     return null;
@@ -113,5 +111,17 @@ public class InsulinaDaoImpl implements InsulinaDao {
                     return 0;
                 },startTime,endTime,periodo.toString(),paziente.getId_paziente());
     }
+
+    @Override
+    public void markAsNotified(int id_glicemia) {
+        db.updateQuery("UPDATE insulina SET notificata = TRUE WHERE id_glicemia = ?",id_glicemia);
+    }
+
+    @Override
+    public ObservableList<Insulina> getNonNotifiedByDateAndPatient(LocalDateTime start, LocalDateTime end, Paziente p) {
+       ObservableList<Insulina> insuline = getInsulinaByDateAndByPatients(start,end,p);
+       return insuline.filtered(i -> !i.isNotificata());
+    }
+
 
 }

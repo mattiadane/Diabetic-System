@@ -20,7 +20,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class DashboardPazienteController   {
 
@@ -47,11 +50,18 @@ public class DashboardPazienteController   {
         createTerapieList();
         initChart();
         Platform.runLater(() -> {
-            if(!terapiaDao.getAllTherapyByPatient(paziente).isEmpty()){
-                if (assunzioneFarmacoDao.totalDailyDosageTakingDrug(paziente,null, LocalDateTime.now()) == 0) {
-                    Utility.createAlert(Alert.AlertType.WARNING, "Ricordati di assumere i farmaci, oggi non hai ancora assunto nessun farmaco");
+
+            if(!Utility.alertPaziente) {
+                if(!terapiaDao.getAllTherapyByPatientByDate(paziente, LocalDate.now()).isEmpty()){
+
+                    if (assunzioneFarmacoDao.totalDailyDosageTakingDrug(paziente,null, LocalDateTime.now()) == 0) {
+                        Utility.createAlert(Alert.AlertType.WARNING, "Ricordati di assumere i farmaci prescritti");
+                        Utility.alertPaziente = true;
+                    }
                 }
+
             }
+
 
         });
 
@@ -62,7 +72,7 @@ public class DashboardPazienteController   {
      */
     private void createTerapieList() {
 
-        listaTerapie.setItems(terapiaDao.getAllTherapyByPatient(paziente));
+        listaTerapie.setItems(terapiaDao.getAllTherapyByPatientByDate(paziente,null));
 
         listaTerapie.setCellFactory(lv -> new ListCell<>() {
             @Override
@@ -81,12 +91,16 @@ public class DashboardPazienteController   {
         this.chart.getYAxis().setLabel("Valori (mg/dL)");
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-
         series.setName("Insulina");
 
-        ObservableList<Insulina> data = insulinaDao.getInsulina(paziente,10,0) ;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        ObservableList<Insulina> data = insulinaDao.getInsulina(paziente,10,0);
+
+
         for(Insulina reg : data){
-            String day = reg.getOrario().toLocalDate().toString() + " " + reg.getOrario().toLocalTime().toString();
+
+            String day = reg.getOrario().format(formatter) ;
             float value = reg.getLivello_insulina();
 
             series.getData().add(new XYChart.Data<>(day, value));
@@ -95,6 +109,7 @@ public class DashboardPazienteController   {
         if(series.getData().isEmpty()) return;
         this.chart.getData().addAll(series);
     }
+
 
 
 

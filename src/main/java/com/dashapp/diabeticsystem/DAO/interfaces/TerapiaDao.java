@@ -5,6 +5,8 @@ import com.dashapp.diabeticsystem.models.Paziente;
 import com.dashapp.diabeticsystem.models.Terapia;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDate;
+
 public interface TerapiaDao {
 
     /**
@@ -29,11 +31,12 @@ public interface TerapiaDao {
     boolean updateTherapy(Terapia terapia);
 
     /**
-     * Funzione che permette di prendere tutte le terapie associate al paziente
+     * Funzione che permette di prendere tutte le terapie associate al paziente , e se presenti in una determinata data
      * @param paziente di cui si vogliono prendere le terapie
+     * @param date data in cui si vuole sapere se in quel determinato giorno ha terapie attuve
      * @return lista di terapie associate al paziente se presenti
      */
-    ObservableList<Terapia> getAllTherapyByPatient(Paziente paziente);
+    ObservableList<Terapia> getAllTherapyByPatientByDate(Paziente paziente, LocalDate date);
 
 
     /**

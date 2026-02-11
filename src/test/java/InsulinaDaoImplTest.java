@@ -18,7 +18,6 @@ public class InsulinaDaoImplTest {
     private TestDbManager testDb;
     private InsulinaDaoImpl dao;
     private Paziente paziente;
-    private Diabetologo diabetologo;
 
     @BeforeEach
     void setup() throws SQLException {
@@ -38,8 +37,8 @@ public class InsulinaDaoImplTest {
                 INSERT INTO paziente(nome, cognome, codice_fiscale, data_nascita, email, sesso, id_diabetologo)
                 VALUES ('Luca', 'Bianchi', 'BNCGLC90A01H501Z', '1990-01-01', 'luca@example.com', 'M', 1)
                 """);
-        diabetologo = new Diabetologo(1,"Mario","Rossi","RSSMRA80A01H501Z","mario.rossi@example.com","M");
-        paziente = new Paziente(1, "Luca", "Bianchi", "luca@example.com", "BNCGLC90A01H501Z", LocalDate.parse("1990-01-01"),"M",diabetologo);
+        Diabetologo diabetologo = new Diabetologo(1, "Mario", "Rossi", "RSSMRA80A01H501Z", "mario.rossi@example.com", "M");
+        paziente = new Paziente(1, "Luca", "Bianchi", "luca@example.com", "BNCGLC90A01H501Z", LocalDate.parse("1990-01-01"),"M", diabetologo);
     }
 
     @Test
@@ -122,11 +121,44 @@ public class InsulinaDaoImplTest {
         // Inserisco una misurazione oggi PRIMA COLAZIONE
         testDb.updateQuery("""
                 INSERT INTO insulina(id_paziente, valore_glicemia, orario, periodo, sintomi)
-                VALUES (1, 110, NOW(), 'prima della colazione', 'ok')
+                VALUES (1, 110, NOW(), 'prima della colazione', '')
                 """);
 
         int count = dao.coundDailyMomentOfDay(PERIODO.PRIMA_DELLA_COLAZIONE, paziente);
 
         assertEquals(1, count);
+    }
+
+    @Test
+    void testmarkAsNotified(){
+        testDb.updateQuery("""
+                INSERT INTO insulina(id_paziente, valore_glicemia, orario, periodo, sintomi)
+                VALUES (1, 110, NOW(), 'prima della colazione', '')
+                """);
+
+        dao.markAsNotified(1);
+
+        var list = dao.getInsulinaByDateAndByPatients(
+                LocalDateTime.now().minusDays(1),
+                LocalDateTime.now().plusDays(1),
+                paziente
+        );
+        assertTrue(list.get(0).isNotificata());
+    }
+
+    @Test
+    void testgetNonNotifiedByDateAndPatient(){
+        testDb.updateQuery("""
+                INSERT INTO insulina(id_paziente, valore_glicemia, orario, periodo, sintomi)
+                VALUES (1, 110, NOW(), 'prima della colazione', '')
+                """);
+
+        var list = dao.getNonNotifiedByDateAndPatient(
+                LocalDateTime.now().minusDays(1),
+                LocalDateTime.now().plusDays(1),
+                paziente
+        );
+
+        assertEquals(1,list.size());
     }
 }

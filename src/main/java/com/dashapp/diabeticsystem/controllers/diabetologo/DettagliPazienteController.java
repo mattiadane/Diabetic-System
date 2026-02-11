@@ -63,7 +63,7 @@ public class DettagliPazienteController {
 
     public void loadTerapie(Paziente paziente) {
         this.paziente = paziente;
-        ObservableList<Terapia> terapie = terapiaDao.getAllTherapyByPatient(paziente);
+        ObservableList<Terapia> terapie = terapiaDao.getAllTherapyByPatientByDate(paziente,null);
         tabella_terapie.setItems(terapie);
 
     }
@@ -275,7 +275,7 @@ public class DettagliPazienteController {
     }
 
     public void refreshTable() {
-        tabella_terapie.setItems(terapiaDao.getAllTherapyByPatient(paziente));
+        tabella_terapie.setItems(terapiaDao.getAllTherapyByPatientByDate(paziente,null));
     }
 
 }

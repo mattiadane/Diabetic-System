@@ -11,6 +11,9 @@ import com.dashapp.diabeticsystem.models.Terapia;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class TerapiaDaoImpl implements TerapiaDao {
 
     private DbManager db ;
@@ -70,27 +73,71 @@ public class TerapiaDaoImpl implements TerapiaDao {
     }
 
     @Override
-    public ObservableList<Terapia> getAllTherapyByPatient(Paziente paziente) {
+    public ObservableList<Terapia> getAllTherapyByPatientByDate(Paziente paziente, LocalDate date) {
         if(paziente == null) return null;
-        ObservableList<Terapia> therapies = FXCollections.observableArrayList();
-        db.selectQuery("SELECT f.nome,t.id_terapia,t.dosaggio_quantità,t.dosaggio_unità,t.quanto,t.periodicità,t.data_inizio_terapia,t.data_fine_terapia,t.descrizione,t.id_farmaco FROM terapia t\n" +
-                        "INNER JOIN farmaco f ON t.id_farmaco = f.id_farmaco WHERE id_paziente = ?; ",
-                rs -> {
-                    while(rs.next()){
-                        Farmaco f = farmacoDao.getDrugById(rs.getInt("t.id_farmaco"));
-                        therapies.add(
-                                new Terapia(
-                                        rs.getInt("t.quanto"), PERIODICITA.valueOf(rs.getString("t.periodicità").toUpperCase()),
-                                        rs.getDouble("t.dosaggio_quantità"),rs.getString("t.dosaggio_unità"),rs.getDate("t.data_inizio_terapia").toLocalDate()
-                                        ,rs.getDate("t.data_fine_terapia").toLocalDate(),rs.getString("t.descrizione"),f,rs.getInt("t.id_terapia")
 
-                                )
-                        );
+
+        ObservableList<Terapia> therapies = FXCollections.observableArrayList();
+
+
+        String query =
+                "SELECT f.nome, t.id_terapia, t.dosaggio_quantità, t.dosaggio_unità, t.quanto, t.periodicità, " +
+                        "t.data_inizio_terapia, t.data_fine_terapia, t.descrizione, t.id_farmaco " +
+                        "FROM terapia t " +
+                        "INNER JOIN farmaco f ON t.id_farmaco = f.id_farmaco " +
+                        "WHERE id_paziente = ? ";
+
+
+
+
+
+        if(date != null) {
+
+            query += " AND t.data_inizio_terapia <= ?  AND t.data_fine_terapia >= ?";
+            db.selectQuery(query,
+                    rs -> {
+                        while(rs.next()){
+                            Farmaco f = farmacoDao.getDrugById(rs.getInt("t.id_farmaco"));
+                            therapies.add(
+                                    new Terapia(
+                                            rs.getInt("t.quanto"), PERIODICITA.valueOf(rs.getString("t.periodicità").toUpperCase()),
+                                            rs.getDouble("t.dosaggio_quantità"),rs.getString("t.dosaggio_unità"),rs.getDate("t.data_inizio_terapia").toLocalDate()
+                                            ,rs.getDate("t.data_fine_terapia").toLocalDate(),rs.getString("t.descrizione"),f,rs.getInt("t.id_terapia")
+
+                                    )
+                            );
+                        }
+                        return null;
                     }
-                    return null;
-                }
-                ,paziente.getId_paziente());
-        return therapies;
+                    ,paziente.getId_paziente(),date,date);
+            return therapies;
+
+
+        } else {
+            db.selectQuery(query,
+                    rs -> {
+                        while(rs.next()){
+                            Farmaco f = farmacoDao.getDrugById(rs.getInt("t.id_farmaco"));
+                            therapies.add(
+                                    new Terapia(
+                                            rs.getInt("t.quanto"), PERIODICITA.valueOf(rs.getString("t.periodicità").toUpperCase()),
+                                            rs.getDouble("t.dosaggio_quantità"),rs.getString("t.dosaggio_unità"),rs.getDate("t.data_inizio_terapia").toLocalDate()
+                                            ,rs.getDate("t.data_fine_terapia").toLocalDate(),rs.getString("t.descrizione"),f,rs.getInt("t.id_terapia")
+
+                                    )
+                            );
+                        }
+                        return null;
+                    }
+                    ,paziente.getId_paziente());
+            return therapies;
+        }
+
+
+
+
+
+
 
     }
 

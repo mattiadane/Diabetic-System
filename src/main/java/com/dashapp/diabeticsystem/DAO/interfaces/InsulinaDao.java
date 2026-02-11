@@ -4,7 +4,6 @@ import com.dashapp.diabeticsystem.enums.PERIODO;
 import com.dashapp.diabeticsystem.models.Insulina;
 import com.dashapp.diabeticsystem.models.Paziente;
 import javafx.collections.ObservableList;
-
 import java.time.LocalDateTime;
 
 public interface InsulinaDao {
@@ -52,5 +51,18 @@ public interface InsulinaDao {
      * @param paziente  paziente di cui si vuole sapere se ha già effetuato l'inserimento dwlla glicemia in quel momento della giornata
      */
     int coundDailyMomentOfDay(PERIODO periodo , Paziente paziente);
+
+
+    /**
+     * Funzionche che permette di mettere a true il campo notifica nel database, ovvero dice che la glicemia è stata notificata dal diabetologo
+     * @param id_insulina dell'insulina  da segnare notificata
+     */
+    void markAsNotified(int id_insulina);
+
+    /**
+     * Funzione che permette di ritornare una lista di glicemia non notificate
+     * @return Lista di insuline non ancora notificate
+     */
+    ObservableList<Insulina> getNonNotifiedByDateAndPatient(LocalDateTime start, LocalDateTime end, Paziente p);
 
 }

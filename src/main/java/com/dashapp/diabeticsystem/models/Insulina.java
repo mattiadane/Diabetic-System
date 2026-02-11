@@ -7,10 +7,13 @@ import com.dashapp.diabeticsystem.enums.PERIODO;
 import java.time.LocalDateTime;
 
 public class  Insulina {
+
+    private int id_glicemia;
     private final float livello_insulina;
     private final PERIODO periodo;
     private final LocalDateTime orario;
     private String sintomi;
+    private boolean notificata;
     private Paziente paziente;
 
 
@@ -30,6 +33,21 @@ public class  Insulina {
     public Insulina(float livello_insulina, PERIODO periodo, LocalDateTime orario,String sintomi,Paziente paziente) {
         this(livello_insulina, periodo, orario,sintomi);
         this.paziente = paziente;
+    }
+
+    public  Insulina(float livello_insulina, PERIODO periodo, LocalDateTime orario,String sintomi,Paziente paziente,boolean notificata,int id_glicemia){
+        this(livello_insulina,periodo,orario,sintomi,paziente);
+        this.notificata = notificata;
+        this.id_glicemia = id_glicemia;
+    }
+
+
+    public int getId_glicemia() {
+        return id_glicemia;
+    }
+
+    public boolean isNotificata() {
+        return notificata;
     }
 
     public float getLivello_insulina() {
