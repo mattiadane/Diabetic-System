@@ -112,6 +112,7 @@ public class DashboardDiabetologoController {
 
         boolean success = false;
         String sesso =  (String) ((RadioButton)gruppoSesso.getSelectedToggle()).getUserData();
+        System.out.println(sesso);
 
         int id_paziente = pazienteDao.insertPatient(
                 new Paziente(

@@ -19,8 +19,8 @@ public class PazienteDaoImpl implements PazienteDao {
         if(paziente == null) return -1;
 
         return Main.getDbManager().insertAndGetGeneratedId(
-                "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,id_diabetologo) VALUES (?,?,?,?,?,?)",
-                paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodice_fiscale(),paziente.getDataNascita(),paziente.getDiabetologo().getId_diabetologo()
+                "INSERT INTO paziente(nome,cognome,email,codice_fiscale,data_nascita,sesso,id_diabetologo) VALUES (?,?,?,?,?,?,?)",
+                paziente.getNome(),paziente.getCognome(),paziente.getEmail(),paziente.getCodice_fiscale(),paziente.getDataNascita(),paziente.getSesso(),paziente.getDiabetologo().getId_diabetologo()
         );
 
     }
