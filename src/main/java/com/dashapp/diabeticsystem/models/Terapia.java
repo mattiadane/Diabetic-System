@@ -2,8 +2,6 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.enums.PERIODICITA;
 
-import javax.swing.text.DateFormatter;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
