@@ -201,7 +201,7 @@ public class ListaPazientiController {
             schedaStage.show();
 
         } catch (IOException e) {
-               System.out.println("Errore: " + e.getMessage());
+               System.err.println("Errore: " + e.getMessage());
 
         }
     }

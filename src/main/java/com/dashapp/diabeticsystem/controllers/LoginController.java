@@ -24,7 +24,7 @@ public class LoginController {
      * dall'utente nel form.
      */
     @FXML
-    protected void onClickLogin()  {
+    public void onClickLogin()  {
 
 
         Login user = loginDao.autenticate(usernameField.getText(), passwordField.getText());

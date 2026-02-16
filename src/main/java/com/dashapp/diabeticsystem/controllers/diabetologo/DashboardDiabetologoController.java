@@ -107,7 +107,7 @@ public class DashboardDiabetologoController {
 
 
             if (!nuoveLieve.isEmpty()) {
-                StringBuilder msg = new StringBuilder("Nuove glicemie critiche:\n");
+                StringBuilder msg = new StringBuilder("Nuove glicemie lievemente fuori norma:\n");
 
                 for (Insulina i : nuoveLieve) {
                     msg.append(i.getPaziente())

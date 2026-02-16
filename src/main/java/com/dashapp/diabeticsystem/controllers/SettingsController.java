@@ -48,7 +48,7 @@ public class SettingsController {
         }
 
 
-        Utility.createAlert(Alert.AlertType.INFORMATION, "Passsword aggiornata correttamente");
+        Utility.createAlert(Alert.AlertType.INFORMATION, "Password aggiornata correttamente");
         Utility.resetField(borderPane);
 
     }

@@ -1,8 +1,13 @@
 module:com.dashapp.diabeticsystem
+unnamed package
 com.dashapp.diabeticsystem
 com.dashapp.diabeticsystem.controllers
+com.dashapp.diabeticsystem.controllers.admin
 com.dashapp.diabeticsystem.controllers.components
-com.dashapp.diabeticsystem.controllers.dashboards
+com.dashapp.diabeticsystem.controllers.diabetologo
+com.dashapp.diabeticsystem.controllers.paziente
+com.dashapp.diabeticsystem.DAO.implementations
+com.dashapp.diabeticsystem.DAO.interfaces
 com.dashapp.diabeticsystem.enums
 com.dashapp.diabeticsystem.models
 com.dashapp.diabeticsystem.utility

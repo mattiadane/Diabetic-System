@@ -33,7 +33,7 @@ public class InformazioniPaziente {
     /**
      * Recupera il fattore di rischio del paziente
      *
-     * @return <code>FattoreRischio/code> del paziente
+     * @return <code>FattoreRischio</code> del paziente
      */
     public FattoreRischio getFattoriRischio(){
         return fattoriRischio;

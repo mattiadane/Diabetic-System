@@ -2,7 +2,10 @@ package com.dashapp.diabeticsystem.models;
 
 import com.dashapp.diabeticsystem.enums.PERIODICITA;
 
+import javax.swing.text.DateFormatter;
+import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Terapia {
 
@@ -77,7 +80,11 @@ public class Terapia {
     public String getAssunzioni(){ return quanto + " al " + periodicita;}
 
     public String getPeriodo(){
-        return  " Da " +  data_inizio + " a " + data_fine;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+
+        return  " Da " +  data_inizio.format(formatter) + " a " + data_fine.format(formatter);
     }
 
     public int getQuanto() {
