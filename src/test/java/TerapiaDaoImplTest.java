@@ -43,6 +43,9 @@ public class TerapiaDaoImplTest {
         farmaco = new Farmaco(1, "Metformina", "500mg");
     }
 
+    /**
+     * Test di inserimento di una nuova terapia
+     */
     @Test
     void testInsertTherapy() {
         Terapia terapia = new Terapia(
@@ -59,6 +62,8 @@ public class TerapiaDaoImplTest {
         );
 
         boolean result = terapiaDao.insertTherapy(terapia);
+
+        // controllo che la terapia è stata effettivamnte inserita
         assertTrue(result);
 
         Integer count = db.selectQuery(
@@ -67,9 +72,13 @@ public class TerapiaDaoImplTest {
                 paziente.getId_paziente()
         );
 
+        // controllo che sia presente nel db
         assertEquals(1, count);
     }
 
+    /**
+     * Test per prendere una terapia dato farmaco e paziente
+     */
     @Test
     void testGetTherapyByFarmacoIdAndPatient() {
         // Inseriamo una terapia manualmente
@@ -84,11 +93,16 @@ public class TerapiaDaoImplTest {
 
         Terapia terapia = terapiaDao.getTherapyByFarmacoIdAndPatient(paziente, farmaco);
 
+        // controllo che tutto sia valido
         assertNotNull(terapia);
         assertEquals(2, terapia.getQuanto());
         assertEquals("mg", terapia.getDosaggio_unita());
     }
 
+
+    /**
+     * Test rimozione di una terapia
+     */
     @Test
     void testRemoveTherapy() {
         int idTerapia = db.insertAndGetGeneratedId(
@@ -101,6 +115,8 @@ public class TerapiaDaoImplTest {
         );
 
         boolean removed = terapiaDao.removeTherapy(idTerapia);
+
+        // controllo che è stata rimossa
         assertTrue(removed);
 
         Integer count = db.selectQuery(
@@ -109,6 +125,7 @@ public class TerapiaDaoImplTest {
                 idTerapia
         );
 
+        // controllo che non sia presente a db
         assertEquals(0, count);
     }
 }

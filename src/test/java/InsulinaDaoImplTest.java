@@ -41,6 +41,9 @@ public class InsulinaDaoImplTest {
         paziente = new Paziente(1, "Luca", "Bianchi", "luca@example.com", "BNCGLC90A01H501Z", LocalDate.parse("1990-01-01"),"M", diabetologo);
     }
 
+    /**
+     * Test inserimento insulina
+     */
     @Test
     void testInsertInsulina() {
         Insulina i = new Insulina(
@@ -59,9 +62,13 @@ public class InsulinaDaoImplTest {
                 rs -> rs.next() ? rs.getInt("c") : 0
         );
 
+        // controllo sia effettivamente una sola insulina
         assertEquals(1, count);
     }
 
+    /**
+     * Test per prendere livelli di insulina di un determinato paziente per data
+     */
     @Test
     void testGetInsulinaByDateAndByPatients() {
         // Inserisco una riga
@@ -76,10 +83,14 @@ public class InsulinaDaoImplTest {
                 paziente
         );
 
+        // controllo sia un livello solo e che sia uguale a 150
         assertEquals(1, list.size());
         assertEquals(150, list.get(0).getLivello_insulina());
     }
 
+    /**
+     * Test per prendere due livelli di insulina
+     */
     @Test
     void testGetInsulina() {
         // Inserisco due righe
@@ -95,9 +106,13 @@ public class InsulinaDaoImplTest {
 
         var list = dao.getInsulina(paziente, 10, 0);
 
+        // controllo che siano effettivamente due livelli registrati
         assertEquals(2, list.size());
     }
 
+    /**
+     * Test per conteggio livelli di insulina giornalieri
+     */
     @Test
     void testCountDailyInsulinaByPatient() {
         // Inserisco due misurazioni oggi
@@ -113,9 +128,13 @@ public class InsulinaDaoImplTest {
 
         int count = dao.countDailyInsulinaByPatient(paziente);
 
+        // controllo che siano effettivamente due livelli registati
         assertEquals(2, count);
     }
 
+    /**
+     * Test per conteggio livelli di insulina in un determinato momento della giornata
+     */
     @Test
     void testCountDailyMomentOfDay() {
         // Inserisco una misurazione oggi PRIMA COLAZIONE
@@ -126,9 +145,13 @@ public class InsulinaDaoImplTest {
 
         int count = dao.coundDailyMomentOfDay(PERIODO.PRIMA_DELLA_COLAZIONE, paziente);
 
+        // controllo che sia effettivamente un livello registato
         assertEquals(1, count);
     }
 
+    /**
+     * Test per controllo livello notificato
+     */
     @Test
     void testmarkAsNotified(){
         testDb.updateQuery("""
@@ -143,9 +166,14 @@ public class InsulinaDaoImplTest {
                 LocalDateTime.now().plusDays(1),
                 paziente
         );
+
+        // controllo se è stato effettivamente notificato
         assertTrue(list.get(0).isNotificata());
     }
 
+    /**
+     * Test per controllo di non notifica del livello di insulina
+     */
     @Test
     void testgetNonNotifiedByDateAndPatient(){
         testDb.updateQuery("""
@@ -159,6 +187,7 @@ public class InsulinaDaoImplTest {
                 paziente
         );
 
+        // controllo che effettivamente non è stato notificato
         assertEquals(1,list.size());
     }
 }
